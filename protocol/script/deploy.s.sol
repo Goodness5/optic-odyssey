@@ -15,6 +15,8 @@ contract Deployscript is Script {
         uint256 key = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(key);
 
+        hub = new OpticOdyssey();
+
         
     }
 

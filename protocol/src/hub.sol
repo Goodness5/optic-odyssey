@@ -3,6 +3,10 @@ pragma solidity ^0.8.18;
 import {OpticOdysseyNft} from "./nft.sol";
 
 contract OpticOdyssey {
+
+    constructor(){
+        
+    }
     struct User {
         string username;
         uint256 balance;
