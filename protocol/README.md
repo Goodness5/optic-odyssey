@@ -2,4 +2,4 @@
 
 | Contract Name | Address                                    | Verification Status |
 |---------------|--------------------------------------------|---------------------|
-| UltNft        | [0x5dB3745748a2dA58551965E3A2A672d17152213a](https://sepolia-blockscout.lisk.com/address/0x5dB3745748a2dA58551965E3A2A672d17152213a) | Verified           |
+| HUB        | [0x1a43211e4b8e0aefc0d56b488518ed463d28cad7](https://sepolia.scrollscan.com/address/0x1a43211e4b8e0aefc0d56b488518ed463d28cad7) | Verified           |
