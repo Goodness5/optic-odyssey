@@ -29,6 +29,7 @@ contract OpticOdyssey {
         uint id;
         string collectionname;
         string item_name;
+        string category;
         string uri;
         bool listed_for_sale;
         address[] offers;
@@ -136,7 +137,7 @@ contract OpticOdyssey {
         return (user, userCollections, userItems);
     }
 
-    function getUserDetails()
+    function getUserDetails(address _useraddress)
         public
         view
         returns (
@@ -145,7 +146,7 @@ contract OpticOdyssey {
             Items[] memory _items
         )
     {
-        (_user, _collections, _items) = _getUserDetails(msg.sender);
+        (_user, _collections, _items) = _getUserDetails(_useraddress);
     }
 
     function getallPublicCollections()
@@ -197,7 +198,7 @@ contract OpticOdyssey {
     function createCollection(
         string memory _username,
         string memory _collectionname,
-        bool _isPublic
+        bool _isPublic        
     ) public {
         bool existinguser = user_exists(msg.sender);
         if (!existinguser) {
@@ -233,6 +234,7 @@ contract OpticOdyssey {
         address collectionaddress,
         string memory item_name,
         string memory _uri,
+        string memory _category,
         uint _price
     ) public {
         require(
@@ -255,6 +257,7 @@ contract OpticOdyssey {
         _newitem.id = newItemId;
         _newitem.owner = msg.sender;
         _newitem.price = _price;
+        _newitem.category = _category;
         _newitem.collectionname = _collection.name;
         _collection.itemIds.push(accessId);
         users[msg.sender].itemIds.push(accessId);
