@@ -7,7 +7,7 @@ import "../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
 contract OpticOdysseyNft is ERC721URIStorage, Ownable {
     uint256 public nextTokenId;
 
-    constructor(string memory name, string memory symbol, address _collectionOwner) ERC721(name, symbol) Ownable(_collectionOwner) {}
+    constructor(string memory name, string memory symbol) ERC721(name, symbol) Ownable(msg.sender) {}
 
     function mint(address to, string memory tokenURI) public onlyOwner returns (uint256) {
         uint256 tokenId = nextTokenId;

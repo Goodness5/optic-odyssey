@@ -17,6 +17,7 @@ contract OpticOdyssey {
 
     struct Collection {
         string name;
+        string category;
         address nftContract;
         bytes32[] itemIds;
         bool isPublic;
@@ -198,7 +199,8 @@ contract OpticOdyssey {
     function createCollection(
         string memory _username,
         string memory _collectionname,
-        bool _isPublic        
+        bool _isPublic,
+        string memory _category        
     ) public {
         bool existinguser = user_exists(msg.sender);
         if (!existinguser) {
@@ -212,14 +214,14 @@ contract OpticOdyssey {
         // Deploy a new OpticOdysseyNft contract
         OpticOdysseyNft nftContract = new OpticOdysseyNft(
             _collectionname,
-            symbol,
-            msg.sender
+            symbol
         );
         address nftContractAddress = address(nftContract);
 
         Collection storage _newcollection = collections[nftContractAddress];
 
         _newcollection.name = _collectionname;
+        _newcollection.category = _category;
         _newcollection.nftContract = nftContractAddress;
         _newcollection.isPublic = _isPublic;
 
