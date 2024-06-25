@@ -281,11 +281,14 @@ contract OpticOdyssey {
         return false;
     }
 
-    function tipUser(address _user) public payable {
+    function tipUser(address _user, uint _amount) public payable {
         require(
             bytes(users[_user].username).length != 0,
             "User not registered"
         );
+
+        (bool success, ) = _user.call{value: _amount}("");
+        require(success, "Ether transfer to seller failed");
         users[_user].balance += msg.value;
     }
 

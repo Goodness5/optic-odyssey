@@ -2,4 +2,4 @@
 
 | Contract Name | Address                                    | Verification Status |
 |---------------|--------------------------------------------|---------------------|
-| HUB        | [0x4333AeE7E7c1795d56C5B6591bDB68EbD46D23bc](https://sepolia.scrollscan.com/address/0x4333AeE7E7c1795d56C5B6591bDB68EbD46D23bc) | Verified           |
+| HUB        | [0xb5f0Adf73a8c41ec8dE387DA25C4b736f8a38663](https://sepolia.scrollscan.com/address/0xb5f0Adf73a8c41ec8dE387DA25C4b736f8a38663) | Verified           |
