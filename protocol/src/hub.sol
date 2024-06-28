@@ -29,6 +29,7 @@ contract OpticOdyssey {
         uint price;
         uint id;
         string collectionname;
+        string description;
         string item_name;
         string category;
         string uri;
@@ -175,6 +176,48 @@ contract OpticOdyssey {
         return publicCollections;
     }
 
+function getAllUsers() public view returns (User[] memory) {
+    User[] memory userList = new User[](allusers.length);
+    for (uint i = 0; i < allusers.length; i++) {
+        userList[i] = users[allusers[i]];
+    }
+    return userList;
+}
+
+ function getAllPublicItems() public view returns (Items[] memory) {
+        uint itemCount = 0;
+        for (uint i = 0; i < allusers.length; i++) {
+            address userAddr = allusers[i];
+            User storage user = users[userAddr];
+            for (uint j = 0; j < user.collections.length; j++) {
+                address collectionAddr = user.collections[j];
+                Collection storage collection = collections[collectionAddr];
+                if (collection.isPublic) {
+                    itemCount += collection.itemIds.length;
+                }
+            }
+        }
+
+        Items[] memory publicItems = new Items[](itemCount);
+        uint itemIndex = 0;
+        for (uint i = 0; i < allusers.length; i++) {
+            address userAddr = allusers[i];
+            User storage user = users[userAddr];
+            for (uint j = 0; j < user.collections.length; j++) {
+                address collectionAddr = user.collections[j];
+                Collection storage collection = collections[collectionAddr];
+                if (collection.isPublic) {
+                    for (uint k = 0; k < collection.itemIds.length; k++) {
+                        bytes32 itemId = collection.itemIds[k];
+                        publicItems[itemIndex] = items[itemId];
+                        itemIndex++;
+                    }
+                }
+            }
+        }
+
+        return publicItems;
+    }
     function changeCollectionVisisbility(
         address _collectionaddr,
         bool _is_public
@@ -236,6 +279,7 @@ contract OpticOdyssey {
         address collectionaddress,
         string memory item_name,
         string memory _uri,
+        string memory _description,
         string memory _category,
         uint _price
     ) public {
@@ -255,6 +299,8 @@ contract OpticOdyssey {
         );
         Items storage _newitem = items[accessId];
         _newitem.item_name = item_name;
+        _newitem.description = _description;
+        _newitem.itemadress = collectionaddress;
         _newitem.uri = _uri;
         _newitem.id = newItemId;
         _newitem.owner = msg.sender;
