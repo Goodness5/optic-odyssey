@@ -11,21 +11,21 @@ const mainnet = {
   explorerUrl: 'https://etherscan.io',
   rpcUrl: 'https://cloudflare-eth.com'
 }
- 
-const ScrollSepolia = {
-  chainId: 534351,
-  name: 'Scroll Sepolia',
-  currency: 'ETH',
-  explorerUrl: 'https://sepolia.scrollscan.com/',
-  rpcUrl: 'https://scroll-sepolia.blockpi.network/v1/rpc/public'
+
+const RootstockTestnet = {
+  chainId: 31,
+  name: 'Rootstock Testnet',
+  currency: 'tRBTC',
+  explorerUrl: 'https://explorer.testnet.rootstock.io/',
+  rpcUrl: 'https://public-node.testnet.rsk.co'
 }
 
 // 3. Create a metadata object
 const metadata = {
   name: 'Optic Odyssey',
-  description: 'Explore, make your photos work for you',
-  url: 'localhost:3000', // origin must match your domain & subdomain
-  icons: ['https://ipfs.filebase.io/ipfs/QmQ28C6VWrE4hLerUQLjEBE7Uei22gbuedTXBhSEmEEYzH']
+  description: 'Explore, discover, make your photos work for you!',
+  url: 'localhost:3000', // origin must match domain & subdomain
+  icons: ['https://ipfs.filebase.io/ipfs/QmRaDTECSvaJVBAY4aF1Zuusuuxxh4iAVR2gEcSxePor3Z']
 }
 
 // 4. Create Ethers config
@@ -45,7 +45,7 @@ const ethersConfig = defaultConfig({
 // 5. Create a Web3Modal instance
 createWeb3Modal({
   ethersConfig,
-  chains: [mainnet, ScrollSepolia],
+  chains: [mainnet, RootstockTestnet],
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
   enableOnramp: true, // Optional - false as default
@@ -55,7 +55,7 @@ createWeb3Modal({
   },
   defaultChain: mainnet,
   chainImages: {
-    4202: 'https://ipfs.filebase.io/ipfs/QmVNJLurFEfHTDFTsnpErDJ8z7trj6t7woMVoTDwwX72Li'
+    31: 'https://ipfs.filebase.io/ipfs/QmNbgL4gj6yLu74sGisNcf9tK4YC9Wab5AdGoLRCVhofTg'
   }
 })
 
