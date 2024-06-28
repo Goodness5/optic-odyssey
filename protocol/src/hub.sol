@@ -28,6 +28,7 @@ contract OpticOdyssey {
         address itemadress;
         uint price;
         uint id;
+        bytes32 accessid;
         string collectionname;
         string description;
         string item_name;
@@ -303,6 +304,7 @@ function getAllUsers() public view returns (User[] memory) {
         _newitem.itemadress = collectionaddress;
         _newitem.uri = _uri;
         _newitem.id = newItemId;
+        _newitem.accessid =accessId;
         _newitem.owner = msg.sender;
         _newitem.price = _price;
         _newitem.category = _category;
