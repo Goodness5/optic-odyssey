@@ -152,7 +152,7 @@ export default function Creators() {
                 <img src="images/profile.png" className="mx-[auto] rounded-t-xl w-[50%] mt-[0.5cm]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">{data[0]}</div>
-                <div className="text-[#aaa]">Total sales: {data[2].toString()} RBTC</div>
+                <div className="text-[#aaa]">Total sales: {data[2].toString() * 10 ** -18} RBTC</div>
                 <div className="text-[#ccc]"><span>Joined at:</span> {new Date(data[3].toString() * 1000).toLocaleString()}</div>
                 <div onClick={(e) => {e.preventDefault(); getTheData(data[1]) & readProfilePhoto(data[1]) & readCoverPhoto(data[1]) & setpreferredDisplay("profile")}} className="font-[500] mt-[0.2cm] cursor-pointer" style={{display:"inline-block"}} ><img src="images/add.png" width="17" className="mt-[-0.05cm]" style={{display:"inline-block"}} /> View profile</div>
                 </div>
