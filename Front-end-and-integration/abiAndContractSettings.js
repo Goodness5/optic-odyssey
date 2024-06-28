@@ -397,7 +397,7 @@ const nftContractABI = [
     type: "function",
   },
 ];
-const nftContractAddress = "0x70544305283703068BF3103B91Df069dced42d34";
+const nftContractAddress = "0x5De93b7d36E1bDECA9438A4B3C0e64E5fb637e76";
 
 module.exports = {
   nftContractAddress,
