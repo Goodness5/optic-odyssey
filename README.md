@@ -1,3 +1,5 @@
+# Optic Odyssey Documentation [Web App](https://optic-odyssey.vercel.app) / [Demo Video](https://youtube.com)
+
 # OpticOdyssey Smart Contract Documentation
 ## Contract Addresses
 
