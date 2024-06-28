@@ -9,6 +9,7 @@ contract OpticOdyssey {
     }
     struct User {
         string username;
+        address useraddress;
         uint256 balance;
         uint joined_at;
         address[] collections;
@@ -249,8 +250,9 @@ function getAllUsers() public view returns (User[] memory) {
         bool existinguser = user_exists(msg.sender);
         if (!existinguser) {
             User storage _newuser = users[msg.sender];
-            _newuser.username = _username;
             _newuser.joined_at = block.timestamp;
+            _newuser.username = _username;
+            _newuser.useraddress = msg.sender;
             allusers.push(msg.sender);
             emit UserRegistered(msg.sender, _username);
         }
@@ -329,13 +331,13 @@ function getAllUsers() public view returns (User[] memory) {
         return false;
     }
 
-    function tipUser(address _user, uint _amount) public payable {
+    function tipUser(address _user) public payable {
         require(
             bytes(users[_user].username).length != 0,
             "User not registered"
         );
 
-        (bool success, ) = _user.call{value: _amount}("");
+        (bool success, ) = _user.call{value: msg.value}("");
         require(success, "Ether transfer to seller failed");
         users[_user].balance += msg.value;
     }
