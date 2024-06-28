@@ -3,7 +3,7 @@
 
 | Contract Name | Address                                    | Verification Status |
 |---------------|--------------------------------------------|---------------------|
-| HUB        | [0x70544305283703068BF3103B91Df069dced42d34](https://sepolia.scrollscan.com/address/0x70544305283703068BF3103B91Df069dced42d34) | Verified           |
+| HUB        | [0x5De93b7d36E1bDECA9438A4B3C0e64E5fb637e76](https://rootstock-testnet.blockscout.com/address/0x5De93b7d36E1bDECA9438A4B3C0e64E5fb637e76) | Verified           |
 
 
 
