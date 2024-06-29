@@ -397,7 +397,30 @@ const nftContractABI = [
     type: "function",
   },
 ];
-const nftContractAddress = "0x5De93b7d36E1bDECA9438A4B3C0e64E5fb637e76";
+const keccak256 = require('keccak256');
+
+function toChecksumAddress(address) {
+    address = address.toLowerCase().replace('0x', '');
+    const hash = keccak256(address).toString('hex');
+    let checksummedAddress = '0x';
+
+    for (let i = 0; i < address.length; i++) {
+        if (parseInt(hash[i], 16) >= 8) {
+            checksummedAddress += address[i].toUpperCase();
+        } else {
+            checksummedAddress += address[i];
+        }
+    }
+
+    return checksummedAddress;
+}
+
+// Address to convert
+const address = "0x5De93b7d36E1bDECA9438A4B3C0e64E5fb637e76";
+const checksummedAddress = toChecksumAddress(address);
+console.log("checksum:" + checksummedAddress);
+
+const nftContractAddress = checksummedAddress;
 
 module.exports = {
   nftContractAddress,
