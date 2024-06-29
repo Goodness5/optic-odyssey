@@ -184,6 +184,74 @@ export default function Marketplace() {
     }
     getAllPublicItems();
    }, [])
+
+     //read all items in a collection
+  const [chosenCollectionItems, setchosenCollectionItems] = useState([])
+  const [collectionTitle, setCollectionTitle] = useState()
+    const getItemsData = async(initialCollectionContract) => {
+      if(isConnected){
+         //read settings first
+         const ethersProvider = new BrowserProvider(walletProvider) 
+         const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
+       try {
+        const allcollectiondetails = await nftContractReadSettings.getAllPublicItems()
+        console.log("contract" + initialCollectionContract)
+        const chosenCollectionArray = []
+        for (let i = 0; i < allcollectiondetails.length; i++){
+          if (allcollectiondetails[i][1] === initialCollectionContract){
+            const collectionitems = allcollectiondetails[i]
+            chosenCollectionArray.push(collectionitems)
+          }
+        }
+        console.log("chosen array" + chosenCollectionArray + "end")
+        setchosenCollectionItems(chosenCollectionArray)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    }
+
+    //read creator of single collection item
+   const [theItemCreatorUsername, settheItemCreatorUsername] = useState()
+   const getItemCreator = async(itemCreator) => {
+     if(isConnected){
+        //read settings first
+        const ethersProvider = new BrowserProvider(walletProvider) 
+        const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
+      try {
+       const getitemcreator = await nftContractReadSettings.users(itemCreator)
+       const getcreatorusername = getitemcreator.username.toString()
+       settheItemCreatorUsername(getcreatorusername)
+     } catch (error) {
+       console.log(error)
+     }
+   }
+   }
+
+       //read for single collection item
+       const [chosenItem, setChosenItem] = useState([])
+       const getSingleItemData = async(initialItemID) => {
+         if(isConnected){
+            //read settings first
+            const ethersProvider = new BrowserProvider(walletProvider) 
+            const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
+          try {
+           const allcollectiondetails = await nftContractReadSettings.getAllPublicItems()
+           console.log("id" + initialItemID)
+           const chosenItemArray = []
+           for (let i = 0; i < allcollectiondetails.length; i++){
+            if (allcollectiondetails[i][4] === initialItemID){
+              const collectionitem = allcollectiondetails[i]
+              chosenItemArray.push(collectionitem)
+            }
+          }
+           setChosenItem(chosenItemArray)
+           console.log(chosenItemArray)
+         } catch (error) {
+           console.log(error)
+         }
+       }
+       }
     
     return (
         <div>
@@ -220,6 +288,8 @@ export default function Marketplace() {
             <div><span>By</span> <span>{data[0].substring(0, 4)}...{data[0].substring(36, 42)} </span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /></div>
             <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">Status</span></div>
             <div className="mt-[0.1cm]"><span>{data[2].toString() * 10 **-18} RBTC</span><span className="float-right">{data[10] === false ? (<span className="text-[#d7b644]">Not yet sold</span>) : (<span className="text-[#090]">Sold</span>)}</span></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
           </div>
         </div>
           ))}
