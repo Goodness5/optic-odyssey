@@ -1,6 +1,28 @@
 import { useState, useEffect } from "react";
+import axios from 'axios';
+import Link from 'next/link';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { 
+  nftContractAddress,
+  nftContractABI,
+} from "@/abiAndContractSettings";
+import { useWeb3ModalProvider, useWeb3ModalAccount } from '@web3modal/ethers/react'
+import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
 
 export default function Marketplace() {
+      // wallet connect settings
+      const { address, chainId, isConnected } = useWeb3ModalAccount()
+      const { walletProvider } = useWeb3ModalProvider()
+
+      //loading state
+      const [loading, setLoading] = useState()
+
+    //initialize the AOS library
+    useEffect(() => {
+      AOS.init();
+    }, []) 
+
   //styling for marketplace here
     const [displayTab, setDisplayTab] = useState("all")
     const [allbg, setallbg] = useState("#00f")
@@ -143,6 +165,25 @@ export default function Marketplace() {
       setcat5bg("#00f")
       setCat5Shadow("#fff")
     }
+
+       //read for all public items
+   const [allPublicItems, setallPublicItems] = useState([])
+   useEffect(()=> {
+    const getAllPublicItems = async() => {
+      if(isConnected){
+         //read settings first
+         const ethersProvider = new BrowserProvider(walletProvider) 
+         const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
+       try {
+        const getallpublicitems = await nftContractReadSettings.getAllPublicItems()
+        setallPublicItems(getallpublicitems)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    }
+    getAllPublicItems();
+   }, [])
     
     return (
         <div>
@@ -171,51 +212,17 @@ export default function Marketplace() {
       {displayTab === "all" && 
        (<div>
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
+          {allPublicItems.map((data)=> (
           <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-            <img src="images/art.jpg" className="rounded-t-xl" />
-            <div className="p-[0.5cm]">
-              <div className="text-[120%] font-[500]">Moments of moments</div>
-              <div><span>By</span> <span>Humphreyo</span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /></div>
-              <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">All-time volume</span></div>
-              <div className="mt-[0.1cm]"><span>0.3 RBTC</span><span className="float-right">2.5 RBTC</span></div>
-            </div>
+          <img src={data[9]} className="rounded-t-xl" />
+          <div className="p-[0.5cm]">
+            <div className="text-[120%] font-[500]">{data[7]}</div>
+            <div><span>By</span> <span>{data[0].substring(0, 4)}...{data[0].substring(36, 42)} </span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /></div>
+            <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">Status</span></div>
+            <div className="mt-[0.1cm]"><span>{data[2].toString() * 10 **-18} RBTC</span><span className="float-right">{data[10] === false ? (<span className="text-[#d7b644]">Not yet sold</span>) : (<span className="text-[#090]">Sold</span>)}</span></div>
           </div>
-          <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-            <img src="images/hubcover.png" className="rounded-t-xl" />
-            <div className="p-[0.5cm]">
-              <div className="text-[120%] font-[500]">Moments of moments</div>
-              <div><span>By</span> <span>Humphreyo</span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /></div>
-              <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">All-time volume</span></div>
-              <div className="mt-[0.1cm]"><span>0.3 RBTC</span><span className="float-right">2.5 RBTC</span></div>
-            </div>
-          </div>
-          <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-            <img src="images/humphreyo.png" className="rounded-t-xl" />
-            <div className="p-[0.5cm]">
-              <div className="text-[120%] font-[500]">Moments of moments</div>
-              <div><span>By</span> <span>Humphreyo</span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /></div>
-              <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">All-time volume</span></div>
-              <div className="mt-[0.1cm]"><span>0.3 RBTC</span><span className="float-right">2.5 RBTC</span></div>
-            </div>
-          </div>
-          <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-            <img src="images/thick.jpg" className="rounded-t-xl" />
-            <div className="p-[0.5cm]">
-              <div className="text-[120%] font-[500]">Moments of moments</div>
-              <div><span>By</span> <span>Humphreyo</span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /></div>
-              <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">All-time volume</span></div>
-              <div className="mt-[0.1cm]"><span>0.3 RBTC</span><span className="float-right">2.5 RBTC</span></div>
-            </div>
-          </div>
-          <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-            <img src="images/humphreyo.png" className="rounded-t-xl" />
-            <div className="p-[0.5cm]">
-              <div className="text-[120%] font-[500]">Moments of moments</div>
-              <div><span>By</span> <span>Humphreyo</span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /></div>
-              <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">All-time volume</span></div>
-              <div className="mt-[0.1cm]"><span>0.3 RBTC</span><span className="float-right">2.5 RBTC</span></div>
-            </div>
-          </div>
+        </div>
+          ))}
         </div>
         <div className='mt-[0.5cm]'>
         <button className='generalbutton bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] mx-[0.2cm] text-[#fff]'>

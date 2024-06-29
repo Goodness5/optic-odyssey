@@ -149,7 +149,7 @@ export default function Creators() {
           <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 gap-4">
             {allCreators.map((data) => (
                 <div className="grid-cols-1 rounded-xl bg-[#000]" style={{boxShadow:"2px 2px 5px 2px #502"}}>
-                <img src="images/profile.png" className="mx-[auto] rounded-t-xl w-[50%] mt-[0.5cm]" />
+                <img src="images/profile.png" className="mx-[auto] rounded-t-xl w-[30%] mt-[0.5cm]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">{data[0]}</div>
                 <div className="text-[#aaa]">Total sales: {data[2].toString() * 10 ** -18} RBTC</div>
