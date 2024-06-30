@@ -235,7 +235,7 @@ import { useState, useEffect } from "react";
                 <div className="p-[0.5cm]">
                  <div className="text-center text-[120%] font-[500]">NFT marketplace</div>
                  <div className="mt-[0.2cm] text-[#aaa]">
-                   The NFT marketplace is where all NFTs created on Optic Odyssey are being sold. You can fix a price for your NFTs or set them up for bidding. Highest bidder 
+                   The NFT marketplace is where all photos tokenized on Optic Odyssey are being sold. You can fix a price for your NFTs or set them up for bidding. Highest bidder 
                    can then buy the NFT. Defaulters of the marketplace will be penalized. Listing an NFT on the marketplace is free and only the buyer pays for transaction fees. These 
                    transaction fees will be used to fund photographers/creators seeking for funding.
                  </div>
