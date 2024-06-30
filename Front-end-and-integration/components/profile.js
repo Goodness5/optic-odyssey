@@ -245,7 +245,7 @@ export default function Profile() {
     }
     }
     
-   //read for single collection item
+   //read for single collection item creator
    const [theItemCreatorUsername, settheItemCreatorUsername] = useState()
    const getItemCreator = async(itemCreator) => {
      if(isConnected){
@@ -291,7 +291,7 @@ export default function Profile() {
       const [username, setUsername] = useState()
       const [collectionName, setCollectionName] = useState()
       const [publicVisibility, setpublicVisibility] = useState()
-      const [collectionCategory, setcollectionCategory] = useState()
+      const [collectionCategory, setcollectionCategory] = useState("Art")
       const createNFTcollection = async () => {
         if(isConnected){
          setLoading(true) 
@@ -356,7 +356,7 @@ export default function Profile() {
       const [itemTitle, setItemTitle] = useState()
       const [collectionContractAddress, setcollectionContractAddress] = useState()
       const [itemPrice, setItemPrice] = useState()
-      const [itemCategory, setItemCategory] = useState()
+      const [itemCategory, setItemCategory] = useState("Art")
       const [itemDescription, setItemDescription] = useState()
       const addItemToNFTcollection = async () => {
         if(isConnected){
@@ -397,27 +397,6 @@ export default function Profile() {
          }
         }
       }
-
-    //  //function to tip creator
-    //   const [showTipAmount, setshowTipAmount] = useState()
-    //   const [amountToTip, setamountToTip] = useState()
-    //   const tipCreator = async () => {
-    //     if(isConnected){
-    //      setLoading(true) 
-    //      const ethersProvider = new BrowserProvider(walletProvider) 
-    //      const signer = await ethersProvider.getSigner()
-    //      const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
-    //      try {
-    //       const tipcreator = await nftContractWriteSettings.tipUser("0xa61C704b8E47fA9bA8219d321663a68bC2B5C45F", {value:parseUnits(amountToTip, 18)});
-    //      } catch (error) {
-    //       console.log(error)
-    //       setLoading(false)
-    //      }
-    //      finally {
-    //       setLoading(false)
-    //      }
-    //     }
-    //   }
 
 
   return (
@@ -495,7 +474,13 @@ export default function Profile() {
         (<input type="text" className='p-[0.2cm] bg-[#000]  rounded-md outline-none w-[100%] mb-[0.3cm]' name="username" value={registeredUsername} style={{border:"2px solid #00f"}} />) :
         (<input type="text" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' name="username" onChange={(e) => setUsername(e.target.value)} placeholder="Create a username" style={{border:"2px solid #00f"}} />)}
         <input type="text" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' name="collectionName" onChange={(e) => setCollectionName(e.target.value)} placeholder="Create a name for collection" style={{border:"2px solid #00f"}} />
-        <input type="text" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' name="collectionCategory" onChange={(e) => setcollectionCategory(e.target.value)} placeholder="Create a category for your collection" style={{border:"2px solid #00f"}} />
+        <select className='bg-[#001] p-[0.2cm] text-[#fff] rounded-md outline-[#fff] mb-[0.3cm] w-[100%]' onClick={(e) => setcollectionCategory(e.target.value)} style={{border:"2px solid #00f"}}>
+            <option className='py-[0.2cm]' value="Art">Art</option>
+            <option className='py-[0.2cm]' value="Fashion">Fashion</option>
+            <option className='py-[0.2cm]' value="Portrait">Portrait</option>
+            <option className='py-[0.2cm]' value="Lifestyle">Lifestyle</option>
+            <option className='py-[0.2cm]' value="Photography">Photography</option>
+          </select>
         <div className='pl-[0.3cm]'>
         <div className='text-[#aaa]'>Is collection public or private?</div>
         <div className='mt-[0.2cm]'>
@@ -519,7 +504,13 @@ export default function Profile() {
           </select>
           )}
         <input type="text" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' value={itemTitle} onChange={(e) => setItemTitle(e.target.value)} placeholder="Give your item a title" style={{border:"2px solid #00f"}} />
-        <input type="text" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' name="itemCategory" onChange={(e) => setItemCategory(e.target.value)} placeholder="Choose a category for your item" style={{border:"2px solid #00f"}} />
+        <select className='bg-[#001] p-[0.2cm] text-[#fff] rounded-md outline-[#fff] mb-[0.3cm] w-[100%]' onClick={(e) => setItemCategory(e.target.value)} style={{border:"2px solid #00f"}}>
+            <option className='py-[0.2cm]' value="Art">Art</option>
+            <option className='py-[0.2cm]' value="Fashion">Fashion</option>
+            <option className='py-[0.2cm]' value="Portrait">Portrait</option>
+            <option className='py-[0.2cm]' value="Lifestyle">Lifestyle</option>
+            <option className='py-[0.2cm]' value="Photography">Photography</option>
+          </select>
         <textarea className='p-[0.2cm] h-[2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' name="itemDescription" onChange={(e) => setItemDescription(e.target.value)} placeholder="Give your item a description" style={{border:"2px solid #00f"}} />
         <div className='mb-[0.3cm]'>
           <input type="file" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' id="theFile" name="theFile" onChange={(e) => setTheFile(e.target.files[0])} style={{border:"2px solid #00f"}} />
