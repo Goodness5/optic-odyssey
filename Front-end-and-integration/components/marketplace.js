@@ -144,7 +144,13 @@ export default function Marketplace() {
          const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
        try {
         const getallpublicitems = await nftContractReadSettings.getAllPublicItems()
-        setallPublicItems(getallpublicitems)
+        const getAllItemsArray = []
+        for (let i = 0; i < getallpublicitems.length; i++){
+            const getAll = getallpublicitems[i]
+            getAllItemsArray.push(getAll)
+        }
+        getAllItemsArray.sort((a, b) => b[3].toString() - a[3].toString())
+        setallPublicItems(getAllItemsArray)
       } catch (error) {
         console.log(error)
       }
