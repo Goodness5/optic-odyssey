@@ -56,7 +56,7 @@ export default function Home(){
    <div className='text-center my-[0.5cm]'><img src="images/photographer.png" className='m-[auto]' width="50" /></div>
    <div className='mt-[1cm] text-center lg:text-[140%] text-[120%] lg:mx-[20%] md:mx-[10%] mx-[5%] p-[1cm] lg:px-[2cm] text-[#ccc] bg-[rgba(0,0,0,0.9)]' style={{border:"1px solid #502"}}>
     <div data-aos="fade-in" className='info1' style={{transition:"0.5s ease-in-out"}}>
-     Optic Odyssey NFT Marketplace: Explore and turn your photos into NFTs on Rootstock. The NFT marketplace is where all NFTs created on Optic Odyssey are being sold.
+     Optic Odyssey NFT Marketplace: Explore and tokenize your photos to NFTs on Rootstock. The NFT marketplace is where all NFTs created on Optic Odyssey are being sold.
      You can fix a price for your NFTs or set them up for bidding. Highest bidder can then buy the NFT. Defaulters of the marketplace will be penalized.
      Listing an NFT on the marketplace is free and only the buyer pays for transaction fees. These transaction fees will be used to fund photographers/creators seeking for funding.
     </div>
@@ -65,7 +65,7 @@ export default function Home(){
     request for funding and make governance decisions and vote in the DAO.
     </div>
     <div data-aos="fade-in" className='info3' style={{transition:"0.5s ease-in-out"}}>
-    Profile: All it takes to turn your photos into NFTs is to create a profile, and by the powerful application of the Filebase AWS SDK, upload your photos and publish.
+    Profile: All it takes to tokenize your photos as NFTs is to create a profile, and by the powerful application of the Filebase AWS SDK, upload your photos and publish.
     </div>
     </div>
    </div>
