@@ -134,7 +134,32 @@ export default function Marketplace() {
       setCat5Shadow("#fff")
     }
 
-    //read for all public items
+    //read for all public collections
+   const [allPublicCollections, setallPublicCollections] = useState([])
+   useEffect(()=> {
+    const getAllPublicCollections = async() => {
+      if(isConnected){
+         //read settings first
+         const ethersProvider = new BrowserProvider(walletProvider) 
+         const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
+       try {
+        const getallpubliccollections = await nftContractReadSettings.getallPublicCollections()
+        const getAllCollectionsArray = []
+        for (let i = 0; i < getallpubliccollections.length; i++){
+            const getAllcollections = getallpubliccollections[i]
+            getAllCollectionsArray.push(getAllcollections)
+        }
+        getAllCollectionsArray.sort((a, b) => b[3].toString() - a[3].toString())
+        setallPublicCollections(getAllCollectionsArray)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    }
+    getAllPublicCollections();
+   }, [])
+
+    //read all public items
    const [allPublicItems, setallPublicItems] = useState([])
    useEffect(()=> {
     const getAllPublicItems = async() => {
@@ -416,7 +441,7 @@ export default function Marketplace() {
         <div className="text-[#ccc] text-[90%]">View collections from photographers around the world</div>
         
 
-        <div className="mt-[1cm]">
+        <div className="my-[1cm]">
         <div className='text-center mt-[0.5cm] '>
         <span className='bg-[#000] text-[#fff] px-[0.5cm] py-[0.2cm] rounded-full' style={{border:"2px solid #00f"}}>
         <form onSubmit={(e) => {e.preventDefault(); handleSearch(searchQuery)}} style={{display:"inline-block"}}>
@@ -645,6 +670,32 @@ export default function Marketplace() {
        )}
        </div>}
        </div>
+        </div>
+
+
+        <div>
+          <div className="lg:text-[180%] md:text-[150%] text-[120%] font-[500] ml-[0.5cm] mb-[1cm]">
+            <img src="images/dash.png" style={{display:"inline-block"}} width="30" className="mt-[-0.2cm]" />
+            <span> All Collections </span>
+            <img src="images/dash.png" style={{display:"inline-block"}} width="30" className="mt-[-0.2cm]" />
+          </div>
+        <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-8">
+          {allPublicCollections.map((data) => (
+          <div key={data[0]} className="grid-cols-1">
+            <div className='px-[1cm] py-[2cm] bg-[#000]' style={{boxShadow:"3px 3px 2px 2px #333"}}>
+              <div className='text-center text-[120%]'>{data[0]}</div>
+            </div>
+            <div className='mt-[0.3cm]'>
+            <button onClick={(e) => {e.preventDefault(); getItemsData(data[3]) & setCollectionTitle(data[0])}} className='bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+            </div>
+          </div>
+          ))}
+        </div>
+        <div className='mt-[0.5cm]'>
+        <button className='generalbutton bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] mx-[0.2cm] text-[#fff]'>
+          1
+        </button>
+        </div> 
         </div>
 
 
