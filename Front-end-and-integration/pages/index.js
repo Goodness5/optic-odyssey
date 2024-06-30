@@ -52,7 +52,7 @@ export default function Home(){
 
 
    <div className='lg:mx-[-8%] mx-[-5%] lg:pb-[10%] pb-[50%] firstsectiondiv' style={{backgroundImage:"url(images/studio.jpg)", transition:"0.3s ease-in-out"}}>
-   <div className='text-center text-[150%] lg:text-[220%] md:text-[180%] pt-[1.5cm] font-[500] text-[#502]'>Explore, discover and make your photos/assets work for you on Rootstock</div>
+   <div className='text-center text-[150%] lg:text-[200%] md:text-[180%] pt-[1.5cm] font-[500] text-[#502]'>Explore, discover, tokenize and make your photos/assets work for you on Rootstock</div>
    <div className='text-center my-[0.5cm]'><img src="images/photographer.png" className='m-[auto]' width="50" /></div>
    <div className='mt-[1cm] text-center lg:text-[140%] text-[120%] lg:mx-[20%] md:mx-[10%] mx-[5%] p-[1cm] lg:px-[2cm] text-[#ccc] bg-[rgba(0,0,0,0.9)]' style={{border:"1px solid #502"}}>
     <div data-aos="fade-in" className='info1' style={{transition:"0.5s ease-in-out"}}>
