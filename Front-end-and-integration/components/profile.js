@@ -319,6 +319,8 @@ export default function Profile() {
       const [theHash, setTheHash] = useState();
       const [theFile, setTheFile] = useState()
       const uploadFile = async () => {
+        if(isConnected){
+          setLoading(true) 
         try {
           const formData = new FormData();
           formData.append('file', theFile);
@@ -326,11 +328,16 @@ export default function Profile() {
           const response = await axios.post('/api/server', formData);
           if (response.status === 200) {
             setTheHash(response.data.cid);
-            console.log('File uploaded to S3:', response.data.cid);
+            console.log('File uploaded to IPFS:', response.data.cid);
           }
         } catch (error) {
-          console.error('Error uploading to S3:', error.message);
+          console.error('Error uploading to IPFS:', error.message);
+          setLoading(false)
         }
+        finally {
+          setLoading(false)
+         }
+      }
       };
 
       //function to set collection visibility
