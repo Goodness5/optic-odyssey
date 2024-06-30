@@ -34,8 +34,14 @@ export default function Creators() {
          const ethersProvider = new BrowserProvider(walletProvider) 
          const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
        try {
+        const creatorsArray = []
         const getcreator = await nftContractReadSettings.getAllUsers()
-        setallCreators(getcreator)
+        for (let i = 0; i < getcreator.length; i++){
+          const anyCreator = getcreator[i]
+          creatorsArray.push(anyCreator)
+        }
+        creatorsArray.sort((a,b) => b[3].toString() - a[3].toString())
+        setallCreators(creatorsArray)
       } catch (error) {
         console.log(error)
       }
