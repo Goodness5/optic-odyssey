@@ -58,30 +58,10 @@ export default function Marketplace() {
       setCat5Shadow("#333")
     }
 
-    const showTrending = () => {
-      setDisplayTab("trending")
-      setallbg("#000")
-      setAllShadow("#333")
-      settrendingbg("#00f")
-      settrendingShadow("#fff")
-      setcat1bg("#000")
-      setCat1Shadow("#333")
-      setcat2bg("#000")
-      setCat2Shadow("#333")
-      setcat3bg("#000")
-      setCat3Shadow("#333")
-      setcat4bg("#000")
-      setCat4Shadow("#333")
-      setcat5bg("#000")
-      setCat5Shadow("#333")
-    }
-
     const showCat1 = () => {
       setDisplayTab("cat1")
       setallbg("#000")
       setAllShadow("#333")
-      settrendingbg("#000")
-      settrendingShadow("#333")
       setcat1bg("#00f")
       setCat1Shadow("#fff")
       setcat2bg("#000")
@@ -98,8 +78,6 @@ export default function Marketplace() {
       setDisplayTab("cat2")
       setallbg("#000")
       setAllShadow("#333")
-      settrendingbg("#000")
-      settrendingShadow("#333")
       setcat1bg("#000")
       setCat1Shadow("#333")
       setcat2bg("#00f")
@@ -116,8 +94,6 @@ export default function Marketplace() {
       setDisplayTab("cat3")
       setallbg("#000")
       setAllShadow("#333")
-      settrendingbg("#000")
-      settrendingShadow("#333")
       setcat1bg("#000")
       setCat1Shadow("#333")
       setcat2bg("#000")
@@ -134,8 +110,6 @@ export default function Marketplace() {
       setDisplayTab("cat4")
       setallbg("#000")
       setAllShadow("#333")
-      settrendingbg("#000")
-      settrendingShadow("#333")
       setcat1bg("#000")
       setCat1Shadow("#333")
       setcat2bg("#000")
@@ -152,8 +126,6 @@ export default function Marketplace() {
       setDisplayTab("cat5")
       setallbg("#000")
       setAllShadow("#333")
-      settrendingbg("#000")
-      settrendingShadow("#333")
       setcat1bg("#000")
       setCat1Shadow("#333")
       setcat2bg("#000")
@@ -166,7 +138,7 @@ export default function Marketplace() {
       setCat5Shadow("#fff")
     }
 
-       //read for all public items
+    //read for all public items
    const [allPublicItems, setallPublicItems] = useState([])
    useEffect(()=> {
     const getAllPublicItems = async() => {
@@ -184,6 +156,136 @@ export default function Marketplace() {
     }
     getAllPublicItems();
    }, [])
+
+    //read for all Art category items
+   const [allArtItems, setallArtItems] = useState([])
+   useEffect(()=> {
+    const getAllArtItems = async() => {
+      if(isConnected){
+         //read settings first
+         const ethersProvider = new BrowserProvider(walletProvider) 
+         const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
+       try {
+        const getallpublicitems = await nftContractReadSettings.getAllPublicItems()
+        const getArtItemsArray = []
+        for (let i = 0; i < getallpublicitems.length; i++){
+          if (getallpublicitems[i][8] === "Art"){
+            const getArtCategory = getallpublicitems[i]
+            getArtItemsArray.push(getArtCategory)
+          }
+        }
+        setallArtItems(getArtItemsArray)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    }
+    getAllArtItems();
+   }, [])
+
+       //read for all Fashion category items
+       const [allFashionItems, setallFashionItems] = useState([])
+       useEffect(()=> {
+        const getAllFashionItems = async() => {
+          if(isConnected){
+             //read settings first
+             const ethersProvider = new BrowserProvider(walletProvider) 
+             const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
+           try {
+            const getallpublicitems = await nftContractReadSettings.getAllPublicItems()
+            const getFashionItemsArray = []
+            for (let i = 0; i < getallpublicitems.length; i++){
+              if (getallpublicitems[i][8] === "Fashion"){
+                const getFashionCategory = getallpublicitems[i]
+                getArtItemsArray.push(getFashionCategory)
+              }
+            }
+            setallFashionItems(getFashionItemsArray)
+          } catch (error) {
+            console.log(error)
+          }
+        }
+        }
+        getAllFashionItems();
+       }, [])
+
+        //read for all Portrait category items
+       const [allPortraitItems, setallPortraitItems] = useState([])
+       useEffect(()=> {
+        const getAllPortraitItems = async() => {
+          if(isConnected){
+             //read settings first
+             const ethersProvider = new BrowserProvider(walletProvider) 
+             const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
+           try {
+            const getallpublicitems = await nftContractReadSettings.getAllPublicItems()
+            const getPortraitItemsArray = []
+            for (let i = 0; i < getallpublicitems.length; i++){
+              if (getallpublicitems[i][8] === "Portrait"){
+                const getPortraitCategory = getallpublicitems[i]
+                getPortraitItemsArray.push(getPortraitCategory)
+              }
+            }
+            setallPortraitItems(getPortraitItemsArray)
+          } catch (error) {
+            console.log(error)
+          }
+        }
+        }
+        getAllPortraitItems();
+       }, [])
+
+        //read for all Lifestyle category items
+       const [allLifestyleItems, setallLifestyleItems] = useState([])
+       useEffect(()=> {
+        const getAllLifestyleItems = async() => {
+          if(isConnected){
+             //read settings first
+             const ethersProvider = new BrowserProvider(walletProvider) 
+             const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
+           try {
+            const getallpublicitems = await nftContractReadSettings.getAllPublicItems()
+            const getLifestyleItemsArray = []
+            for (let i = 0; i < getallpublicitems.length; i++){
+              if (getallpublicitems[i][8] === "Lifestyle"){
+                const getLifestyleCategory = getallpublicitems[i]
+                getLifestyleItemsArray.push(getLifestyleCategory)
+              }
+            }
+            setallLifestyleItems(getLifestyleItemsArray)
+          } catch (error) {
+            console.log(error)
+          }
+        }
+        }
+        getAllLifestyleItems();
+       }, [])
+
+      //read for all Photography category items
+       const [allPhotographyItems, setallPhotographyItems] = useState([])
+       useEffect(()=> {
+        const getAllPhotographyItems = async() => {
+          if(isConnected){
+             //read settings first
+             const ethersProvider = new BrowserProvider(walletProvider) 
+             const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
+           try {
+            const getallpublicitems = await nftContractReadSettings.getAllPublicItems()
+            const getPhotographyItemsArray = []
+            for (let i = 0; i < getallpublicitems.length; i++){
+              if (getallpublicitems[i][8] === "Photography"){
+                const getPhotographyCategory = getallpublicitems[i]
+                getPhotographyItemsArray.push(getPhotographyCategory)
+              }
+            }
+            setallPhotographyItems(getPhotographyItemsArray)
+          } catch (error) {
+            console.log(error)
+          }
+        }
+        }
+        getAllPhotographyItems();
+       }, [])
 
      //read all items in a collection
   const [chosenCollectionItems, setchosenCollectionItems] = useState([])
@@ -258,18 +360,18 @@ export default function Marketplace() {
         <div className="font-[500] bg-[#502] px-[0.4cm] py-[0.15cm] rounded-md mb-[0.2cm]" style={{display:"inline-block", boxShadow:"2px 2px 2px 2px #333"}}>NFT marketplace</div>
         <div className="text-[#ccc] text-[90%]">View collections from photographers around the world</div>
         
+
         <div className="mt-[1cm]">
         <div className='text-center mt-[0.5cm] '>
         <span className='bg-[#000] text-[#fff] px-[0.5cm] py-[0.2cm] rounded-full' style={{border:"2px solid #00f"}}>
         <form onSubmit={(e) => {e.preventDefault(); handleSearch(searchQuery)}} style={{display:"inline-block"}}>
-        <input type="text" placeholder="Search by name or collection..." onChange={(e) => setSearchQuery(e.target.value)} className='bg-[#000] w-[80%] placeholder-[#fff] text-[#fff] text-[90%] outline-none' /><img src="images/search.png" width="20" className='ml-[0.2cm] cursor-pointer' onClick={(e) => {e.preventDefault(); handleSearch(searchQuery)}} style={{display:"inline-block"}}/>
+        <input type="text" placeholder="Search for an NFT..." onChange={(e) => setSearchQuery(e.target.value)} className='bg-[#000] w-[80%] placeholder-[#fff] text-[#fff] text-[90%] outline-none' /><img src="images/search.png" width="20" className='ml-[0.2cm] cursor-pointer' onClick={(e) => {e.preventDefault(); handleSearch(searchQuery)}} style={{display:"inline-block"}}/>
         </form>
         </span>
         </div>
         
         <div className="mt-[1cm]">
           <button onClick={(e) => showAll(e)} className={`bg-[${allbg}] px-[0.4cm] py-[0.15cm] m-[0.2cm] rounded-md`} style={{boxShadow:`2px 2px 2px 2px ${allShadow}`}}>All</button>
-          <button onClick={(e) => showTrending(e)} className={`bg-[${trendingbg}] px-[0.4cm] py-[0.15cm] m-[0.2cm] rounded-md`} style={{boxShadow:`2px 2px 2px 2px ${trendingShadow}`}}>Trending</button>
           <button onClick={(e) => showCat1(e)} className={`bg-[${cat1bg}] px-[0.4cm] py-[0.15cm] m-[0.2cm] rounded-md`} style={{boxShadow:`2px 2px 2px 2px ${cat1Shadow}`}}>Art</button>
           <button onClick={(e) => showCat2(e)} className={`bg-[${cat2bg}] px-[0.4cm] py-[0.15cm] m-[0.2cm] rounded-md`} style={{boxShadow:`2px 2px 2px 2px ${cat2Shadow}`}}>Fashion</button>
           <button onClick={(e) => showCat3(e)} className={`bg-[${cat3bg}] px-[0.4cm] py-[0.15cm] m-[0.2cm] rounded-md`} style={{boxShadow:`2px 2px 2px 2px ${cat3Shadow}`}}>Portrait</button>
@@ -277,7 +379,10 @@ export default function Marketplace() {
           <button onClick={(e) => showCat5(e)} className={`bg-[${cat5bg}] px-[0.4cm] py-[0.15cm] m-[0.2cm] rounded-md`} style={{boxShadow:`2px 2px 2px 2px ${cat5Shadow}`}}>Photography</button>
         </div>
 
-      {displayTab === "all" && 
+        <div>
+        {(displayTab === "all" && allPublicItems) &&
+       <div>
+        {allPublicItems.length > 0 ?
        (<div>
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
           {allPublicItems.map((data)=> (
@@ -285,7 +390,7 @@ export default function Marketplace() {
           <img src={data[9]} className="rounded-t-xl" />
           <div className="p-[0.5cm]">
             <div className="text-[120%] font-[500]">{data[7]}</div>
-            <div><span>By</span> <span>{data[0].substring(0, 4)}...{data[0].substring(36, 42)} </span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /></div>
+            <div><span>By</span> <span>{data[0].substring(0, 4)}...{data[0].substring(36, 42)} </span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /><span className="float-right px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
             <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">Status</span></div>
             <div className="mt-[0.1cm]"><span>{data[2].toString() * 10 **-18} RBTC</span><span className="float-right">{data[10] === false ? (<span className="text-[#d7b644]">Not yet sold</span>) : (<span className="text-[#090]">Sold</span>)}</span></div>
             <div><button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
@@ -299,56 +404,166 @@ export default function Marketplace() {
           1
         </button>
         </div> 
-       </div>)}
+       </div>): 
+       (
+        <div className="p-[0.5cm] text-[#d7b644] lg:text-[105%]">There are no items yet in this category!</div>
+       )}
+       </div>}
 
-       {displayTab === "trending" && 
+       {(displayTab === "cat1" && allArtItems)  &&
+       <div>
+        {allArtItems.length > 0 ?
        (<div>
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
+          {allArtItems.map((data)=> (
           <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-            <img src="images/art.jpg" className="rounded-t-xl" />
-            <div className="p-[0.5cm]">
-              <div className="text-[120%] font-[500]">Moments of moments</div>
-              <div><span>By</span> <span>Humphreyo</span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /></div>
-              <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">All-time volume</span></div>
-              <div className="mt-[0.1cm]"><span>0.3 RBTC</span><span className="float-right">2.5 RBTC</span></div>
-            </div>
+          <img src={data[9]} className="rounded-t-xl" />
+          <div className="p-[0.5cm]">
+            <div className="text-[120%] font-[500]">{data[7]}</div>
+            <div><span>By</span> <span>{data[0].substring(0, 4)}...{data[0].substring(36, 42)} </span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /><span className="float-right px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
+            <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">Status</span></div>
+            <div className="mt-[0.1cm]"><span>{data[2].toString() * 10 **-18} RBTC</span><span className="float-right">{data[10] === false ? (<span className="text-[#d7b644]">Not yet sold</span>) : (<span className="text-[#090]">Sold</span>)}</span></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
           </div>
-          <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-            <img src="images/hubcover.png" className="rounded-t-xl" />
-            <div className="p-[0.5cm]">
-              <div className="text-[120%] font-[500]">Moments of moments</div>
-              <div><span>By</span> <span>Humphreyo</span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /></div>
-              <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">All-time volume</span></div>
-              <div className="mt-[0.1cm]"><span>0.3 RBTC</span><span className="float-right">2.5 RBTC</span></div>
-            </div>
-          </div>
-          <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-            <img src="images/humphreyo.png" className="rounded-t-xl" />
-            <div className="p-[0.5cm]">
-              <div className="text-[120%] font-[500]">Moments of moments</div>
-              <div><span>By</span> <span>Humphreyo</span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /></div>
-              <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">All-time volume</span></div>
-              <div className="mt-[0.1cm]"><span>0.3 RBTC</span><span className="float-right">2.5 RBTC</span></div>
-            </div>
-          </div>
-          <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-            <img src="images/thick.jpg" className="rounded-t-xl" />
-            <div className="p-[0.5cm]">
-              <div className="text-[120%] font-[500]">Moments of moments</div>
-              <div><span>By</span> <span>Humphreyo</span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /></div>
-              <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">All-time volume</span></div>
-              <div className="mt-[0.1cm]"><span>0.3 RBTC</span><span className="float-right">2.5 RBTC</span></div>
-            </div>
-          </div>
+        </div>
+          ))}
         </div>
         <div className='mt-[0.5cm]'>
         <button className='generalbutton bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] mx-[0.2cm] text-[#fff]'>
           1
         </button>
         </div> 
-       </div>)}
+       </div>): 
+       (
+        <div className="p-[0.5cm] text-[#d7b644] lg:text-[105%]">There are no items yet in this category!</div>
+       )}
+       </div>}
 
+       {(displayTab === "cat2" && allFashionItems)  &&
+       <div>
+        {allFashionItems.length > 0 ?
+       (<div>
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
+          {allFashionItems.map((data)=> (
+          <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
+          <img src={data[9]} className="rounded-t-xl" />
+          <div className="p-[0.5cm]">
+            <div className="text-[120%] font-[500]">{data[7]}</div>
+            <div><span>By</span> <span>{data[0].substring(0, 4)}...{data[0].substring(36, 42)} </span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /><span className="float-right px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
+            <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">Status</span></div>
+            <div className="mt-[0.1cm]"><span>{data[2].toString() * 10 **-18} RBTC</span><span className="float-right">{data[10] === false ? (<span className="text-[#d7b644]">Not yet sold</span>) : (<span className="text-[#090]">Sold</span>)}</span></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
+          </div>
         </div>
+          ))}
+        </div>
+        <div className='mt-[0.5cm]'>
+        <button className='generalbutton bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] mx-[0.2cm] text-[#fff]'>
+          1
+        </button>
+        </div> 
+       </div>): 
+       (
+        <div className="p-[0.5cm] text-[#d7b644] lg:text-[105%]">There are no items yet in this category!</div>
+       )}
+       </div>}
+
+       {(displayTab === "cat3" && allPortraitItems)  &&
+       <div>
+        {allPortraitItems.length > 0 ?
+       (<div>
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
+          {allPortraitItems.map((data)=> (
+          <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
+          <img src={data[9]} className="rounded-t-xl" />
+          <div className="p-[0.5cm]">
+            <div className="text-[120%] font-[500]">{data[7]}</div>
+            <div><span>By</span> <span>{data[0].substring(0, 4)}...{data[0].substring(36, 42)} </span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /><span className="float-right px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
+            <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">Status</span></div>
+            <div className="mt-[0.1cm]"><span>{data[2].toString() * 10 **-18} RBTC</span><span className="float-right">{data[10] === false ? (<span className="text-[#d7b644]">Not yet sold</span>) : (<span className="text-[#090]">Sold</span>)}</span></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
+          </div>
+        </div>
+          ))}
+        </div>
+        <div className='mt-[0.5cm]'>
+        <button className='generalbutton bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] mx-[0.2cm] text-[#fff]'>
+          1
+        </button>
+        </div> 
+       </div>): 
+       (
+        <div className="p-[0.5cm] text-[#d7b644] lg:text-[105%]">There are no items yet in this category!</div>
+       )}
+       </div>}
+
+       {(displayTab === "cat4" && allLifestyleItems)  &&
+       <div>
+        {allLifestyleItems.length > 0 ?
+       (<div>
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
+          {allLifestyleItems.map((data)=> (
+          <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
+          <img src={data[9]} className="rounded-t-xl" />
+          <div className="p-[0.5cm]">
+            <div className="text-[120%] font-[500]">{data[7]}</div>
+            <div><span>By</span> <span>{data[0].substring(0, 4)}...{data[0].substring(36, 42)} </span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /><span className="float-right px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
+            <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">Status</span></div>
+            <div className="mt-[0.1cm]"><span>{data[2].toString() * 10 **-18} RBTC</span><span className="float-right">{data[10] === false ? (<span className="text-[#d7b644]">Not yet sold</span>) : (<span className="text-[#090]">Sold</span>)}</span></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
+          </div>
+        </div>
+          ))}
+        </div>
+        <div className='mt-[0.5cm]'>
+        <button className='generalbutton bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] mx-[0.2cm] text-[#fff]'>
+          1
+        </button>
+        </div> 
+       </div>): 
+       (
+        <div className="p-[0.5cm] text-[#d7b644] lg:text-[105%]">There are no items yet in this category!</div>
+       )}
+       </div>}
+
+       {(displayTab === "cat5" && allPhotographyItems)  &&
+       <div>
+        {allPhotographyItems.length > 0 ?
+       (<div>
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
+          {allPhotographyItems.map((data)=> (
+          <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
+          <img src={data[9]} className="rounded-t-xl" />
+          <div className="p-[0.5cm]">
+            <div className="text-[120%] font-[500]">{data[7]}</div>
+            <div><span>By</span> <span>{data[0].substring(0, 4)}...{data[0].substring(36, 42)} </span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /><span className="float-right px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
+            <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">Status</span></div>
+            <div className="mt-[0.1cm]"><span>{data[2].toString() * 10 **-18} RBTC</span><span className="float-right">{data[10] === false ? (<span className="text-[#d7b644]">Not yet sold</span>) : (<span className="text-[#090]">Sold</span>)}</span></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
+          </div>
+        </div>
+          ))}
+        </div>
+        <div className='mt-[0.5cm]'>
+        <button className='generalbutton bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] mx-[0.2cm] text-[#fff]'>
+          1
+        </button>
+        </div> 
+       </div>): 
+       (
+        <div className="p-[0.5cm] text-[#d7b644] lg:text-[105%]">There are no items yet in this category!</div>
+       )}
+       </div>}
+       </div>
+        </div>
+
+
+
         </div>
     )
 }
