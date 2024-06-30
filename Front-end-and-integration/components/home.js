@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-    export default function Dashboardhome({displayComponent, setDisplayComponent}) {
+    export default function Dashboardhome({displayComponent, setDisplayComponent, changeBg3, changeBg4, changeBg5}) {
     
     return (
         <div className="lg:p-[0.5cm]">
@@ -11,11 +11,11 @@ import { useState, useEffect } from "react";
             Turn your art and creativity into NFTs, request for funding, connect with fellow photographers and creators from all over the world.
         </div>
         <div className="mt-[1cm]">
-        <button className="font-[500] text-[#fff] bg-[#00f] px-[0.7cm] py-[0.3cm] rounded-full">Explore</button>
+        <button onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}} className="font-[500] text-[#fff] bg-[#00f] px-[0.7cm] py-[0.3cm] rounded-full">Explore</button>
         <span className="ml-[0.2cm]" style={{display:"inline-block"}}>Discover NFTs on Optic Odyssey</span>
         </div>
         <div className="mt-[0.5cm]">
-        <button className="font-[500] text-[#fff] bg-[#00f] px-[0.7cm] py-[0.3cm] rounded-full">Join DAO</button>
+        <button onClick={(e) => {e.preventDefault(); setDisplayComponent("daogovernance") & changeBg3(e)}} className="font-[500] text-[#fff] bg-[#00f] px-[0.7cm] py-[0.3cm] rounded-full">Join DAO</button>
         <span className="ml-[0.2cm]" style={{display:"inline-block"}}>Need funding?</span>
         </div>
         <div className="grid lg:grid-cols-4 grid-cols-2 gap-8 mt-[1cm]">
@@ -84,36 +84,36 @@ import { useState, useEffect } from "react";
         </div>
         <div className="mt-[1cm]">
             <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 gap-4">
-            <div className="grid-cols-1 rounded-2xl bg-[#000]">
+            <div className="grid-cols-1 rounded-2xl bg-[#000] cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("creators") & changeBg4(e)}}>
                 <img src="images/humphreyo.png" className="rounded-t-2xl h-[9cm] w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">Humphreyo</div>
-                <div className="text-[#aaa]">Total sales: $20,500</div>
-                <div className="text-[#ccc] font-[500]"><span>Total collections:</span> 1</div>
+                <div className="text-[#aaa]">Total sales: 0 RBTC</div>
+                <div className="text-[#ccc] font-[500]"><span>Total collections:</span> 3</div>
                 </div>
                 </div>
-                <div className="grid-cols-1 rounded-2xl bg-[#000]">
+                <div className="grid-cols-1 rounded-2xl bg-[#000] cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("creators") & changeBg4(e)}}>
                 <img src="images/david.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">David_Xaj</div>
-                <div className="text-[#aaa]">Total sales: $29,100</div>
-                <div className="text-[#ccc] font-[500]"><span>Total collections:</span> 5</div>
+                <div className="text-[#aaa]">Total sales: 0 RBTC</div>
+                <div className="text-[#ccc] font-[500]"><span>Total collections:</span> 1</div>
                 </div>
                 </div>
-                <div className="grid-cols-1 rounded-2xl bg-[#000]">
+                <div className="grid-cols-1 rounded-2xl bg-[#000] cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("creators") & changeBg4(e)}}>
                 <img src="images/priya.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">Priya</div>
-                <div className="text-[#aaa]">Total sales: $22,700</div>
+                <div className="text-[#aaa]">Total sales: 0 RBTC</div>
                 <div className="text-[#ccc] font-[500]"><span>Total collections:</span> 2</div>
                 </div>
                 </div>
-                <div className="grid-cols-1 rounded-2xl bg-[#000]">
+                <div className="grid-cols-1 rounded-2xl bg-[#000] cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("creators") & changeBg4(e)}}>
                 <img src="images/daniel.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">Daniel Ekeng</div>
-                <div className="text-[#aaa]">Total sales: $27,000</div>
-                <div className="text-[#ccc] font-[500]"><span>Total collections:</span> 3</div>
+                <div className="text-[#aaa]">Total sales: 0 RBTC</div>
+                <div className="text-[#ccc] font-[500]"><span>Total collections:</span> 1</div>
                 </div>
                 </div>
             </div>
@@ -128,25 +128,25 @@ import { useState, useEffect } from "react";
         </div>
         <div className="mt-[1cm]">
             <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 gap-4">
-                <div className="grid-cols-1 rounded-2xl bg-[#001]">
+                <div className="grid-cols-1 cursor-pointer rounded-2xl bg-[#001]" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
                 <img src="images/art.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">Art</div>
                 </div>
                 </div>
-                <div className="grid-cols-1 rounded-2xl bg-[#001]">
+                <div className="grid-cols-1 cursor-pointer rounded-2xl bg-[#001]" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
                 <img src="images/portrait.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">Portrait</div>
                 </div>
                 </div>
-                <div className="grid-cols-1 rounded-2xl bg-[#001]">
+                <div className="grid-cols-1 cursor-pointer rounded-2xl bg-[#001]" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
                 <img src="images/lifestyle.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">Lifestyle</div>
                 </div>
                 </div>
-                <div className="grid-cols-1 rounded-2xl bg-[#001]">
+                <div className="grid-cols-1 cursor-pointer rounded-2xl bg-[#001]" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
                 <img src="images/fashion.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">Fashion</div>
@@ -167,7 +167,7 @@ import { useState, useEffect } from "react";
                 <img src="images/funds.jpg" className="rounded-t-2xl w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm] pt-[0.2cm]">
                 <div>
-                 <div className="px-[0.4cm] py-[0.15cm] bg-[#00f] rounded-md font-[500]" style={{display:"inline-block"}}>Request for Funding</div>
+                 <div onClick={(e) => {e.preventDefault(); setDisplayComponent("daogovernance") & changeBg3(e)}} className="px-[0.4cm] py-[0.15cm] bg-[#00f] cursor-pointer rounded-md font-[500]" style={{display:"inline-block"}}>Request for Funding</div>
                  <div className="mt-[0.2cm] text-[#aaa]">
                     Photographers and creators in need of financial support to push their brands can use the DAO as a tool to request for funds.
                     When you request for funds, clearly state your reasons for requesting, voting will be done and wait for approval of your request. 
@@ -179,7 +179,7 @@ import { useState, useEffect } from "react";
                 <img src="images/create.jpg" className="rounded-t-2xl w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm] pt-[0.2cm]">
                 <div>
-                 <div className="px-[0.4cm] py-[0.15cm] bg-[#00f] rounded-md font-[500]" style={{display:"inline-block"}}>Create a Proposal</div>
+                 <div onClick={(e) => {e.preventDefault(); setDisplayComponent("daogovernance") & changeBg3(e)}} className="px-[0.4cm] py-[0.15cm] bg-[#00f] rounded-md font-[500] cursor-pointer" style={{display:"inline-block"}}>Create a Proposal</div>
                  <div className="mt-[0.2cm] text-[#aaa]">
                    Proposals can be created on the DAO of Optic Odyssey to determine the next direction of the ecosystem. Typically, proposals can be created by any member of 
                    the DAO, then voting follows after. A proposal that gathers 60% of upvotes from active users is most likely to be implemented and executed.
@@ -191,7 +191,7 @@ import { useState, useEffect } from "react";
                 <img src="images/vote.jpg" className="rounded-t-2xl w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm] pt-[0.2cm]">
                 <div>
-                 <div className="px-[0.4cm] py-[0.15cm] bg-[#00f] rounded-md font-[500]" style={{display:"inline-block"}}>Vote for a Proposal</div>
+                 <div onClick={(e) => {e.preventDefault(); setDisplayComponent("daogovernance") & changeBg3(e)}} className="px-[0.4cm] py-[0.15cm] bg-[#00f] cursor-pointer rounded-md font-[500]" style={{display:"inline-block"}}>Vote for a Proposal</div>
                  <div className="mt-[0.2cm] text-[#aaa]">
                    Votes are being done on proposals to ensure fairness in the ecosystem. A member can upvote or downvote a proposal. When a proposal gains 60% upvotes, it is most likely to 
                    be implemented and executed thereafter. But when a proposal gets 20% downvotes, it will not be implemented. 
