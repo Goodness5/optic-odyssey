@@ -27,8 +27,6 @@ export default function Marketplace() {
     const [displayTab, setDisplayTab] = useState("all")
     const [allbg, setallbg] = useState("#00f")
     const [allShadow, setAllShadow] = useState("#fff")
-    const [trendingbg, settrendingbg] = useState("#000")
-    const [trendingShadow, settrendingShadow] = useState("#333")
     const [cat1bg, setcat1bg] = useState("#000")
     const [cat1Shadow, setCat1Shadow] = useState("#333")
     const [cat2bg, setcat2bg] = useState("#000")
@@ -44,8 +42,6 @@ export default function Marketplace() {
       setDisplayTab("all")
       setallbg("#00f")
       setAllShadow("#fff")
-      settrendingbg("#000")
-      settrendingShadow("#333")
       setcat1bg("#000")
       setCat1Shadow("#333")
       setcat2bg("#000")
@@ -174,6 +170,7 @@ export default function Marketplace() {
             getArtItemsArray.push(getArtCategory)
           }
         }
+        getArtItemsArray.sort((a, b) => b[3].toString() - a[3].toString())
         setallArtItems(getArtItemsArray)
       } catch (error) {
         console.log(error)
@@ -200,6 +197,7 @@ export default function Marketplace() {
                 getArtItemsArray.push(getFashionCategory)
               }
             }
+            getFashionItemsArray.sort((a, b) => b[3].toString() - a[3].toString())
             setallFashionItems(getFashionItemsArray)
           } catch (error) {
             console.log(error)
@@ -226,6 +224,7 @@ export default function Marketplace() {
                 getPortraitItemsArray.push(getPortraitCategory)
               }
             }
+            getPortraitItemsArray.sort((a, b) => b[3].toString() - a[3].toString())
             setallPortraitItems(getPortraitItemsArray)
           } catch (error) {
             console.log(error)
@@ -252,6 +251,7 @@ export default function Marketplace() {
                 getLifestyleItemsArray.push(getLifestyleCategory)
               }
             }
+            getLifestyleItemsArray.sort((a, b) => b[3].toString() - a[3].toString())
             setallLifestyleItems(getLifestyleItemsArray)
           } catch (error) {
             console.log(error)
@@ -278,6 +278,7 @@ export default function Marketplace() {
                 getPhotographyItemsArray.push(getPhotographyCategory)
               }
             }
+            getPhotographyItemsArray.sort((a, b) => b[3].toString() - a[3].toString())
             setallPhotographyItems(getPhotographyItemsArray)
           } catch (error) {
             console.log(error)
@@ -286,6 +287,53 @@ export default function Marketplace() {
         }
         getAllPhotographyItems();
        }, [])
+
+    //search NFTs functionality
+    const [searchQuery, setSearchQuery] = useState()
+    const [searchData, setSearchData] = useState([])
+    const handleSearch = async () => {
+      if(isConnected){
+        setLoading(true)
+        setDisplayTab("searchresults")
+        setallbg("#000")
+        setAllShadow("#333")
+        setcat1bg("#000")
+        setCat1Shadow("#333")
+        setcat2bg("#000")
+        setCat2Shadow("#333")
+        setcat3bg("#000")
+        setCat3Shadow("#333")
+        setcat4bg("#000")
+        setCat4Shadow("#333")
+        setcat5bg("#000")
+        setCat5Shadow("#333")
+           //read settings first
+          const ethersProvider = new BrowserProvider(walletProvider) 
+          const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider) 
+       try {
+        const searchDataArray = []
+        const getallpublicitems = await nftContractReadSettings.getAllPublicItems();
+        for (let i=0; i < getallpublicitems.length; i++){
+          const getAnyItem = getallpublicitems[i]
+          if (((getAnyItem[0].toString().substring(0, 4)) + "..." + (getAnyItem[0].toString().substring(37, 42)))  === searchQuery || 
+          (getAnyItem[0].toString().substring(0, 4)) === searchQuery ||
+          (getAnyItem[0].toString().substring(37, 42)) === searchQuery ||
+           getAnyItem[7].toString().includes(searchQuery) ||
+          (getAnyItem[2].toString() * 10 **-18) == searchQuery.toString()){
+            searchDataArray.push(getAnyItem)  
+          }
+          searchDataArray.sort((a, b) => b[3].toString() - a[3].toString())
+          setSearchData(searchDataArray)      
+        }
+       } catch (error) {
+        console.log(error)
+        setLoading(false)
+       }
+       finally {
+        setLoading(false)
+       }
+      }
+    }
 
      //read all items in a collection
   const [chosenCollectionItems, setchosenCollectionItems] = useState([])
@@ -306,6 +354,7 @@ export default function Marketplace() {
           }
         }
         console.log("chosen array" + chosenCollectionArray + "end")
+        chosenCollectionArray.sort((a, b) => b[3].toString() - a[3].toString())
         setchosenCollectionItems(chosenCollectionArray)
       } catch (error) {
         console.log(error)
@@ -365,7 +414,7 @@ export default function Marketplace() {
         <div className='text-center mt-[0.5cm] '>
         <span className='bg-[#000] text-[#fff] px-[0.5cm] py-[0.2cm] rounded-full' style={{border:"2px solid #00f"}}>
         <form onSubmit={(e) => {e.preventDefault(); handleSearch(searchQuery)}} style={{display:"inline-block"}}>
-        <input type="text" placeholder="Search for an NFT..." onChange={(e) => setSearchQuery(e.target.value)} className='bg-[#000] w-[80%] placeholder-[#fff] text-[#fff] text-[90%] outline-none' /><img src="images/search.png" width="20" className='ml-[0.2cm] cursor-pointer' onClick={(e) => {e.preventDefault(); handleSearch(searchQuery)}} style={{display:"inline-block"}}/>
+        <input type="text" placeholder="Search by title, creator or price..." onChange={(e) => setSearchQuery(e.target.value)} className='bg-[#000] w-[85%] placeholder-[#fff] text-[#fff] text-[90%] outline-none' /><img src="images/search.png" width="20" className='ml-[0.2cm] cursor-pointer' onClick={(e) => {e.preventDefault(); handleSearch(searchQuery)}} style={{display:"inline-block"}}/>
         </form>
         </span>
         </div>
@@ -406,7 +455,7 @@ export default function Marketplace() {
         </div> 
        </div>): 
        (
-        <div className="p-[0.5cm] text-[#d7b644] lg:text-[105%]">There are no items yet in this category!</div>
+        <div className="p-[0.5cm] text-[#d7b644] lg:text-[105%]">All items will appear here!</div>
        )}
        </div>}
 
@@ -559,10 +608,45 @@ export default function Marketplace() {
         <div className="p-[0.5cm] text-[#d7b644] lg:text-[105%]">There are no items yet in this category!</div>
        )}
        </div>}
+
+       {(displayTab === "searchresults" && searchData)  &&
+       <div>
+        {searchData.length > 0 ?
+       (<div>
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
+          {searchData.map((data)=> (
+          <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
+          <img src={data[9]} className="rounded-t-xl" />
+          <div className="p-[0.5cm]">
+            <div className="text-[120%] font-[500]">{data[7]}</div>
+            <div><span>By</span> <span>{data[0].substring(0, 4)}...{data[0].substring(36, 42)} </span> <img src="images/user.png" width="18" style={{display:"inline-block"}} /><span className="float-right px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
+            <div className="text-[#aaa] text-[90%] mt-[0.4cm]"><span>Floor</span><span className="float-right">Status</span></div>
+            <div className="mt-[0.1cm]"><span>{data[2].toString() * 10 **-18} RBTC</span><span className="float-right">{data[10] === false ? (<span className="text-[#d7b644]">Not yet sold</span>) : (<span className="text-[#090]">Sold</span>)}</span></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
+            <div><button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button></div>
+          </div>
+        </div>
+          ))}
+        </div>
+        <div className='mt-[0.5cm]'>
+        <button className='generalbutton bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] mx-[0.2cm] text-[#fff]'>
+          1
+        </button>
+        </div> 
+       </div>): 
+       (
+        <div className="p-[0.5cm] text-[#d7b644] lg:text-[105%]">There is no matching item for the NFT you are searching for!</div>
+       )}
+       </div>}
        </div>
         </div>
 
 
+        {loading ? 
+     (<div className='bg-[rgba(0,0,0,0.8)] text-[#000] text-center w-[100%] h-[100%] top-0 right-0' style={{position:"fixed", zIndex:"9999"}}>
+      <div className='loader mx-[auto] lg:mt-[20%] md:mt-[40%] mt-[50%]'></div>
+      </div>) : (<span></span>)  
+     }
 
         </div>
     )
