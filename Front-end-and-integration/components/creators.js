@@ -165,7 +165,7 @@ export default function Creators() {
         {preferredDisplay === "profile" && 
         (
           <div className='mt-[1cm] profileinfo'>
-          <img src="images/cancel.png" width="40" onClick={(e) => setpreferredDisplay("main")} className='mx-[auto] mb-[1cm] cancelbutton rounded-[100%] cursor-pointer' />
+          <img src="images/cancel.png" width="40" onClick={(e) => setpreferredDisplay("main") & setgetProfilePhotoFromIPFS("") & setgetCoverPhotoFromIPFS("")} className='mx-[auto] mb-[1cm] cancelbutton rounded-[100%] cursor-pointer' />
          <div className='lg:pt-[5cm] pt-[3.5cm]' style={{backgroundImage: getCoverPhotoFromIPFS ? `url(${getCoverPhotoFromIPFS})` : "url(/images/canon6.jpg)", backgroundSize:"100%"}}>
            <div className='pl-[0.5%]' style={{display:"inline-block"}}>
              <img src= {getProfilePhotoFromIPFS ? `${getProfilePhotoFromIPFS}` : "images/blank.png"} className='lg:w-[13%] w-[20%] mb-[0.2cm]' style={{boxShadow:"2px 2px 2px 2px rgba(0,0,0,0.5)", display:"inline-block"}} />
