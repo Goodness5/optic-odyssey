@@ -34,7 +34,9 @@ This is the most functional part of the dApp. It houses the most important parts
 ![File](https://ipfs.filebase.io/ipfs/QmNX23NYxmanHve6FyyvrEfg9U5uLuono7eVkmEy4Wsjhe)
 This section is the first part of the dashboard. It shows general data of Optic Odyssey including trending collections, top creators, recent categories uploads, the DAO etc.
 
-
+### The Profile Page
+![File](https://ipfs.filebase.io/ipfs/QmSzpiEisCHtPyDDFofgFYYcFU7a4zGD5ME6x7PiqpA8wm)
+This section is the most important part of Optic Odyssey. Every creator passes through this section before being able to have an NFT listed on the platform. On this profile page, each user can register as a creator and create collections and add items to created collections. Note that this section is unique to every user. In particular, the following actions can be performed on the profile page:
 
 
 
