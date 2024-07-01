@@ -445,15 +445,30 @@ export default function Marketplace() {
        }
 
        const controlSingleNFTDivCancel = () => {
-        if (displayOption === "mainmarketplace"){
           setAcollectionDisplay("block")
           setmainMarketplaceDisplay("block")
-        }
-        else if (displayOption === "specificcollection"){
-          setAcollectionDisplay("block")
-          setmainMarketplaceDisplay("block")
-        }
        }
+
+      // to buy item
+      const buyNFT = async (initialAmount, initialID) => {
+        if(isConnected){
+         setLoading(true) 
+         const ethersProvider = new BrowserProvider(walletProvider) 
+         const signer = await ethersProvider.getSigner()
+         const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
+         const convertedInitialAmount = initialAmount.toString()
+         console.log("amount:" + convertedInitialAmount)
+         try {
+          const buynft = await nftContractWriteSettings.buyItem({value:parseUnits(convertedInitialAmount, 18)}, initialID);
+         } catch (error) {
+          console.log(error)
+          setLoading(false)
+         }
+         finally {
+          setLoading(false)
+         }
+        }
+      }
      
     
     return (
