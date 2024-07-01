@@ -1,4 +1,49 @@
 # Optic Odyssey Documentation [Web App](https://optic-odyssey.vercel.app) / [Demo Video](https://youtube.com)
+![File](https://ipfs.filebase.io/ipfs/QmXemFfwccezaoxyrgWrERPvXxZmKCxfDGy7NEikz1rssd)
+Optic Odyssey is a never-before-seen NFT Marketplace on Rootstock where creators, photographers and artists from all over the world, from all cultures of life explore and tokenize their photos/assets into NFTs. Optic Odyssey also helps members of the platform to get funding for their brands through the Optic Odyssey DAO. All it takes to tokenize your photos/assets as NFTs is to create a profile, and by the powerful integration of the Filebase AWS SDK, effortlessly upload your photos to IPFS and publish.
+To sell your products, you can fix a price for each of them or set them up for bidding. Highest bidder can then buy the NFT. Listing an NFT on the marketplace is completely free and only the buyer pays for transaction fees while minting NFTs. These transaction fees will be used to fund members seeking for funding. Defaulters of the marketplace will also be penalized and kicked out with immediate effect if the offense is gross enough.
+
+## Features of Optic Odysssey
+Optic Odyssey offers a plethora of features including but not limited to smart contracts, front end integration, Filebase AWS IPFS SDK integration, a Dashboard, wallet and email login (using Web3Modal x Ethers.js), a profile for each user, a DAO, an NFT marketplace, documentation, search functionalities, paginations, flaticons/font-awesome icons library, 
+and an intuitive interface with a slick responsive design and smooth user experience.
+
+## Technologies used to create Optic Odyssey
+### Smart Contract Tools
+Solidity, Foundry, OpenZeppelin, factory contracts
+
+### Front end and Integration Tools
+Web3Modal, Ethers.js, Rootstock testnet Token Tracker, Filebase AWS IPFS SDK, Next.js, Node.js, JavaScript, Tailwind CSS, PostgreSQL
+
+## The Optic Odyssey User Flow
+
+### Connect Wallet
+![File](https://ipfs.filebase.io/ipfs/QmXihEzCCJbAs1K6hWXb6cxxgkuG84xZ7B7HpXQmYF2CZg)
+To connect wallet, go to our [Web App](https://optic-odyssey.vercel.app). For desktop, click on the "Connect Wallet" button on the upper right of the screen and choose your login method either with wallet or email. If you don't have a wallet installed already, the wallet connect window has links to download a wallet of your choice on your device's browser (Brave browser, Google Chrome, Opera browser, or Yandex browser all work fine). On mobile, simply download your desired EVM-compatible wallet and use its inbuilt browser to connect to Optic Odyssey. Connect your wallet by clicking on the "Connect wallet" button on the upper right of the screen. Ensure to change network to Rootstock test network from the wallet connect window. The display on the screen will change after connecting (typically, it shows your tRBTC balance and a substring of your connected wallet address).
+
+### Get testnet tRBTC for gas fees payments
+![File](https://ipfs.filebase.io/ipfs/QmeTAgrea7RSrNT3siQuFW98TBsx1SVxpVEemYCwE6UEs4)
+With Optic Odyssey being deployed currently on the testnet of Rootstock, testnet tRBTC is required to pay for gas fees during transactions/minting of NFTs. Testnet tRBTC can be obtained from the [Rootstock testnet faucet](https://faucet.rootstock.io/).
+
+### Web app homepage
+The homepage of the Optic Odyssey web app is the first page you see when you visit the app. It is the gateway to Optic Odyssey's dashboard and features the wallet connect button as well as other important information about the platform including documentation.
+
+ ### The Optic Odyssey Dashboard
+This is the most functional part of the dApp. It houses the most important parts of the platform including the dApp home, profile, creators, NFT marketplace and DAO governance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # OpticOdyssey Smart Contract Documentation
 ## Contract Addresses
