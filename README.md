@@ -30,8 +30,9 @@ The homepage of the Optic Odyssey web app is the first page you see when you vis
  ### The Optic Odyssey Dashboard
 This is the most functional part of the dApp. It houses the most important parts of the platform including the dApp home, profile, creators, NFT marketplace and DAO governance.
 
-
-
+### dApp Homepage
+![File](https://ipfs.filebase.io/ipfs/QmNX23NYxmanHve6FyyvrEfg9U5uLuono7eVkmEy4Wsjhe)
+This section is the first part of the dashboard. It shows general data of Optic Odyssey including trending collections, top creators, recent categories uploads, the DAO etc.
 
 
 
