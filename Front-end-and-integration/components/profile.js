@@ -220,6 +220,7 @@ export default function Profile() {
   //read for collection items
   const [chosenCollectionItems, setchosenCollectionItems] = useState([])
   const [collectionTitle, setCollectionTitle] = useState()
+  const [aCollectionCategory, setaCollectionCategory] = useState()
     const getItemsData = async(initialCollectionContract) => {
       if(isConnected){
          //read settings first
@@ -542,7 +543,7 @@ export default function Profile() {
               <div className='text-center text-[120%]'>{data[0]}</div>
             </div>
             <div className='mt-[0.3cm]'>
-            <button onClick={(e) => controlCollectionsDiv() & getItemsData(data[2]) & setCollectionTitle(data[0])} className='bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+            <button onClick={(e) => controlCollectionsDiv() & getItemsData(data[2]) & setCollectionTitle(data[0]) & setaCollectionCategory(data[1])} className='bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
             {data[4] === false && (<button onClick={(e) => {e.preventDefault(); collectionVisibility(data[2], true)}} className='bg-[#002] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton2' style={{border:"2px solid #aaa"}}>Publish <img src="images/post.png" width="17" style={{display:"inline-block"}} /></button>)}
             {data[4] === true && (<button onClick={(e) => {e.preventDefault(); collectionVisibility(data[2], false)}} className='text-[#900] bg-[#000] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton2' style={{border:"2px solid #aaa"}}>Unpublish <img src="images/post.png" width="17" style={{display:"inline-block"}} /></button>)}
             </div>
@@ -558,7 +559,8 @@ export default function Profile() {
    (<div style={{display:collectionDivDisplay}}>
     <img src="images/cancel.png" width="40" onClick={(e) => controlCollectionsDivHide()} className='mx-[auto] cancelbutton rounded-[100%] cursor-pointer' />
     <div className='mt-[1cm] lg:p-[1cm] top-0 viewthediv2 p-[0.5cm]' style={{zIndex:"9999"}}>
-      <div className='mb-[0.5cm] text-[120%]'><span className='font-[500]'>Collection:</span> {collectionTitle} ({chosenCollectionItems.length})</div>
+      <div className='text-[120%]'><span className='font-[500]'>Collection:</span> {collectionTitle} ({chosenCollectionItems.length})</div>
+      <div className='mb-[0.5cm] text-[110%] text-[#ccc]'><span className='font-[500]'>Category:</span> {aCollectionCategory}</div>
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-8">
           {chosenCollectionItems.map((data) => (
             <div className="grid-cols-1">

@@ -95,18 +95,18 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
             <div className="grid-cols-1">
                 <div><img src="images/asa.png" className="rounded-2xl" style={{border:"4px solid #aaa"}} /></div>
                 <div className="grid grid-cols-2 gap-4 mt-[0.5cm]">
-                    <div className="grid-cols-1 rounded-2xl" style={{border:"4px solid #aaa"}}><img src="images/asa.png" className="rounded-xl" /></div>
-                    <div className="grid-cols-1 rounded-2xl bg-[#502] lg:text-[150%] text-[120%]" style={{border:"4px solid #aaa", placeItems:"center", display:"grid"}}><div>50+</div></div>
+                    <div className="grid-cols-1 rounded-2xl" style={{border:"4px solid #aaa"}}><img src="images/feel.jpg" className="rounded-xl" /></div>
+                    <div className="grid-cols-1 rounded-2xl bg-[#502] lg:text-[150%] text-[120%]" style={{border:"4px solid #aaa", placeItems:"center", display:"grid"}}><div>3+</div></div>
                 </div>
-                <div className="font-[500] lg:text-[130%] text-[120%] mt-[0.3cm]">Moment by moment</div>
+                <div className="font-[500] lg:text-[130%] text-[120%] mt-[0.3cm]">We shine bright</div>
             </div>
             <div className="grid-cols-1">
                 <div><img src="images/studio.jpg" className="rounded-2xl" style={{border:"4px solid #aaa"}} /></div>
                 <div className="grid grid-cols-2 gap-4 mt-[0.5cm]">
-                    <div className="grid-cols-1 rounded-2xl" style={{border:"4px solid #aaa"}}><img src="images/studio.jpg" className="rounded-xl" /></div>
+                    <div className="grid-cols-1 rounded-2xl" style={{border:"4px solid #aaa"}}><img src="images/cover.png" className="rounded-xl" /></div>
                     <div className="grid-cols-1 rounded-2xl bg-[#502] lg:text-[150%] text-[120%]" style={{border:"4px solid #aaa", placeItems:"center", display:"grid"}}><div>26+</div></div>
                 </div>
-                <div className="font-[500] lg:text-[130%] text-[120%] mt-[0.3cm]">Fashion showoff</div>
+                <div className="font-[500] lg:text-[130%] text-[120%] mt-[0.3cm]">My photos in the studio</div>
             </div>
             <div className="grid-cols-1">
                 <div><img src="images/style.jpg" className="rounded-2xl" style={{border:"4px solid #aaa"}} /></div>

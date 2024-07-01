@@ -369,6 +369,7 @@ export default function Marketplace() {
      //read all items in a collection
   const [chosenCollectionItems, setchosenCollectionItems] = useState([])
   const [collectionTitle, setCollectionTitle] = useState()
+  const [aCollectionCategory, setaCollectionCategory] = useState()
     const getItemsData = async(initialCollectionContract) => {
       if(isConnected){
          //read settings first
@@ -686,7 +687,7 @@ export default function Marketplace() {
               <div className='text-center text-[120%]'>{data[0]}</div>
             </div>
             <div className='mt-[0.3cm]'>
-            <button onClick={(e) => {e.preventDefault(); getItemsData(data[3]) & setCollectionTitle(data[0])}} className='bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+            <button onClick={(e) => {e.preventDefault(); getItemsData(data[3]) & setCollectionTitle(data[0]) & setaCollectionCategory(data[1])}} className='bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
             </div>
           </div>
           ))}
