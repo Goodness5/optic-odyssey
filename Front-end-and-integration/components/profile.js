@@ -239,6 +239,7 @@ export default function Profile() {
           }
         }
         console.log("chosen array" + chosenCollectionArray + "end")
+        chosenCollectionArray.sort((a, b) => b[3].toString() - a[3].toString())
         setchosenCollectionItems(chosenCollectionArray)
       } catch (error) {
         console.log(error)
@@ -560,7 +561,7 @@ export default function Profile() {
     <img src="images/cancel.png" width="40" onClick={(e) => controlCollectionsDivHide()} className='mx-[auto] cancelbutton rounded-[100%] cursor-pointer' />
     <div className='mt-[1cm] lg:p-[1cm] top-0 viewthediv2 p-[0.5cm]' style={{zIndex:"9999"}}>
       <div className='text-[120%]'><span className='font-[500]'>Collection:</span> {collectionTitle} ({chosenCollectionItems.length})</div>
-      <div className='mb-[0.5cm] text-[110%] text-[#ccc]'><span className='font-[500]'>Category:</span> {aCollectionCategory}</div>
+      <div className='mb-[0.5cm] text-[110%] text-[#ccc]'><span className='font-[500]'>Collection category:</span> {aCollectionCategory}</div>
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-8">
           {chosenCollectionItems.map((data) => (
             <div className="grid-cols-1">

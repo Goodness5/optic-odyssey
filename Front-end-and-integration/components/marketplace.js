@@ -149,7 +149,7 @@ export default function Marketplace() {
             const getAllcollections = getallpubliccollections[i]
             getAllCollectionsArray.push(getAllcollections)
         }
-        getAllCollectionsArray.sort((a, b) => b[3].toString() - a[3].toString())
+        getAllCollectionsArray.sort((a, b) => b[2].toString() - a[2].toString())
         setallPublicCollections(getAllCollectionsArray)
       } catch (error) {
         console.log(error)
@@ -225,7 +225,7 @@ export default function Marketplace() {
             for (let i = 0; i < getallpublicitems.length; i++){
               if (getallpublicitems[i][8] === "Fashion"){
                 const getFashionCategory = getallpublicitems[i]
-                getArtItemsArray.push(getFashionCategory)
+                getFashionItemsArray.push(getFashionCategory)
               }
             }
             getFashionItemsArray.sort((a, b) => b[3].toString() - a[3].toString())
