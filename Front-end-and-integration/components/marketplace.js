@@ -370,6 +370,7 @@ export default function Marketplace() {
   const [chosenCollectionItems, setchosenCollectionItems] = useState([])
   const [collectionTitle, setCollectionTitle] = useState()
   const [aCollectionCategory, setaCollectionCategory] = useState()
+  const [displayOption, setDisplayOption] = useState("mainmarketplace")
     const getItemsData = async(initialCollectionContract) => {
       if(isConnected){
          //read settings first
@@ -388,6 +389,7 @@ export default function Marketplace() {
         console.log("chosen array" + chosenCollectionArray + "end")
         chosenCollectionArray.sort((a, b) => b[3].toString() - a[3].toString())
         setchosenCollectionItems(chosenCollectionArray)
+        setDisplayOption("specificcollection")
       } catch (error) {
         console.log(error)
       }
@@ -413,6 +415,9 @@ export default function Marketplace() {
 
        //read for single collection item
        const [chosenItem, setChosenItem] = useState([])
+       const [mainMarketplaceDisplay, setmainMarketplaceDisplay] = useState("block")
+       const [aCollectionDisplay, setAcollectionDisplay] = useState("block")
+       const [singleNFTdisplay, setsingleNFTdisplay] = useState("none")
        const getSingleItemData = async(initialItemID) => {
          if(isConnected){
             //read settings first
@@ -430,11 +435,26 @@ export default function Marketplace() {
           }
            setChosenItem(chosenItemArray)
            console.log(chosenItemArray)
+           setmainMarketplaceDisplay("none")
+           setAcollectionDisplay("none")
+           setsingleNFTdisplay("block")
          } catch (error) {
            console.log(error)
          }
        }
        }
+
+       const controlSingleNFTDivCancel = () => {
+        if (displayOption === "mainmarketplace"){
+          setAcollectionDisplay("block")
+          setmainMarketplaceDisplay("block")
+        }
+        else if (displayOption === "specificcollection"){
+          setAcollectionDisplay("block")
+          setmainMarketplaceDisplay("block")
+        }
+       }
+     
     
     return (
         <div>
@@ -442,6 +462,8 @@ export default function Marketplace() {
         <div className="text-[#ccc] text-[90%]">View collections from photographers around the world</div>
         
 
+     {displayOption === "mainmarketplace" && 
+    (<div className="mainmarketplace" style={{display:mainMarketplaceDisplay}}>
         <div className="my-[1cm]">
         <div className='text-center mt-[0.5cm] '>
         <span className='bg-[#000] text-[#fff] px-[0.5cm] py-[0.2cm] rounded-full' style={{border:"2px solid #00f"}}>
@@ -698,6 +720,70 @@ export default function Marketplace() {
         </button>
         </div> 
         </div>
+    </div>)}
+
+
+    {displayOption === "specificcollection" && 
+   (<div style={{display:aCollectionDisplay}}>
+    <img src="images/cancel.png" width="40" onClick={(e) => setDisplayOption("mainmarketplace")} className='mx-[auto] mt-[1cm] cancelbutton rounded-[100%] cursor-pointer' />
+    <div className='mt-[1cm] lg:p-[1cm] top-0 viewthediv2 p-[0.5cm]' style={{zIndex:"9999"}}>
+      <div className='text-[120%]'><span className='font-[500]'>Collection:</span> {collectionTitle} ({chosenCollectionItems.length})</div>
+      <div className='mb-[0.5cm] text-[110%] text-[#ccc]'><span className='font-[500]'>Collection category:</span> {aCollectionCategory}</div>
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-8">
+          {chosenCollectionItems.map((data) => (
+            <div className="grid-cols-1">
+            <div><img src={data[9]} className="rounded-2xl w-[100%] lg:h-[8cm]" style={{border:"4px solid #aaa"}} /></div>
+            <div className="lg:text-[130%] text-[120%] mt-[0.3cm] mx-[0.2cm]">Title: {data[7]}</div>
+            <div className="lg:text-[120%] text-[110%] mx-[0.2cm]">Category: {data[8]}</div>
+            <div className='mx-[0.2cm] text-[#aaa]'><span className=''>Price: </span><span className='font-[500]'>{data[2].toString() * 10 **-18} RBTC</span></div>
+            <button onClick={(e) => getSingleItemData(data[4]) & getItemCreator(data[0])} className='text-[aaa] bg-[#002] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton3' style={{border:"2px solid #aaa"}}>View NFT <img src="images/eye-ball.png" width="25" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+            </div>
+          ))}
+        </div>
+   </div>
+   </div>)}
+
+
+   <div style={{display:singleNFTdisplay}}>
+    <img src="images/crossed.png" width="45" onClick={(e) => {e.preventDefault(); controlSingleNFTDivCancel() & setsingleNFTdisplay("none")}} className='mx-[auto] mt-[1cm] p-[0.2cm] bg-[#000] cancelbutton rounded-[100%] cursor-pointer' />
+    <div className='mt-[1cm] viewthediv lg:p-[0.8cm] p-[0.5cm]' style={{zIndex:"9999"}}>
+      {chosenItem.map((data) => (
+     <div className='grid lg:grid-cols-3 grid-cols-1 gap-8'>
+     <div className='grid-cols-1'>
+     <img src={data[9]} className='rounded-xl' style={{boxShadow:"2px 2px 5px 2px rgba(0,0,0,0.5)"}} />
+     </div>
+     <div className='grid-cols-1 lg:col-span-2'>
+       <div><span className='rounded-md px-[0.3cm] py-[0.15cm] bg-[#00f]' style={{boxShadow:"2px 2px 2px 2px #333"}}>Creator:</span> &nbsp; <img src="images/user.png" width="25" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> {theItemCreatorUsername}</div>
+      <div className='rounded-xl mt-[0.5cm] bg-[#001]' style={{border:"2px solid #333"}}>
+      <div className='p-[0.5cm]' style={{borderBottom:"2px solid #333"}}><img src="images/collections.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> Collection</div>
+      <div className='p-[0.5cm] bg-[#002]'>
+         {collectionTitle}
+      </div>
+      <div className='p-[0.5cm]' style={{borderBottom:"2px solid #333"}}><img src="images/title.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> Title</div>
+      <div className='p-[0.5cm] bg-[#002]'>
+         {data[7]}
+      </div>
+      <div className='p-[0.5cm]' style={{borderBottom:"2px solid #333"}}><img src="images/categories.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> Category</div>
+      <div className='p-[0.5cm] bg-[#002]'>
+         {data[8]}
+      </div>
+       <div className='p-[0.5cm]' style={{borderBottom:"2px solid #333"}}><img src="images/description.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> Description</div>
+       <div className='p-[0.5cm] bg-[#002] max-h-[5cm] overflow-auto'>
+        {data[6]}
+       </div>
+       <div className='p-[0.5cm]' style={{borderBlock:"2px solid #333"}}><img src="images/rootstock.jpg" width="25" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> Price</div>
+       <div className='p-[0.5cm] bg-[#002] rounded-b-xl'>
+         <div className='text-[150%] font-[500]'>{data[2].toString() * 10 **-18} RBTC</div>
+         {(data[10] === false && data[0] != address) && (<button onClick={(e) => {e.preventDefault(); buyNFT((data[2].toString() * 10 **-18), data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#502] generalbutton w-[100%] mt-[0.2cm] rounded-md font-[500]'>Buy</button>)}
+         {data[10] === true && (<button className='px-[0.3cm] py-[0.2cm] bg-[#050] cursor-default w-[100%] mt-[0.2cm] rounded-md font-[500]' style={{filter:"blur(0.045cm)"}}>Sold</button>)}
+         {data[10] === false && (<button className='px-[0.3cm] py-[0.2cm] text-[#000] bg-[#d7b644] cursor-default w-[100%] mt-[0.2cm] rounded-md font-[500]'>Make offer (coming soon!)</button>)}
+       </div>
+      </div>
+     </div>
+    </div>
+      ))}
+    </div>
+  </div>
 
 
         {loading ? 
