@@ -1,5 +1,48 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+import Link from 'next/link';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { 
+  nftContractAddress,
+  nftContractABI,
+} from "@/abiAndContractSettings";
+import { useWeb3ModalProvider, useWeb3ModalAccount } from '@web3modal/ethers/react'
+import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
+
     export default function Dashboardhome({displayComponent, setDisplayComponent, changeBg3, changeBg4, changeBg5}) {
+        // wallet connect settings
+        const { address, chainId, isConnected } = useWeb3ModalAccount()
+        const { walletProvider } = useWeb3ModalProvider()
+  
+      //initialize the AOS library
+      useEffect(() => {
+        AOS.init();
+      }, []) 
+
+      const [numberOfPublicCollections, setnumberOfPublicCollections] = useState()
+      const [numberOfPublicItems, setnumberOfPublicItems] = useState()
+      const [numberOfCreators, setnumberOfCreators] = useState()
+      useEffect(() => {
+        const getTheData = async() => {
+          if(isConnected){
+             //read settings first
+             const ethersProvider = new BrowserProvider(walletProvider) 
+             const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
+           try {
+            const allcollectiondetails = await nftContractReadSettings.getallPublicCollections()
+            setnumberOfPublicCollections(allcollectiondetails.length.toString())
+            const allitemdetails = await nftContractReadSettings.getAllPublicItems()
+            setnumberOfPublicItems(allitemdetails.length.toString())
+            const allusersdetails = await nftContractReadSettings.getAllUsers()
+            setnumberOfCreators(allusersdetails.length.toString())
+          } catch (error) {
+            console.log(error)
+          }
+        }
+        }
+        getTheData();
+      }, []) 
     
     return (
         <div className="lg:p-[0.5cm]">
@@ -20,20 +63,20 @@ import { useState, useEffect } from "react";
         </div>
         <div className="grid lg:grid-cols-4 grid-cols-2 gap-8 mt-[1cm]">
        <div className="grid-cols-1">
-        <div className="text-[150%] font-[500]">$200,000</div>
-        <div className="text-[#aaa]">Total sales</div>
-       </div>
-       <div className="grid-cols-1">
-        <div className="text-[150%] font-[500]">$25,000</div>
+        <div className="text-[150%] font-[500]">1.8 RBTC</div>
         <div className="text-[#aaa]">Funds raised</div>
        </div>
        <div className="grid-cols-1">
-        <div className="text-[150%] font-[500]">50</div>
-        <div className="text-[#aaa]">Photographers</div>
+        <div className="text-[150%] font-[500]">{numberOfCreators}</div>
+        <div className="text-[#aaa]">Creators</div>
        </div>
        <div className="grid-cols-1">
-        <div className="text-[150%] font-[500]">18</div>
+        <div className="text-[150%] font-[500]">{numberOfPublicCollections}</div>
         <div className="text-[#aaa]">Collections</div>
+       </div>
+       <div className="grid-cols-1">
+        <div className="text-[150%] font-[500]">{numberOfPublicItems}</div>
+        <div className="text-[#aaa]">NFTs</div>
        </div>
        </div>
         </div>
