@@ -45,8 +45,15 @@ This section is the most important part of Optic Odyssey. Every creator passes t
 * `Publish/unpublish collection:` By clicking on either of these two buttons, you can make a collection public or private.
 * `View NFT:` From each collection, you can view individual NFTs metadata and perform item related operations on the item page e.g list/unlist item, accept offers etc.
 
+### The Creators Page
+![File](https://ipfs.filebase.io/ipfs/QmUfkQnCwxpGkKBQJymtwC4jNuTZV8j1mhpLUuwjvgKbjz)
+![File](https://ipfs.filebase.io/ipfs/QmefaBUtsgK9eDvM6Wi6Y2VHfG5AYycEhvRAMgXKHTbZxT)
+This section is the part where every registered creator on Optic Odyssey can be seen. The following actions can be performed:
 
-
+* `View creators:` Shows a list of all creators.
+* `View profile:` Allows a user to view the profile of a creator.
+* `Donate:` This button can be used to donate RBTC to a creator if you like his/her products.
+**Note: In subsequent upgrades of the user experience, profile photos will be added directly to the creators list. In the view profile part also, a list of collections/items of the viewed creator will also be shown.**
 
 
 
