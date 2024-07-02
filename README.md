@@ -93,11 +93,12 @@ All photographers/creators from anywhere in the world, all cultures of life have
 
 ## Overview
 
-OpticOdyssey is a smart contract that manages users, collections, items, and offers in a decentralized marketplace. Users can create collections, add items to collections, list items for sale, make offers on items, and buy items.
+OpticOdyssey is a smart contract deployed on the Rootstock blockchain that manages users, collections, items, and offers in a decentralized marketplace. This platform is tailored for photographers and artists to showcase and sell their work in a decentralized manner.
 
 ## Prerequisites
 
 - Solidity version: ^0.8.18
+- Rootstock testnet or mainnet access
 - OpticOdysseyNft contract
 
 ## Smart Contract: `OpticOdyssey`
@@ -114,7 +115,7 @@ Initializes the contract. There are no parameters or specific initializations in
 
 - **User**: Represents a user in the system.
   - `string username`
-  - `address useraddress`
+  - `address userAddress`
   - `uint256 balance`
   - `uint joined_at`
   - `address[] collections`
@@ -127,40 +128,40 @@ Initializes the contract. There are no parameters or specific initializations in
   - `bytes32[] itemIds`
   - `bool isPublic`
 
-- **Items**: Represents an item in a collection.
+- **Item**: Represents an item in a collection.
   - `address owner`
-  - `address itemaddress`
+  - `address itemAddress`
   - `uint price`
   - `uint id`
-  - `bytes32 accessid`
-  - `string collectionname`
+  - `bytes32 accessId`
+  - `string collectionName`
   - `string description`
-  - `string item_name`
+  - `string itemName`
   - `string category`
   - `string uri`
-  - `bool listed_for_sale`
+  - `bool listedForSale`
   - `address[] offers`
 
-- **Offers**: Represents an offer made on an item.
-  - `uint offer`
+- **Offer**: Represents an offer made on an item.
+  - `uint offerPrice`
   - `address offerer`
   - `bool accepted`
 
 ### State Variables
 
-- `address[] private allusers`
+- `address[] private allUsers`
 - `uint publicCollectionCount`
 - `mapping(address => User) public users`
 - `mapping(address => Collection) private collections`
-- `mapping(bytes32 => Items) private items`
-- `mapping(bytes32 => mapping(address => Offers)) public itemOffers`
+- `mapping(bytes32 => Item) private items`
+- `mapping(bytes32 => mapping(address => Offer)) public itemOffers`
 
 ### Events
 
 - `event UserRegistered(address user, string username)`
 - `event CollectionCreated(string name, address nftContract, bool isPublic)`
-- `event OfferMade(address offerer, bytes32 itemaccessid, uint offerprice)`
-- `event ItemAddedToCollection(address collectionaddress, uint256 itemId)`
+- `event OfferMade(address offerer, bytes32 itemAccessId, uint offerPrice)`
+- `event ItemAddedToCollection(address collectionAddress, uint256 itemId)`
 - `event ItemBought(address buyer, bytes32 itemId, address seller, uint price)`
 
 ### Modifiers
@@ -171,7 +172,7 @@ Initializes the contract. There are no parameters or specific initializations in
 
 #### User Management
 
-- `function user_exists(address _caller) public view returns (bool)`
+- `function userExists(address _caller) public view returns (bool)`
   - Checks if a user exists.
 
 - `function getAllUsers() public view returns (User[] memory)`
@@ -179,21 +180,21 @@ Initializes the contract. There are no parameters or specific initializations in
 
 #### Item Management
 
-- `function getItemById(bytes32 itemId) external view returns (Items memory)`
+- `function getItemById(bytes32 itemId) external view returns (Item memory)`
   - Returns details of an item by its ID.
 
 #### Collection Management
 
-- `function createCollection(string memory _username, string memory _collectionname, bool _isPublic, string memory _category) public`
+- `function createCollection(string memory _username, string memory _collectionName, bool _isPublic, string memory _category) public`
   - Creates a new collection.
 
-- `function addItemToCollection(address collectionaddress, string memory item_name, string memory _uri, string memory _description, string memory _category, uint _price) public`
+- `function addItemToCollection(address collectionAddress, string memory itemName, string memory _uri, string memory _description, string memory _category, uint _price) public`
   - Adds an item to a collection.
 
-- `function changeCollectionVisibility(address _collectionaddr, bool _is_public) public userExists(msg.sender)`
+- `function changeCollectionVisibility(address _collectionAddr, bool _isPublic) public userExists(msg.sender)`
   - Changes the visibility of a collection.
 
-- `function getallPublicCollections() public view returns (Collection[] memory)`
+- `function getAllPublicCollections() public view returns (Collection[] memory)`
   - Returns all public collections.
 
 #### Item Transactions
@@ -218,7 +219,7 @@ Initializes the contract. There are no parameters or specific initializations in
 - `function acceptOffer(bytes32 itemId, address offerer) public payable`
   - Accepts an offer made on an item.
 
-- `function claimItemFromOffer(bytes32 item_id) public payable`
+- `function claimItemFromOffer(bytes32 itemId) public payable`
   - Claims an item after an offer has been accepted.
 
 #### Utility Functions
@@ -226,16 +227,16 @@ Initializes the contract. There are no parameters or specific initializations in
 - `function generateSymbol(string memory _name) internal pure returns (string memory)`
   - Generates a symbol for a collection.
 
-- `function _getUserDetails(address _userAddr) internal view returns (User memory, Collection[] memory, Items[] memory)`
+- `function _getUserDetails(address _userAddr) internal view returns (User memory, Collection[] memory, Item[] memory)`
   - Internal function to get user details, collections, and items.
 
-- `function getUserDetails(address _useraddress) public view returns (User memory _user, Collection[] memory _collections, Items[] memory _items)`
+- `function getUserDetails(address _userAddress) public view returns (User memory _user, Collection[] memory _collections, Item[] memory _items)`
   - Returns user details, collections, and items.
 
-- `function getAllPublicItems() public view returns (Items[] memory)`
+- `function getAllPublicItems() public view returns (Item[] memory)`
   - Returns all public items.
 
-- `function isCollectionOwner(address _user, address _collectionaddress) internal view returns (bool)`
+- `function isCollectionOwner(address _user, address _collectionAddress) internal view returns (bool)`
   - Checks if a user is the owner of a collection.
 
 - `function tipUser(address _user) public payable`
@@ -244,19 +245,86 @@ Initializes the contract. There are no parameters or specific initializations in
 - `function removeItemIdFromUser(address user, bytes32 itemId) internal`
   - Removes an item ID from a user.
 
+## Smart Contract: `OpticOdysseyNft`
+
+### Constructor
+
+```solidity
+constructor(string memory name, string memory symbol) ERC721(name, symbol) Ownable(msg.sender) {}
+```
+
+Initializes the contract with a name and symbol for the NFT collection.
+
+### State Variables
+
+- `uint256 public nextTokenId`: Tracks the next token ID to be minted.
+
+### Functions
+
+- `function mint(address to, string memory tokenURI) public onlyOwner returns (uint256)`
+  - Mints a new token with the specified `tokenURI` to the address `to`. Only the owner can call this function.
+  - Increments the `nextTokenId` after minting the token.
+  - Returns the token ID of the newly minted token.
+
 ### Usage
 
-1. **Register a User**: Users are automatically registered when they create a collection.
-2. **Create a Collection**: Use `createCollection` to create a new collection.
-3. **Add Items**: Use `addItemToCollection` to add items to a collection.
-4. **List Items for Sale**: Use `listItem` to list an item for sale.
-5. **Make Offers**: Use `makeOffer` to make an offer on an item.
-6. **Accept Offers**: Use `acceptOffer` to accept an offer on an item.
-7. **Buy Items**: Use `buyItem` to buy an item listed for sale.
+1. **Minting NFTs**: Use the `mint` function to create new NFTs for a collection. This function can only be called by the contract owner.
+2. **Managing Token URIs**: Each token can have a unique URI that points to the metadata of the item.
 
-### Notes
+### Example Code
 
-- Ensure that the user exists before performing any actions.
-- Only collection owners can add items or change collection visibility.
-- Users can list and unlist their own items for sale.
-- Offers can only be made on items listed for sale and can be accepted by item owners.
+```solidity
+// SPDX-License-Identifier: SEE LICENSE IN LICENSE
+pragma solidity ^0.8.18;
+
+import "../lib/openzeppelin-contracts/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
+
+contract OpticOdysseyNft is ERC721URIStorage, Ownable {
+    uint256 public nextTokenId;
+
+    constructor(string memory name, string memory symbol) ERC721(name, symbol) Ownable(msg.sender) {}
+
+    function mint(address to, string memory tokenURI) public onlyOwner returns (uint256) {
+        uint256 tokenId = nextTokenId;
+        _safeMint(to, tokenId);
+        _setTokenURI(tokenId, tokenURI);
+        nextTokenId++;
+        return tokenId;
+    }
+}
+```
+
+## Factory Contract
+
+### Constructor
+
+```solidity
+constructor() {}
+```
+
+Initializes the factory contract.
+
+### Events
+
+- `event OpticOdysseyDeployed(address opticOdysseyAddress)`
+
+### Functions
+
+#### Deployment
+
+- `function deployOpticOdyssey() public returns (address)`
+  - Deploys a new instance of the `OpticOdyssey` contract and returns the address of the newly deployed contract.
+  - Emits an `OpticOdysseyDeployed` event.
+
+```solidity
+contract Factory {
+    event OpticOdysseyDeployed(address opticOdysseyAddress);
+
+    function deployOpticOdyssey() public returns (address) {
+        OpticOdyssey opticOdyssey = new OpticOdyssey();
+        emit OpticOdysseyDeployed(address(opticOdyssey));
+        return address(opticOdyssey);
+    }
+}
+```
