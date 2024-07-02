@@ -93,7 +93,7 @@ All photographers/creators from anywhere in the world, all cultures of life have
 
 ## Overview
 
-OpticOdyssey is a smart contract deployed on the Rootstock blockchain that manages users, collections, items, and offers in a decentralized marketplace. This platform is tailored for photographers and artists to showcase and sell their work in a decentralized manner.
+OpticOdyssey is a smart contract deployed on the Rootstock blockchain that manages users, collections, items, and offers in a decentralized NFT marketplace. This platform is tailored for photographers/creators and artists to showcase and sell their photos/artworks in a decentralized manner.
 
 ## Prerequisites
 
