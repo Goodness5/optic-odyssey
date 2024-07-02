@@ -56,10 +56,27 @@ This section is the part where every registered creator on Optic Odyssey can be 
 
 *Note: In subsequent upgrades of the user experience, profile photos will be added directly to the creators list. In the view profile part also, a list of collections/items of the viewed creator will also be shown.*
 
+### The NFT Marketplace
+![File](https://ipfs.filebase.io/ipfs/QmViLYY6XVnqsuhNvDei9BcCsm4dzdB3iq4cNG7ZG2CDzW)
+![File](https://ipfs.filebase.io/ipfs/QmQ1JSir474oxmkQCN6UejqkiPaTUdqVUj2sUm8JA7yKUy)
+![File](https://ipfs.filebase.io/ipfs/QmaSoRbmXkmotwvpUfow58qR6LPiTZ7iF131GyJ8fjiQrY)
+![File](https://ipfs.filebase.io/ipfs/Qmdabh8AnQPZtcjogSafPcZ3cD4UrbBABriDqDApL9QAvW)
 
+This is the most functional part of the dashboard where every published NFT/collection can be seen. The following actions can be performed here:
 
+* `View collection:` This button right here is used to view the full collection an NFT belongs to.
+* `View NFT:` This functionality enables a user to view the metadata of an NFT on the item page.
+* `Buy NFT:` This button on the item page comes after clicking on the "View NFT" button and enables a buyer to mint an NFT to his wallet.
+* `Sold:` This button indicates that an NFT has been sold.
+* `Make offer:` This enables a buyer to make an offer for an NFT. 
+* `Search for an NFT:` With the search functionality, any published item/collection on the marketplace can be found. 
+* `Paginations:` For a smooth user experience, paginations have been added to the dApp to navigate between items/collections.
 
+*Note: Other functionalities such as "claim offer", "list item", "unlist item" already in the smart contracts of Optic Odyssey will be integrated into the dApp in subsequent upgrades of the product.*
 
+## Team Members (Team Creditas)
+* Patrick Ominisan - Blockchain developer (Web3Bridge)
+* Kolapo Goodness - Smart contract developer (Web3Bridge)
 
 
 # OpticOdyssey Smart Contract Documentation
@@ -68,8 +85,6 @@ This section is the part where every registered creator on Optic Odyssey can be 
 | Contract Name | Address                                    | Verification Status |
 |---------------|--------------------------------------------|---------------------|
 | HUB        | [0x5De93b7d36E1bDECA9438A4B3C0e64E5fb637e76](https://rootstock-testnet.blockscout.com/address/0x5De93b7d36E1bDECA9438A4B3C0e64E5fb637e76) | Verified           |
-
-
 
 
 ## Overview
