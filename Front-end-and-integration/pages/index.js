@@ -71,7 +71,7 @@ export default function Home(){
    </div>
    <div className='mt-[1cm] text-center' style={{transition:"0.3s ease-in-out"}}>
     <Link href="/dashboard"><button className='m-[0.2cm] rounded-md bg-[#502] px-[0.3cm] py-[0.2cm] text-[#fff] generalbutton ecobutton' style={{border:"2px solid #502"}}>Explore NFT marketplace <img src="images/nft.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></button></Link>
-    <Link href="https://github.com/Goodness5/optic-odyssey"><button className='m-[0.2cm] rounded-md bg-[#111] px-[0.3cm] py-[0.2cm] text-[#fff] generalbutton docbutton' style={{border:"2px solid #502"}}>Documentation <img src="images/documentation.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></button></Link>
+    <Link href="https://github.com/Goodness5/optic-odyssey/blob/master/README.md"><button className='m-[0.2cm] rounded-md bg-[#111] px-[0.3cm] py-[0.2cm] text-[#fff] generalbutton docbutton' style={{border:"2px solid #502"}}>Documentation <img src="images/documentation.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></button></Link>
     <Link href="/dashboard"><button className='m-[0.2cm] rounded-md bg-[#111] px-[0.3cm] py-[0.2cm] text-[#fff] generalbutton daobutton' style={{border:"2px solid #502"}}>Optic Odyssey DAO <img src="images/dao.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></button></Link>
    </div>
    {allowAutoNav ? (<div className='text-center mt-[1cm]'>You will be automatically navigated to the dashboard in {count} seconds....</div>) : 

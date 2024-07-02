@@ -83,7 +83,7 @@ export default function Dashboard(){
       <div className='p-[0.4cm] menuitems4' onClick={(e) => setDisplayComponent("marketplace") & changeBg5(e)} style={{background:bgColor5}}>NFT Marketplace <img src="images/nft.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div>
       </div>
       <div className='mt-[30%] p-[0.5cm]' style={{display:"block"}}>
-       <div><Link href="https://github.com/Goodness5/optic-odyssey"><button className='m-[0.2cm] rounded-md bg-[#502] px-[0.3cm] py-[0.15cm] text-[#fff]'>Docs <img src="images/documentation.png" width="17" className='ml-[0.2cm]' style={{display:"inline-block"}}/></button></Link></div>
+       <div><Link href="https://github.com/Goodness5/optic-odyssey/blob/master/README.md"><button className='m-[0.2cm] rounded-md bg-[#502] px-[0.3cm] py-[0.15cm] text-[#fff]'>Docs <img src="images/documentation.png" width="17" className='ml-[0.2cm]' style={{display:"inline-block"}}/></button></Link></div>
        <Link href="https://discord.com"><img src="images/discord.png" width="35" className='m-[0.2cm]' style={{display:"inline-block"}}/></Link>
        <Link href="https://x.com"><img src="images/twitter.png" width="35" className='m-[0.2cm]' style={{display:"inline-block"}}/></Link>
       </div>
@@ -104,7 +104,7 @@ export default function Dashboard(){
       </div>
       <div className='my-[1cm]'><img src="images/arrow.png" onClick={(e) => setMountSmallMenu(false)} className='closedashboardsmallmenu mx-[auto] cursor-pointer' width="50" /></div>
       <div className='mt-[20%] p-[0.5cm]' style={{display:"block"}}>
-       <div><Link href="https://github.com/Goodness5/optic-odyssey"><button onClick={(e) => setMountSmallMenu(false)} className='m-[0.2cm] rounded-md bg-[#502] px-[0.3cm] py-[0.15cm] text-[#fff]'>Docs <img src="images/documentation.png" width="17" className='ml-[0.2cm]' style={{display:"inline-block"}}/></button></Link></div>
+       <div><Link href="https://github.com/Goodness5/optic-odyssey/blob/master/README.md"><button onClick={(e) => setMountSmallMenu(false)} className='m-[0.2cm] rounded-md bg-[#502] px-[0.3cm] py-[0.15cm] text-[#fff]'>Docs <img src="images/documentation.png" width="17" className='ml-[0.2cm]' style={{display:"inline-block"}}/></button></Link></div>
        <Link href="https://discord.com"><img src="images/discord.png" width="35" className='m-[0.2cm]' onClick={(e) => setMountSmallMenu(false)} style={{display:"inline-block"}}/></Link>
        <Link href="https://x.com"><img src="images/twitter.png" width="35" className='m-[0.2cm]' onClick={(e) => setMountSmallMenu(false)} style={{display:"inline-block"}}/></Link>
       </div>
