@@ -74,6 +74,9 @@ This is the most functional part of the dashboard where every published NFT/coll
 
 *Note: Other functionalities such as "claim offer", "list item", "unlist item" already in the smart contracts of Optic Odyssey will be integrated into the dApp in subsequent upgrades of the product.*
 
+### The Optic Odyssey DAO
+All photographers/creators from anywhere in the world, all cultures of life have an option to join the Optic Odyssey DAO. By becoming a member of the DAO, you are able to request for funding and make governance decisions and vote in the DAO. As at the time of writing this documentation, the DAO is still in progress and has not been fully integrated. 
+
 ### Team Members (Team Optic Odyssey)
 * Patrick Ominisan - Blockchain developer (Web3Bridge)
 * Kolapo Goodness - Smart contract developer (Web3Bridge)
@@ -85,7 +88,7 @@ This is the most functional part of the dashboard where every published NFT/coll
 
 | Contract Name | Address                                    | Verification Status |
 |---------------|--------------------------------------------|---------------------|
-| HUB        | [0x5De93b7d36E1bDECA9438A4B3C0e64E5fb637e76](https://rootstock-testnet.blockscout.com/address/0x5De93b7d36E1bDECA9438A4B3C0e64E5fb637e76) | Verified           |
+| OPTIC-ODYSSEY | [0x5De93b7d36E1bDECA9438A4B3C0e64E5fb637e76](https://rootstock-testnet.blockscout.com/address/0x5De93b7d36E1bDECA9438A4B3C0e64E5fb637e76) | Verified           |
 
 
 ## Overview
