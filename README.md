@@ -38,12 +38,12 @@ This section is the first part of the dashboard. It shows general data of Optic 
 ![File](https://ipfs.filebase.io/ipfs/QmSzpiEisCHtPyDDFofgFYYcFU7a4zGD5ME6x7PiqpA8wm)
 This section is the most important part of Optic Odyssey. Every creator passes through this section before being able to have an NFT listed on the platform. On this profile page, each user can register as a creator and create collections and add items to created collections. Note that this section is unique to every user. In particular, the following actions can be performed on the profile page:
 
-* **Update profile picture or cover photo:** These can be done by clicking on the edit buttons on the profile/cover at anytime.
-* **Create collection:** The create collection functionality requires that a user registers a username at first instance, followed by name of collection, category and visibility of collection (public or private).
-* **Add item to collection:** After creating a collection, this is the part where a registered user can add an item to his own collection (you can't add to someone else's collection). It requires inputting the collection name from a dropdown, item title, item category, item description, photo upload, and price of item. Click on the "add to collection" button after to complete this task.
-* **View collection:** From the "your collections" tab, you can view all your created collections and items contained in each collection.
-* **Publish/unpublish collection:** By clicking on either of these two buttons, you can make a collection public or private.
-* **View NFT:** From each collection, you can view individual NFTs metadata and perform item related operations on the item page e.g list/unlist item, accept offers etc.
+* `Update profile picture or cover photo:` These can be done by clicking on the edit buttons on the profile/cover at anytime.
+* `Create collection:` The create collection functionality requires that a user registers a username at first instance, followed by name of collection, category and visibility of collection (public or private).
+* `Add item to collection:` After creating a collection, this is the part where a registered user can add an item to his own collection (you can't add to someone else's collection). It requires inputting the collection name from a dropdown, item title, item category, item description, photo upload, and price of item. Click on the "add to collection" button after to complete this task.
+* `View collection:` From the "your collections" tab, you can view all your created collections and items contained in each collection.
+* `Publish/unpublish collection:` By clicking on either of these two buttons, you can make a collection public or private.
+* `View NFT:` From each collection, you can view individual NFTs metadata and perform item related operations on the item page e.g list/unlist item, accept offers etc.
 
 
 
