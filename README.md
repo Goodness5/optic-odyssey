@@ -53,7 +53,8 @@ This section is the part where every registered creator on Optic Odyssey can be 
 * `View creators:` Shows a list of all creators.
 * `View profile:` Allows a user to view the profile of a creator.
 * `Donate:` This button can be used to donate RBTC to a creator if you like his/her products.
-**Note: In subsequent upgrades of the user experience, profile photos will be added directly to the creators list. In the view profile part also, a list of collections/items of the viewed creator will also be shown.**
+
+*Note: In subsequent upgrades of the user experience, profile photos will be added directly to the creators list. In the view profile part also, a list of collections/items of the viewed creator will also be shown.*
 
 
 
