@@ -74,9 +74,10 @@ This is the most functional part of the dashboard where every published NFT/coll
 
 *Note: Other functionalities such as "claim offer", "list item", "unlist item" already in the smart contracts of Optic Odyssey will be integrated into the dApp in subsequent upgrades of the product.*
 
-## Team Members (Team Creditas)
+### Team Members (Team Optic Odyssey)
 * Patrick Ominisan - Blockchain developer (Web3Bridge)
 * Kolapo Goodness - Smart contract developer (Web3Bridge)
+
 
 
 # OpticOdyssey Smart Contract Documentation
