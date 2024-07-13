@@ -160,20 +160,89 @@ Initializes the contract. There are no parameters or specific initializations in
 - `function removeItemIdFromUser(address user, bytes32 itemId) internal`
   - Removes an item ID from a user.
 
+## Smart Contract: `OpticOdysseyNft`
+
+### Constructor
+
+```solidity
+constructor(string memory name, string memory symbol) ERC721(name, symbol) Ownable(msg.sender) {}
+```
+
+Initializes the contract with a name and symbol for the NFT collection.
+
+### State Variables
+
+- `uint256 public nextTokenId`: Tracks the next token ID to be minted.
+
+### Functions
+
+- `function mint(address to, string memory tokenURI) public onlyOwner returns (uint256)`
+  - Mints a new token with the specified `tokenURI` to the address `to`. Only the owner can call this function.
+  - Increments the `nextTokenId` after minting the token.
+  - Returns the token ID of the newly minted token.
+
 ### Usage
 
-1. **Register a User**: Users are automatically registered when they create a collection.
-2. **Create a Collection**: Use `createCollection` to create a new collection.
-3. **Add Items**: Use `addItemToCollection` to add items to a collection.
-4. **List Items for Sale**: Use `listItem` to list an item for sale.
-5. **Make Offers**: Use `makeOffer` to make an offer on an item.
-6. **Accept Offers**: Use `acceptOffer` to accept an offer on an item.
-7. **Buy Items**: Use `buyItem` to buy an item listed for sale.
+1. **Minting NFTs**: Use the `mint` function to create new NFTs for a collection. This function can only be called by the contract owner.
+2. **Managing Token URIs**: Each token can have a unique URI that points to the metadata of the item.
 
-### Notes
+### Example Code
 
-- Ensure that the user exists before performing any actions.
-- Only collection owners can add items or change collection visibility.
-- Users can list and unlist their own items for sale.
-- Offers can only be made on items listed for sale and can be accepted by item owners.
+```solidity
+// SPDX-License-Identifier: SEE LICENSE IN LICENSE
+pragma solidity ^0.8.18;
+
+import "../lib/openzeppelin-contracts/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
+
+contract OpticOdysseyNft is ERC721URIStorage, Ownable {
+    uint256 public nextTokenId;
+
+    constructor(string memory name, string memory symbol) ERC721(name, symbol) Ownable(msg.sender) {}
+
+    function mint(address to, string memory tokenURI) public onlyOwner returns (uint256) {
+        uint256 tokenId = nextTokenId;
+        _safeMint(to, tokenId);
+        _setTokenURI(tokenId, tokenURI);
+        nextTokenId++;
+        return tokenId;
+    }
+}
+```
+
+## Factory Contract
+
+### Constructor
+
+```solidity
+constructor() {}
+```
+
+Initializes the factory contract.
+
+### Events
+
+- `event OpticOdysseyDeployed(address opticOdysseyAddress)`
+
+### Functions
+
+#### Deployment
+
+- `function deployOpticOdyssey() public returns (address)`
+  - Deploys a new instance of the `OpticOdyssey` contract and returns the address of the newly deployed contract.
+  - Emits an `OpticOdysseyDeployed` event.
+
+```solidity
+contract Factory {
+    event OpticOdysseyDeployed(address opticOdysseyAddress);
+
+    function deployOpticOdyssey() public returns (address) {
+        OpticOdyssey opticOdyssey = new OpticOdyssey();
+        emit OpticOdysseyDeployed(address(opticOdyssey));
+        return address(opticOdyssey);
+    }
+}
+```
+
+
 

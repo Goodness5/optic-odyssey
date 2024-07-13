@@ -9,6 +9,7 @@ contract OpticOdyssey {
     }
     struct User {
         string username;
+        string avatar;
         address useraddress;
         uint256 balance;
         uint joined_at;
@@ -18,7 +19,9 @@ contract OpticOdyssey {
 
     struct Collection {
         string name;
+        address owner;
         string category;
+        string coverPhotoUrl;
         address nftContract;
         bytes32[] itemIds;
         bool isPublic;
@@ -245,13 +248,16 @@ function getAllUsers() public view returns (User[] memory) {
         string memory _username,
         string memory _collectionname,
         bool _isPublic,
-        string memory _category        
+        string memory _category,    
+        string memory _coverPhotoUrl,        
+        string memory _avatar   
     ) public {
         bool existinguser = user_exists(msg.sender);
         if (!existinguser) {
             User storage _newuser = users[msg.sender];
             _newuser.joined_at = block.timestamp;
             _newuser.username = _username;
+            _newuser.avatar = _avatar;
             _newuser.useraddress = msg.sender;
             allusers.push(msg.sender);
             emit UserRegistered(msg.sender, _username);
@@ -268,6 +274,8 @@ function getAllUsers() public view returns (User[] memory) {
 
         _newcollection.name = _collectionname;
         _newcollection.category = _category;
+        _newcollection.owner = msg.sender;
+        _newcollection.coverPhotoUrl = _coverPhotoUrl;
         _newcollection.nftContract = nftContractAddress;
         _newcollection.isPublic = _isPublic;
 
@@ -345,13 +353,14 @@ function getAllUsers() public view returns (User[] memory) {
     function buyItem(bytes32 itemId) public payable {
         Items storage item = items[itemId];
         require(item.owner != address(0), "Item does not exist");
+        require(item.listed_for_sale, "Item not for sale");
 
         address payable seller = payable(item.owner);
         item.owner = msg.sender;
 
         // Transfer the NFT to the buyer
         OpticOdysseyNft nftContract = OpticOdysseyNft(item.itemadress);
-        nftContract.transferFrom(seller, msg.sender, item.id);
+        nftContract.safeTransferFrom(address(this), msg.sender, item.id);
 
         // Transfer Ether to the seller
         uint serviceCharge = (item.price * 1) / 100;
