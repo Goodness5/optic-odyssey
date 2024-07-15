@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.8.18;
+
 import {OpticOdysseyNft} from "./nft.sol";
+
 contract OpticOdyssey {
     struct User {
-        string username;
+        bytes32 username;
+        
         string avatar;
         address useraddress;
         uint256 balance;
@@ -11,26 +14,28 @@ contract OpticOdyssey {
         address[] collections;
         bytes32[] itemIds;
     }
+
     struct Collection {
-        string name;
+        bytes32 name;
         address owner;
-        string category;
-        string coverPhotoUrl;
+        bytes32 category;
+        bytes32 coverPhotoUrl;
         address nftContract;
         bytes32[] itemIds;
         bool isPublic;
     }
+
     struct Item {
         address owner;
         address itemAddress;
         uint price;
         uint id;
         bytes32 accessId;
-        string collectionName;
+        bytes32 collectionName;
         string description;
-        string itemName;
-        string category;
-        string uri;
+        bytes32 itemName;
+        bytes32 category;
+        bytes32 uri;
         bool listedForSale;
         address[] offers;
     }
@@ -47,7 +52,11 @@ contract OpticOdyssey {
     mapping(address => Collection) private collections;
     mapping(bytes32 => Item) private items;
     mapping(bytes32 => mapping(address => Offer)) public itemOffers;
-
+    event UserRegistered(address user, bytes32 username);
+    event CollectionCreated(bytes32 name, address nftContract, bool isPublic);
+    event OfferMade(address offerer, bytes32 itemaccessid, uint offerprice);
+    event ItemAddedToCollection(address collectionaddress, uint256 itemId);
+    event ItemBought(address buyer, bytes32 itemId, address seller, uint price);
     modifier userExists(address _caller) {
         require(userExistsInternal(_caller), "User does not exist");
         _;
@@ -55,7 +64,7 @@ contract OpticOdyssey {
 
     function userExistsInternal(address _caller) internal view returns (bool) {
         User storage user = users[_caller];
-        return (user.joined_at != 0 && bytes(user.username).length != 0);
+        return (user.joined_at != 0 && user.username != 0);
     }
 
     function getItemById(bytes32 itemId) external view returns (Item memory) {
@@ -90,6 +99,7 @@ contract OpticOdyssey {
 
         return (user, userCollections, userItems);
     }
+
     function getAllPublicCollections() public view returns (Collection[] memory) {
         Collection[] memory publicCollections = new Collection[](publicCollectionCount);
         uint index = 0;
@@ -105,6 +115,7 @@ contract OpticOdyssey {
         }
         return publicCollections;
     }
+
     function getAllUsers() public view returns (User[] memory) {
         User[] memory userList = new User[](allUsers.length);
         for (uint i = 0; i < allUsers.length; i++) {
@@ -156,11 +167,11 @@ contract OpticOdyssey {
     }
 
     function createCollection(
-        string memory _username,
-        string memory _collectionName,
+        bytes32 _username,
+        bytes32 _collectionName,
         bool _isPublic,
-        string memory _category,
-        string memory _coverPhotoUrl,
+        bytes32 _category,
+        bytes32 _coverPhotoUrl,
         string memory _avatar
     ) public {
         address[] memory t = new address[](0);
@@ -177,10 +188,12 @@ contract OpticOdyssey {
             });
             allUsers.push(msg.sender);
 
+
+            emit UserRegistered(msg.sender, _username);
         }
 
-        string memory symbol = "-NFT";
-        OpticOdysseyNft nftContract = new OpticOdysseyNft(_collectionName, symbol);
+        bytes32 symbol = "-NFT";
+        OpticOdysseyNft nftContract = new OpticOdysseyNft(string(abi.encodePacked(_collectionName)), string(abi.encodePacked(symbol)));
         address nftContractAddress = address(nftContract);
         collections[nftContractAddress] = Collection({
             name: _collectionName,
@@ -188,7 +201,7 @@ contract OpticOdyssey {
             category: _category,
             coverPhotoUrl: _coverPhotoUrl,
             nftContract: nftContractAddress,
-            itemIds: tb ,
+            itemIds: tb,
             isPublic: _isPublic
         });
 
@@ -196,21 +209,22 @@ contract OpticOdyssey {
         if (_isPublic) {
             publicCollectionCount++;
         }
+        emit CollectionCreated(_collectionName, nftContractAddress, _isPublic);
     }
 
     function addItemToCollection(
         address collectionAddress,
-        string memory itemName,
-        string memory uri,
+        bytes32 itemName,
+        bytes32 uri,
         string memory description,
-        string memory category,
+        bytes32 category,
         uint price
     ) public {
         require(collections[collectionAddress].nftContract != address(0), "Collection does not exist");
         require(isCollectionOwner(msg.sender, collectionAddress), "Only the owner can add items");
 
         OpticOdysseyNft nftContract = OpticOdysseyNft(collections[collectionAddress].nftContract);
-        uint256 newItemId = nftContract.mint(msg.sender, uri);
+        uint256 newItemId = nftContract.mint(msg.sender, string(abi.encodePacked(uri)));
         bytes32 accessId = keccak256(abi.encodePacked(msg.sender, collectionAddress, newItemId));
         address[] memory t = new address[](0);
         items[accessId] = Item({
@@ -230,6 +244,8 @@ contract OpticOdyssey {
 
         collections[collectionAddress].itemIds.push(accessId);
         users[msg.sender].itemIds.push(accessId);
+
+        emit ItemAddedToCollection(collectionAddress, newItemId);
     }
 
     function isCollectionOwner(address _user, address _collectionAddress) internal view returns (bool) {
@@ -241,13 +257,14 @@ contract OpticOdyssey {
         }
         return false;
     }
+
     function tipUser(address _user) public payable {
         require(userExistsInternal(_user), "User not registered");
         (bool success, ) = _user.call{value: msg.value}("");
         require(success, "Ether transfer failed");
         users[_user].balance += msg.value;
     }
-// forge script script/deploy.s.sol:Deployscript --rpc-url $BASE_SEPOLIA_RPC --broadcast --verify $BASESCAN_API_KEY -vvvv --optimize 
+
     function buyItem(bytes32 itemId) public payable {
         Item storage item = items[itemId];
         require(item.owner != address(0), "Item does not exist");
@@ -267,7 +284,7 @@ contract OpticOdyssey {
 
         users[msg.sender].itemIds.push(itemId);
         item.listedForSale = false;
-
+        emit ItemBought(msg.sender, itemId, seller, item.price);
     }
 
     function listItem(bytes32 itemId, uint price) public userExists(msg.sender) {
@@ -300,6 +317,7 @@ contract OpticOdyssey {
 
         item.price = newPrice;
     }
+
     function removeItemIdFromUser(address user, bytes32 itemId) internal {
         uint indexToRemove = findItemIndex(users[user].itemIds, itemId);
         uint lastIndex = users[user].itemIds.length - 1;
