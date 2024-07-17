@@ -307,7 +307,7 @@ export default function Profile() {
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
-          if (registeredUsername.length > 0){
+          if (registeredUsername != "0x0000000000000000000000000000000000000000000000000000000000000000"){
             const createcollection = await nftContractWriteSettings.createCollection(registeredUsername, collectionName, publicVisibility, collectionCategory, theCollectionCoverHash, creatorProfilePhoto);
           }
           else {
