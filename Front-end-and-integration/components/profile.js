@@ -477,7 +477,7 @@ export default function Profile() {
 
         <div className='p-[0.5cm] bg-[#000]'>
        <div className='clear-both'>
-        <span className='lg:text-[200%] md:text-[180%] text-[150%] font-[500]'>{registeredUsername ? (<span>{registeredUsername}</span>) : (<span>user</span>)}</span>
+        <span className='lg:text-[200%] md:text-[180%] text-[150%] font-[500]'>{registeredUsername === "0x0000000000000000000000000000000000000000000000000000000000000000" ? (<span>user</span>) : (<span>{registeredUsername}</span>)}</span>
         <span className='float-right mt-[0.1cm] font-[500]'>{soldBalance > 0 ? (<span>Total sales: {soldBalance} RBTC</span>) : (<span>Total sales: 0 RBTC</span>)}</span>
        </div>
         <div>
@@ -507,7 +507,7 @@ export default function Profile() {
         <div className='grid lg:grid-cols-2 grid-cols-1 gap-8'>
         <div className='grid-cols-1 bg-[rgba(0,0,0,0.7)] p-[0.5cm]' style={{border:"1px solid #333"}}>
           <div className='font-[500] mb-[0.3cm] text-[120%]'>Create a collection</div>
-        {registeredUsername ? 
+        {registeredUsername != "0x0000000000000000000000000000000000000000000000000000000000000000" ? 
         (<input type="text" className='p-[0.2cm] bg-[#000]  rounded-md outline-none w-[100%] mb-[0.3cm]' name="username" value={registeredUsername} style={{border:"2px solid #00f"}} />) :
         (<input type="text" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' name="username" onChange={(e) => setUsername(e.target.value)} placeholder="Create a username" style={{border:"2px solid #00f"}} />)}
         <input type="text" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' name="collectionName" onChange={(e) => setCollectionName(e.target.value)} placeholder="Create a name for collection" style={{border:"2px solid #00f"}} />

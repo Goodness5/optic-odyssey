@@ -587,7 +587,7 @@ export default function Marketplace() {
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
           {currentAllNFTs.map((data)=> (
           <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-          <img src={data[9]} className="rounded-t-xl" />
+          <img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-t-xl" />
           <div className="p-[0.5cm]">
             <div className="font-[500] uppercase">{data[7]}</div>
             <div className="mt-[0.2cm]"><span className="px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
@@ -621,7 +621,7 @@ export default function Marketplace() {
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
           {currentAllArtNFTs.map((data)=> (
           <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-          <img src={data[9]} className="rounded-t-xl" />
+          <img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-t-xl" />
           <div className="p-[0.5cm]">
             <div className="font-[500] uppercase">{data[7]}</div>
             <div className="mt-[0.2cm]"><span className="px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
@@ -655,7 +655,7 @@ export default function Marketplace() {
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
           {currentAllFashionNFTs.map((data)=> (
           <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-          <img src={data[9]} className="rounded-t-xl" />
+          <img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-t-xl" />
           <div className="p-[0.5cm]">
             <div className="font-[500] uppercase">{data[7]}</div>
             <div className="mt-[0.2cm]"><span className="px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
@@ -689,7 +689,7 @@ export default function Marketplace() {
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
           {currentAllPortraitNFTs.map((data)=> (
           <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-          <img src={data[9]} className="rounded-t-xl" />
+          <img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-t-xl" />
           <div className="p-[0.5cm]">
             <div className="font-[500] uppercase">{data[7]}</div>
             <div className="mt-[0.2cm]"><span className="px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
@@ -723,7 +723,7 @@ export default function Marketplace() {
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
           {currentAllLifestyleNFTs.map((data)=> (
           <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-          <img src={data[9]} className="rounded-t-xl" />
+          <img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-t-xl" />
           <div className="p-[0.5cm]">
             <div className="font-[500] uppercase">{data[7]}</div>
             <div className="mt-[0.2cm]"><span className="px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
@@ -757,7 +757,7 @@ export default function Marketplace() {
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
           {currentAllPhotographyNFTs.map((data)=> (
           <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-          <img src={data[9]} className="rounded-t-xl" />
+          <img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-t-xl" />
           <div className="p-[0.5cm]">
             <div className="font-[500] uppercase">{data[7]}</div>
             <div className="mt-[0.2cm]"><span className="px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
@@ -791,7 +791,7 @@ export default function Marketplace() {
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-[1cm]">
           {currentAllSearchedNFTs.map((data)=> (
           <div className="grid-cols-1 rounded-xl bg-[rgba(0,0,0,0.8)]">
-          <img src={data[9]} className="rounded-t-xl" />
+          <img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-t-xl" />
           <div className="p-[0.5cm]">
             <div className="font-[500] uppercase">{data[7]}</div>
             <div className="mt-[0.2cm]"><span className="px-[0.2cm] py-[0.05cm] rounded-md bg-[#502]" style={{border:"2px solid #d7b644"}}>{data[8]} <img src="images/medal.png" width="18" style={{display:"inline-block"}} /></span></div>
@@ -835,7 +835,7 @@ export default function Marketplace() {
               <div className="lg:text-[150%] text-[120%] marketplacecollectionnumber text-right"><span className="rounded-[100%] p-[0.3cm] bg-[#001]">+{data[5].length.toString()}</span></div>
             </div>
             <div className='mt-[0.3cm]'>
-            <button onClick={(e) => {e.preventDefault(); getItemsData(data[4]) & setCollectionTitle(data[0]) & setaCollectionCategory(data[2])}} className='bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+            <button onClick={(e) => {e.preventDefault(); getItemsData(data[4]) & getItemCreator(data[1]) & setCollectionTitle(data[0]) & setaCollectionCategory(data[2])}} className='bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
             {(data[data.length.toString() - 1] === false && data[1] === address) && (<button onClick={(e) => {e.preventDefault(); collectionVisibility(data[4], true)}} className='bg-[#002] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton2' style={{border:"2px solid #aaa"}}>Publish <img src="images/post.png" width="17" style={{display:"inline-block"}} /></button>)}
             {(data[data.length.toString() - 1] === true && data[1] === address) && (<button onClick={(e) => {e.preventDefault(); collectionVisibility(data[4], false)}} className='text-[#900] bg-[#000] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton2' style={{border:"2px solid #aaa"}}>Unpublish <img src="images/post.png" width="17" style={{display:"inline-block"}} /></button>)}
             </div>
@@ -857,12 +857,13 @@ export default function Marketplace() {
    (<div style={{display:aCollectionDisplay}}>
     <img src="images/cancel.png" width="40" onClick={(e) => setDisplayOption("mainmarketplace")} className='mx-[auto] mt-[1cm] cancelbutton rounded-[100%] cursor-pointer' />
     <div className='mt-[1cm] lg:p-[1cm] top-0 viewthediv2 p-[0.5cm]' style={{zIndex:"9999"}}>
-      <div className='text-[120%]'><span className='font-[500]'>Collection:</span> {collectionTitle} ({chosenCollectionItems.length})</div>
+    <div><span className='rounded-md px-[0.3cm] py-[0.15cm] bg-[#00f]' style={{boxShadow:"2px 2px 2px 2px #333"}}>By:</span> &nbsp; <span className='mt-[0.15cm]'><img src={itemCreatorProfilePic} width="25" className='rounded-[100%]' style={{display:"inline-block"}} /> {theItemCreatorUsername}</span></div>
+      <div className='text-[120%] mt-[0.5cm]'><span className='font-[500]'>Collection:</span> {collectionTitle} ({chosenCollectionItems.length})</div>
       <div className='mb-[0.5cm] text-[110%] text-[#ccc]'><span className='font-[500]'>Collection category:</span> {aCollectionCategory}</div>
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-8">
           {chosenCollectionItems.map((data) => (
             <div className="grid-cols-1">
-            <div><img src={data[9]} className="rounded-2xl w-[100%] lg:h-[8cm]" style={{border:"4px solid #aaa"}} /></div>
+            <div><img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-2xl w-[100%] lg:h-[8cm]" style={{border:"4px solid #aaa"}} /></div>
             <div className="lg:text-[130%] text-[120%] mt-[0.3cm] mx-[0.2cm]">Title: {data[7]}</div>
             <div className="lg:text-[120%] text-[110%] mx-[0.2cm]">Category: {data[8]}</div>
             <div className='mx-[0.2cm] text-[#aaa]'><span className=''>Price: </span><span className='font-[500]'>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</span></div>
@@ -880,7 +881,7 @@ export default function Marketplace() {
       {chosenItem.map((data) => (
      <div className='grid lg:grid-cols-3 grid-cols-1 gap-8'>
      <div className='grid-cols-1'>
-     <img src={data[9]} className='rounded-xl' style={{boxShadow:"2px 2px 5px 2px rgba(0,0,0,0.5)"}} />
+     <img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className='rounded-xl' style={{boxShadow:"2px 2px 5px 2px rgba(0,0,0,0.5)"}} />
      </div>
      <div className='grid-cols-1 lg:col-span-2'>
        <div><span className='rounded-md px-[0.3cm] py-[0.15cm] bg-[#00f]' style={{boxShadow:"2px 2px 2px 2px #333"}}>Creator:</span> &nbsp; <span className='mt-[0.15cm]'><img src={itemCreatorProfilePic} width="25" className='rounded-[100%]' style={{display:"inline-block"}} /> {theItemCreatorUsername}</span></div>

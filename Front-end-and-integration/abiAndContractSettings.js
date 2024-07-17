@@ -1,10 +1,14 @@
 // NFT contract settings
 const nftContractABI = [
-  { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "string", name: "name", type: "string" },
+      {
+        indexed: false,
+        internalType: "bytes32",
+        name: "name",
+        type: "bytes32",
+      },
       {
         indexed: false,
         internalType: "address",
@@ -102,9 +106,9 @@ const nftContractABI = [
       },
       {
         indexed: false,
-        internalType: "string",
+        internalType: "bytes32",
         name: "username",
-        type: "string",
+        type: "bytes32",
       },
     ],
     name: "UserRegistered",
@@ -112,22 +116,12 @@ const nftContractABI = [
   },
   {
     inputs: [
-      { internalType: "bytes32", name: "itemaccessid", type: "bytes32" },
-      { internalType: "address", name: "_offerer", type: "address" },
-    ],
-    name: "acceptOffer",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "collectionaddress", type: "address" },
-      { internalType: "string", name: "item_name", type: "string" },
-      { internalType: "string", name: "_uri", type: "string" },
-      { internalType: "string", name: "_description", type: "string" },
-      { internalType: "string", name: "_category", type: "string" },
-      { internalType: "uint256", name: "_price", type: "uint256" },
+      { internalType: "address", name: "collectionAddress", type: "address" },
+      { internalType: "bytes32", name: "itemName", type: "bytes32" },
+      { internalType: "bytes32", name: "uri", type: "bytes32" },
+      { internalType: "string", name: "description", type: "string" },
+      { internalType: "bytes32", name: "category", type: "bytes32" },
+      { internalType: "uint256", name: "price", type: "uint256" },
     ],
     name: "addItemToCollection",
     outputs: [],
@@ -135,9 +129,16 @@ const nftContractABI = [
     type: "function",
   },
   {
+    inputs: [{ internalType: "bytes32", name: "itemId", type: "bytes32" }],
+    name: "buyItem",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
     inputs: [
-      { internalType: "address", name: "_collectionaddr", type: "address" },
-      { internalType: "bool", name: "_is_public", type: "bool" },
+      { internalType: "address", name: "_collectionAddr", type: "address" },
+      { internalType: "bool", name: "_isPublic", type: "bool" },
     ],
     name: "changeCollectionVisibility",
     outputs: [],
@@ -146,23 +147,24 @@ const nftContractABI = [
   },
   {
     inputs: [
-      { internalType: "string", name: "_username", type: "string" },
-      { internalType: "string", name: "_collectionname", type: "string" },
-      { internalType: "bool", name: "_isPublic", type: "bool" },
-      { internalType: "string", name: "_category", type: "string" },
-      { internalType: "string", name: "_coverPhotoUrl", type: "string" },
-      { internalType: "string", name: "_avatar", type: "string" },
+      { internalType: "bytes32", name: "itemId", type: "bytes32" },
+      { internalType: "uint256", name: "newPrice", type: "uint256" },
     ],
-    name: "createCollection",
+    name: "changeItemPrice",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "bytes32", name: "itemaccessid", type: "bytes32" },
+      { internalType: "bytes32", name: "_username", type: "bytes32" },
+      { internalType: "bytes32", name: "_collectionName", type: "bytes32" },
+      { internalType: "bool", name: "_isPublic", type: "bool" },
+      { internalType: "bytes32", name: "_category", type: "bytes32" },
+      { internalType: "bytes32", name: "_coverPhotoUrl", type: "bytes32" },
+      { internalType: "string", name: "_avatar", type: "string" },
     ],
-    name: "delistItem",
+    name: "createCollection",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -173,10 +175,10 @@ const nftContractABI = [
     outputs: [
       {
         components: [
-          { internalType: "string", name: "name", type: "string" },
+          { internalType: "bytes32", name: "name", type: "bytes32" },
           { internalType: "address", name: "owner", type: "address" },
-          { internalType: "string", name: "category", type: "string" },
-          { internalType: "string", name: "coverPhotoUrl", type: "string" },
+          { internalType: "bytes32", name: "category", type: "bytes32" },
+          { internalType: "bytes32", name: "coverPhotoUrl", type: "bytes32" },
           { internalType: "address", name: "nftContract", type: "address" },
           { internalType: "bytes32[]", name: "itemIds", type: "bytes32[]" },
           { internalType: "bool", name: "isPublic", type: "bool" },
@@ -196,16 +198,16 @@ const nftContractABI = [
       {
         components: [
           { internalType: "address", name: "owner", type: "address" },
-          { internalType: "address", name: "itemaddress", type: "address" },
+          { internalType: "address", name: "itemAddress", type: "address" },
           { internalType: "uint256", name: "price", type: "uint256" },
           { internalType: "uint256", name: "id", type: "uint256" },
-          { internalType: "bytes32", name: "accessid", type: "bytes32" },
-          { internalType: "string", name: "collectionname", type: "string" },
+          { internalType: "bytes32", name: "accessId", type: "bytes32" },
+          { internalType: "bytes32", name: "collectionName", type: "bytes32" },
           { internalType: "string", name: "description", type: "string" },
-          { internalType: "string", name: "item_name", type: "string" },
-          { internalType: "string", name: "category", type: "string" },
-          { internalType: "string", name: "uri", type: "string" },
-          { internalType: "bool", name: "listed_for_sale", type: "bool" },
+          { internalType: "bytes32", name: "itemName", type: "bytes32" },
+          { internalType: "bytes32", name: "category", type: "bytes32" },
+          { internalType: "bytes32", name: "uri", type: "bytes32" },
+          { internalType: "bool", name: "listedForSale", type: "bool" },
           { internalType: "address[]", name: "offers", type: "address[]" },
         ],
         internalType: "struct OpticOdyssey.Item[]",
@@ -222,7 +224,7 @@ const nftContractABI = [
     outputs: [
       {
         components: [
-          { internalType: "string", name: "username", type: "string" },
+          { internalType: "bytes32", name: "username", type: "bytes32" },
           { internalType: "string", name: "avatar", type: "string" },
           { internalType: "address", name: "useraddress", type: "address" },
           { internalType: "uint256", name: "balance", type: "uint256" },
@@ -245,16 +247,16 @@ const nftContractABI = [
       {
         components: [
           { internalType: "address", name: "owner", type: "address" },
-          { internalType: "address", name: "itemaddress", type: "address" },
+          { internalType: "address", name: "itemAddress", type: "address" },
           { internalType: "uint256", name: "price", type: "uint256" },
           { internalType: "uint256", name: "id", type: "uint256" },
-          { internalType: "bytes32", name: "accessid", type: "bytes32" },
-          { internalType: "string", name: "collectionname", type: "string" },
+          { internalType: "bytes32", name: "accessId", type: "bytes32" },
+          { internalType: "bytes32", name: "collectionName", type: "bytes32" },
           { internalType: "string", name: "description", type: "string" },
-          { internalType: "string", name: "item_name", type: "string" },
-          { internalType: "string", name: "category", type: "string" },
-          { internalType: "string", name: "uri", type: "string" },
-          { internalType: "bool", name: "listed_for_sale", type: "bool" },
+          { internalType: "bytes32", name: "itemName", type: "bytes32" },
+          { internalType: "bytes32", name: "category", type: "bytes32" },
+          { internalType: "bytes32", name: "uri", type: "bytes32" },
+          { internalType: "bool", name: "listedForSale", type: "bool" },
           { internalType: "address[]", name: "offers", type: "address[]" },
         ],
         internalType: "struct OpticOdyssey.Item",
@@ -266,14 +268,12 @@ const nftContractABI = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "_useraddress", type: "address" },
-    ],
+    inputs: [{ internalType: "address", name: "_userAddr", type: "address" }],
     name: "getUserDetails",
     outputs: [
       {
         components: [
-          { internalType: "string", name: "username", type: "string" },
+          { internalType: "bytes32", name: "username", type: "bytes32" },
           { internalType: "string", name: "avatar", type: "string" },
           { internalType: "address", name: "useraddress", type: "address" },
           { internalType: "uint256", name: "balance", type: "uint256" },
@@ -287,10 +287,10 @@ const nftContractABI = [
       },
       {
         components: [
-          { internalType: "string", name: "name", type: "string" },
+          { internalType: "bytes32", name: "name", type: "bytes32" },
           { internalType: "address", name: "owner", type: "address" },
-          { internalType: "string", name: "category", type: "string" },
-          { internalType: "string", name: "coverPhotoUrl", type: "string" },
+          { internalType: "bytes32", name: "category", type: "bytes32" },
+          { internalType: "bytes32", name: "coverPhotoUrl", type: "bytes32" },
           { internalType: "address", name: "nftContract", type: "address" },
           { internalType: "bytes32[]", name: "itemIds", type: "bytes32[]" },
           { internalType: "bool", name: "isPublic", type: "bool" },
@@ -302,16 +302,16 @@ const nftContractABI = [
       {
         components: [
           { internalType: "address", name: "owner", type: "address" },
-          { internalType: "address", name: "itemaddress", type: "address" },
+          { internalType: "address", name: "itemAddress", type: "address" },
           { internalType: "uint256", name: "price", type: "uint256" },
           { internalType: "uint256", name: "id", type: "uint256" },
-          { internalType: "bytes32", name: "accessid", type: "bytes32" },
-          { internalType: "string", name: "collectionname", type: "string" },
+          { internalType: "bytes32", name: "accessId", type: "bytes32" },
+          { internalType: "bytes32", name: "collectionName", type: "bytes32" },
           { internalType: "string", name: "description", type: "string" },
-          { internalType: "string", name: "item_name", type: "string" },
-          { internalType: "string", name: "category", type: "string" },
-          { internalType: "string", name: "uri", type: "string" },
-          { internalType: "bool", name: "listed_for_sale", type: "bool" },
+          { internalType: "bytes32", name: "itemName", type: "bytes32" },
+          { internalType: "bytes32", name: "category", type: "bytes32" },
+          { internalType: "bytes32", name: "uri", type: "bytes32" },
+          { internalType: "bool", name: "listedForSale", type: "bool" },
           { internalType: "address[]", name: "offers", type: "address[]" },
         ],
         internalType: "struct OpticOdyssey.Item[]",
@@ -319,16 +319,6 @@ const nftContractABI = [
         type: "tuple[]",
       },
     ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "_caller", type: "address" },
-      { internalType: "address", name: "collectionaddress", type: "address" },
-    ],
-    name: "isCollectionOwner",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
@@ -348,19 +338,10 @@ const nftContractABI = [
   },
   {
     inputs: [
-      { internalType: "bytes32", name: "itemaccessid", type: "bytes32" },
+      { internalType: "bytes32", name: "itemId", type: "bytes32" },
+      { internalType: "uint256", name: "price", type: "uint256" },
     ],
-    name: "listItemForSale",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "bytes32", name: "itemaccessid", type: "bytes32" },
-      { internalType: "uint256", name: "_offerprice", type: "uint256" },
-    ],
-    name: "makeOffer",
+    name: "listItem",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -373,17 +354,24 @@ const nftContractABI = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "_caller", type: "address" }],
-    name: "user_exists",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "view",
+    inputs: [{ internalType: "address", name: "_user", type: "address" }],
+    name: "tipUser",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "itemId", type: "bytes32" }],
+    name: "unlistItem",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "users",
     outputs: [
-      { internalType: "string", name: "username", type: "string" },
+      { internalType: "bytes32", name: "username", type: "bytes32" },
       { internalType: "string", name: "avatar", type: "string" },
       { internalType: "address", name: "useraddress", type: "address" },
       { internalType: "uint256", name: "balance", type: "uint256" },
@@ -412,7 +400,7 @@ function toChecksumAddress(address) {
 }
 
 // Address to convert
-const address = "0xE9C49311b81545cCed67aB3313C8f4f938ba1920";
+const address = "0x8765F9E212c3401B0E51f7c3e1B7479a91FD94f2";
 const checksummedAddress = toChecksumAddress(address);
 console.log("checksum:" + checksummedAddress);
 
