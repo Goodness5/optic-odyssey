@@ -310,7 +310,7 @@ export default function Profile() {
           if (registeredUsername != "0x0000000000000000000000000000000000000000000000000000000000000000"){
             const createcollection = await nftContractWriteSettings.createCollection(registeredUsername, collectionName, publicVisibility, collectionCategory, theCollectionCoverHash, creatorProfilePhoto);
           }
-          else {
+          else if (registeredUsername === "0x0000000000000000000000000000000000000000000000000000000000000000") {
             const createcollection = await nftContractWriteSettings.createCollection(username, collectionName, publicVisibility, collectionCategory, theCollectionCoverHash, theProfilePhotoHash);
           }
          } catch (error) {
