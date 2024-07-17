@@ -40,7 +40,7 @@ export default function Creators() {
           const anyCreator = getcreator[i]
           creatorsArray.push(anyCreator)
         }
-        creatorsArray.sort((a,b) => b[3].toString() - a[3].toString())
+        creatorsArray.sort((a,b) => b[4].toString() - a[4].toString())
         setallCreators(creatorsArray)
       } catch (error) {
         console.log(error)
@@ -49,21 +49,6 @@ export default function Creators() {
     }
     getCreators();
    }, [])
-
-       // read profile photo from IPFS
-       const [getProfilePhotoFromIPFS, setgetProfilePhotoFromIPFS] = useState()
-         const readProfilePhoto = async (initialAddress) => {
-           if (isConnected){
-             try {
-             const response = await axios.post("/api/getprofilephoto", {walletaddress:initialAddress});
-             if (response.status === 200){
-               setgetProfilePhotoFromIPFS(response.data[0].profilephoto)
-             }
-             } catch (error) {
-               
-             }
-           }
-         }
 
        //read cover photo from IPFS
         const [getCoverPhotoFromIPFS, setgetCoverPhotoFromIPFS] = useState()
@@ -85,9 +70,11 @@ export default function Creators() {
   const [soldBalance, setSoldBalance] = useState()
   const [dateJoined, setDateJoined] = useState()
   const [epochDateJoined, setepochDateJoined] = useState()
+  const [getAddress, setGetAddress] = useState()
+  const [getUserProfilePic, setgetUserProfilePic] = useState()
   const [allPublicCollections, setAllPublicCollections] = useState([])
   const [userCollections, setUserCollections] = useState([])
-  const [getAddress, setGetAddress] = useState()
+
   const [userNumberOfCollections, setUserNumberOfCollections] = useState()
     const getTheData = async(initialAddress) => {
       if(isConnected){
@@ -108,12 +95,14 @@ export default function Creators() {
         console.log("sold:" + soldbalance)
         const parsedSoldBalance = parseFloat(formatUnits(soldbalance, 18)).toFixed(10)
         setSoldBalance(parsedSoldBalance)
+        const userProfilephoto = userDetails.avatar.toString()
+        setgetUserProfilePic(userProfilephoto)
         setGetAddress(initialAddress)
-        const allpubliccollections = await nftContractReadSettings.getallPublicCollections()
+        const allpubliccollections = await nftContractReadSettings.getAllPublicCollections()
         console.log(allpubliccollections)
         setAllPublicCollections(allpubliccollections)
         const specificuserdetails = await nftContractReadSettings.getUserDetails(initialAddress)
-        const specificusercollections = specificuserdetails._collections
+        const specificusercollections = specificuserdetails[1]
         setUserCollections(specificusercollections)
         console.log(specificusercollections)
         setUserNumberOfCollections(specificusercollections.length.toString())
@@ -155,12 +144,12 @@ export default function Creators() {
           <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 gap-4">
             {allCreators.map((data) => (
                 <div className="grid-cols-1 rounded-xl bg-[#000]" style={{boxShadow:"2px 2px 5px 2px #502"}}>
-                <img src="images/profile.png" className="mx-[auto] rounded-t-xl w-[30%] mt-[0.5cm]" />
+                <img src={data[1]} className="mx-[auto] rounded-t-xl" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">{data[0]}</div>
-                <div className="text-[#aaa]">Total sales: {data[2].toString() * 10 ** -18} RBTC</div>
-                <div className="text-[#ccc]"><span>Joined at:</span> {new Date(data[3].toString() * 1000).toLocaleString()}</div>
-                <div onClick={(e) => {e.preventDefault(); getTheData(data[1]) & readProfilePhoto(data[1]) & readCoverPhoto(data[1]) & setpreferredDisplay("profile")}} className="font-[500] mt-[0.2cm] cursor-pointer" style={{display:"inline-block"}} ><img src="images/add.png" width="17" className="mt-[-0.05cm]" style={{display:"inline-block"}} /> View profile</div>
+                <div className="text-[#aaa]">Total sales: {parseFloat(data[3].toString() * 10 **-18).toFixed(6)} RBTC</div>
+                <div className="text-[#ccc]"><span>Joined at:</span> {new Date(data[4].toString() * 1000).toLocaleString()}</div>
+                <div onClick={(e) => {e.preventDefault(); getTheData(data[2]) & readCoverPhoto(data[2]) & setpreferredDisplay("profile")}} className="font-[500] mt-[0.2cm] cursor-pointer" style={{display:"inline-block"}} ><img src="images/add.png" width="17" className="mt-[-0.05cm]" style={{display:"inline-block"}} /> View profile</div>
                 </div>
                 </div>
             ))}
@@ -171,24 +160,24 @@ export default function Creators() {
         {preferredDisplay === "profile" && 
         (
           <div className='mt-[1cm] profileinfo'>
-          <img src="images/cancel.png" width="40" onClick={(e) => setpreferredDisplay("main") & setgetProfilePhotoFromIPFS("") & setgetCoverPhotoFromIPFS("") & setGetAddress("")} className='mx-[auto] mb-[1cm] cancelbutton rounded-[100%] cursor-pointer' />
+          <img src="images/cancel.png" width="40" onClick={(e) => setpreferredDisplay("main") & setgetUserProfilePic("") & setgetCoverPhotoFromIPFS("") & setGetAddress("")} className='mx-[auto] mb-[1cm] cancelbutton rounded-[100%] cursor-pointer' />
          <div className='lg:pt-[5cm] pt-[3.5cm]' style={{backgroundImage: getCoverPhotoFromIPFS ? `url(${getCoverPhotoFromIPFS})` : "url(/images/canon6.jpg)", backgroundSize:"100%"}}>
            <div className='pl-[0.5%]' style={{display:"inline-block"}}>
-             <img src= {getProfilePhotoFromIPFS ? `${getProfilePhotoFromIPFS}` : "images/blank.png"} className='lg:w-[13%] w-[20%] mb-[0.2cm]' style={{boxShadow:"2px 2px 2px 2px rgba(0,0,0,0.5)", display:"inline-block"}} />
+             <img src= {getUserProfilePic ? `${getUserProfilePic}` : "images/blank.png"} className='lg:w-[13%] w-[20%] mb-[0.2cm]' style={{boxShadow:"2px 2px 2px 2px rgba(0,0,0,0.5)", display:"inline-block"}} />
            </div>
          </div>
  
          <div className='p-[0.5cm] bg-[#000]'>
         <div className='clear-both'>
          <span className='lg:text-[200%] md:text-[180%] text-[150%] font-[500]'>{registeredUsername ? (<span>{registeredUsername}</span>) : (<span>user</span>)}</span>
-         <span className='float-right mt-[0.1cm] font-[500]'>{soldBalance > 0 ? (<span>Total sales: {soldBalance} RBTC</span>) : (<span>Total sales: 0 RBTC</span>)}</span>
+         <span className='float-right mt-[0.1cm] font-[500]'>{soldBalance > 0 ? (<span>Total sales: parseFloat{soldBalance}.toFixed(6) RBTC</span>) : (<span>Total sales: 0 RBTC</span>)}</span>
         </div>
          <div>
            <span className='float-right mt-[-0.2cm]'>
              {showTipAmount ? 
-             (<span><form><button className='bg-[#502] px-[0.3cm] py-[0.08cm] rounded-md' onClick={(e) => {e.preventDefault(); tipCreator(amountToTip)}} style={{border:"2px solid #aaa"}}>Donate</button>
+             (<span><form><button className='bg-[#502] px-[0.3cm] py-[0.08cm] rounded-md' onClick={(e) => {e.preventDefault(); tipCreator(amountToTip)}} style={{border:"2px solid #aaa"}}>Tip</button>
              <input data-aos="fade-left" type="number" className='w-[2.13cm] pl-[0.2cm] bg-[#111] ml-[0.2cm] rounded-md' value={amountToTip} onChange={(e) => setamountToTip(e.target.value)} placeholder='amount' style={{border: "2px solid #aaa"}} /></form></span>) : 
-             (<span className='bg-[#502] px-[0.3cm] py-[0.08cm] rounded-md cursor-pointer' onClick={(e) => setshowTipAmount(true)} style={{border:"2px solid #aaa"}}>Donate</span>)
+             (<span className='bg-[#502] px-[0.3cm] py-[0.08cm] rounded-md cursor-pointer' onClick={(e) => setshowTipAmount(true)} style={{border:"2px solid #aaa"}}>Tip creator</span>)
             }
            </span>
          </div>

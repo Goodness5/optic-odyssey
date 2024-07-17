@@ -20,6 +20,7 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
         AOS.init();
       }, []) 
 
+      //read number of collections, items and creators
       const [numberOfPublicCollections, setnumberOfPublicCollections] = useState()
       const [numberOfPublicItems, setnumberOfPublicItems] = useState()
       const [numberOfCreators, setnumberOfCreators] = useState()
@@ -30,7 +31,7 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
              const ethersProvider = new BrowserProvider(walletProvider) 
              const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
            try {
-            const allcollectiondetails = await nftContractReadSettings.getallPublicCollections()
+            const allcollectiondetails = await nftContractReadSettings.getAllPublicCollections()
             setnumberOfPublicCollections(allcollectiondetails.length.toString())
             const allitemdetails = await nftContractReadSettings.getAllPublicItems()
             setnumberOfPublicItems(allitemdetails.length.toString())
@@ -43,6 +44,56 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
         }
         getTheData();
       }, []) 
+
+      //read the collections
+      const [getCollections, setgetCollections] = useState([])
+      useEffect(() => {
+        const getCollectionData = async() => {
+          if(isConnected){
+             //read settings first
+             const ethersProvider = new BrowserProvider(walletProvider) 
+             const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
+           try {
+            const theCollectionsArray = []
+            const allcollectiondetails = await nftContractReadSettings.getAllPublicCollections()
+            for (let i = 0; i < allcollectiondetails.length; i++){
+              const item = allcollectiondetails[i]
+              theCollectionsArray.push(item)
+            }
+            theCollectionsArray.sort((a, b) => b[4].toString() - a[4].toString())
+            setgetCollections(theCollectionsArray.slice(0, 4))
+          } catch (error) {
+            console.log(error)
+          }
+        }
+        }
+        getCollectionData();
+      }, []) 
+
+    //read profiles of creators
+   const [allCreators, setallCreators] = useState([])
+   useEffect(()=> {
+    const getCreators = async() => {
+      if(isConnected){
+         //read settings first
+         const ethersProvider = new BrowserProvider(walletProvider) 
+         const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
+       try {
+        const creatorsArray = []
+        const getcreator = await nftContractReadSettings.getAllUsers()
+        for (let i = 0; i < getcreator.length; i++){
+          const anyCreator = getcreator[i]
+          creatorsArray.push(anyCreator)
+        }
+        creatorsArray.sort((a, b) => b[4].toString() - a[4].toString())
+        setallCreators(creatorsArray.slice(0, 4))
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    }
+    getCreators();
+   }, [])
     
     return (
         <div className="lg:p-[0.5cm]">
@@ -92,30 +143,13 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
         </div>
         <div className="mt-[1cm]">
         <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-8">
+          {getCollections.map((data) => (
             <div className="grid-cols-1 cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
-                <div><img src="images/asa.png" className="rounded-2xl" style={{border:"4px solid #aaa"}} /></div>
-                <div className="grid grid-cols-2 gap-4 mt-[0.5cm]">
-                    <div className="grid-cols-1 rounded-2xl" style={{border:"4px solid #aaa"}}><img src="images/feel.jpg" className="rounded-xl" /></div>
-                    <div className="grid-cols-1 rounded-2xl bg-[#502] lg:text-[150%] text-[120%]" style={{border:"4px solid #aaa", placeItems:"center", display:"grid"}}><div>3+</div></div>
-                </div>
-                <div className="font-[500] lg:text-[130%] text-[120%] mt-[0.3cm]">We shine bright</div>
-            </div>
-            <div className="grid-cols-1 cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
-                <div><img src="images/studio.jpg" className="rounded-2xl" style={{border:"4px solid #aaa"}} /></div>
-                <div className="grid grid-cols-2 gap-4 mt-[0.5cm]">
-                    <div className="grid-cols-1 rounded-2xl" style={{border:"4px solid #aaa"}}><img src="images/cover.png" className="rounded-xl" /></div>
-                    <div className="grid-cols-1 rounded-2xl bg-[#502] lg:text-[150%] text-[120%]" style={{border:"4px solid #aaa", placeItems:"center", display:"grid"}}><div>2+</div></div>
-                </div>
-                <div className="font-[500] lg:text-[130%] text-[120%] mt-[0.3cm]">My photos in the studio</div>
-            </div>
-            <div className="grid-cols-1 cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
-                <div><img src="images/fashion4.jpg" className="rounded-2xl" style={{border:"4px solid #aaa"}} /></div>
-                <div className="grid grid-cols-2 gap-4 mt-[0.5cm]">
-                    <div className="grid-cols-1 rounded-2xl" style={{border:"4px solid #aaa"}}><img src="images/fashion3.jpg" className="rounded-xl" /></div>
-                    <div className="grid-cols-1 rounded-2xl bg-[#502] lg:text-[150%] text-[120%]" style={{border:"4px solid #aaa", placeItems:"center", display:"grid"}}><div>2+</div></div>
-                </div>
-                <div className="font-[500] lg:text-[130%] text-[120%] mt-[0.3cm]">The Greatest Gift</div>
-            </div>
+            <div><img src={data[3]} className="rounded-2xl" style={{border:"4px solid #aaa"}} /></div> 
+            <div className="lg:text-[150%] text-[120%] homenumberofcollectionitems text-right"><span className="rounded-[100%] p-[0.3cm] bg-[#000] mr-[0.25cm]">+{data[5].length.toString()}</span></div>
+            <div className="font-[500] lg:text-[130%] text-[120%] mt-[-0.8cm]">{data[0]}</div>
+           </div>
+          ))}
         </div>
         </div>
       </div>
@@ -127,38 +161,15 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
         </div>
         <div className="mt-[1cm]">
             <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 gap-4">
+              {allCreators.map((data) => (
             <div className="grid-cols-1 rounded-2xl bg-[#000] cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("creators") & changeBg4(e)}}>
-                <img src="images/humphreyo.png" className="rounded-t-2xl h-[9cm] w-[100%]" />
-                <div className="mt-[0.2cm] p-[0.5cm]">
-                <div className="text-[150%] font-[500]">Humphreyo</div>
-                <div className="text-[#aaa]">Total sales: 0 RBTC</div>
-                <div className="text-[#ccc] font-[500]"><span>Total collections:</span> 3</div>
-                </div>
-                </div>
-                <div className="grid-cols-1 rounded-2xl bg-[#000] cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("creators") & changeBg4(e)}}>
-                <img src="images/david.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
-                <div className="mt-[0.2cm] p-[0.5cm]">
-                <div className="text-[150%] font-[500]">David_Xaj</div>
-                <div className="text-[#aaa]">Total sales: 0 RBTC</div>
-                <div className="text-[#ccc] font-[500]"><span>Total collections:</span> 1</div>
-                </div>
-                </div>
-                <div className="grid-cols-1 rounded-2xl bg-[#000] cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("creators") & changeBg4(e)}}>
-                <img src="images/priya.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
-                <div className="mt-[0.2cm] p-[0.5cm]">
-                <div className="text-[150%] font-[500]">Priya</div>
-                <div className="text-[#aaa]">Total sales: 0 RBTC</div>
-                <div className="text-[#ccc] font-[500]"><span>Total collections:</span> 2</div>
-                </div>
-                </div>
-                <div className="grid-cols-1 rounded-2xl bg-[#000] cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("creators") & changeBg4(e)}}>
-                <img src="images/daniel.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
-                <div className="mt-[0.2cm] p-[0.5cm]">
-                <div className="text-[150%] font-[500]">Daniel Ekeng</div>
-                <div className="text-[#aaa]">Total sales: 0 RBTC</div>
-                <div className="text-[#ccc] font-[500]"><span>Total collections:</span> 1</div>
-                </div>
-                </div>
+            <img src={data[1]} className="rounded-t-2xl h-[9cm] w-[100%]" />
+            <div className="mt-[0.2cm] p-[0.5cm]">
+            <div className="text-[150%] font-[500]">{data[0]}</div>
+            <div className="text-[#aaa]">Total sales: {parseFloat(data[3].toString() * 10 **-18).toFixed(6)} RBTC</div>
+            </div>
+            </div>
+              ))}
             </div>
         </div>
       </div>
@@ -265,15 +276,6 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
                 </div>
                 </div>
                 <div className="grid-cols-1 rounded-2xl bg-[#002]">
-                <img src="images/dao.png" width="130" className="mx-[auto] pt-[1cm]" />
-                <div className="p-[0.5cm]">
-                 <div className="text-center text-[120%] font-[500]">DAO membership</div>
-                 <div className="mt-[0.2cm] text-[#aaa]">
-                    All photographers and creators have an option to join the Optic Odyssey DAO. By becoming a member of the DAO, you are able to request for funds and make governance decisions and vote in the DAO.
-                 </div>
-                </div>
-                </div>
-                <div className="grid-cols-1 rounded-2xl bg-[#002]">
                 <img src="images/nft.png" width="130" className="mx-[auto] pt-[1cm]" />
                 <div className="p-[0.5cm]">
                  <div className="text-center text-[120%] font-[500]">NFT marketplace</div>
@@ -281,6 +283,15 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
                    The NFT marketplace is where all photos tokenized on Optic Odyssey are being sold. You can fix a price for your NFTs or set them up for bidding. Highest bidder 
                    can then buy the NFT. Defaulters of the marketplace will be penalized. Listing an NFT on the marketplace is free and only the buyer pays for transaction fees. These 
                    transaction fees will be used to fund photographers/creators seeking for funding.
+                 </div>
+                </div>
+                </div>
+                <div className="grid-cols-1 rounded-2xl bg-[#002]">
+                <img src="images/dao.png" width="130" className="mx-[auto] pt-[1cm]" />
+                <div className="p-[0.5cm]">
+                 <div className="text-center text-[120%] font-[500]">DAO membership</div>
+                 <div className="mt-[0.2cm] text-[#aaa]">
+                    All photographers and creators have an option to join the Optic Odyssey DAO. By becoming a member of the DAO, you are able to request for funds and make governance decisions and vote in the DAO.
                  </div>
                 </div>
                 </div>

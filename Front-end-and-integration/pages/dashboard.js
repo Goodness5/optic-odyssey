@@ -78,9 +78,9 @@ export default function Dashboard(){
       <div>
       <div className='p-[0.4cm] menuitems4' onClick={(e) => setDisplayComponent("home") & changeBg1(e)} style={{background:bgColor1}}>Home <img src="images/home.png" width="20" className='ml-[0.2cm] mt-[-0.2cm]' style={{display:"inline-block"}}/></div>
       <div className='p-[0.4cm] menuitems4' onClick={(e) => setDisplayComponent("profile") & changeBg2(e)} style={{background:bgColor2}}>Profile <img src="images/profile.png" width="20" className='ml-[0.2cm] mt-[-0.2cm]' style={{display:"inline-block"}}/></div>
-      <div className='p-[0.4cm] menuitems4' onClick={(e) => setDisplayComponent("daogovernance") & changeBg3(e)} style={{background:bgColor3}}>DAO Governance <img src="images/dao.png" width="20" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div>
       <div className='p-[0.4cm] menuitems4' onClick={(e) => setDisplayComponent("creators") & changeBg4(e)} style={{background:bgColor4}}>Creators <img src="images/creator.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div>
       <div className='p-[0.4cm] menuitems4' onClick={(e) => setDisplayComponent("marketplace") & changeBg5(e)} style={{background:bgColor5}}>NFT Marketplace <img src="images/nft.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div>
+      <div className='p-[0.4cm] menuitems4' onClick={(e) => setDisplayComponent("daogovernance") & changeBg3(e)} style={{background:bgColor3}}>DAO Governance <img src="images/dao.png" width="20" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div>
       </div>
       <div className='mt-[30%] p-[0.5cm]' style={{display:"block"}}>
        <div><Link href="https://github.com/Goodness5/optic-odyssey/blob/master/README.md"><button className='m-[0.2cm] rounded-md bg-[#502] px-[0.3cm] py-[0.15cm] text-[#fff]'>Docs <img src="images/documentation.png" width="17" className='ml-[0.2cm]' style={{display:"inline-block"}}/></button></Link></div>
@@ -98,9 +98,9 @@ export default function Dashboard(){
       <div>
       <div className='p-[0.4cm] menuitems4' onClick={(e) => setDisplayComponent("home") & changeBg1(e) & setMountSmallMenu(false)} style={{background:bgColor1}}>Home <img src="images/home.png" width="20" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div>
       <div className='p-[0.4cm] menuitems4' onClick={(e) => setDisplayComponent("profile") & changeBg2(e) & setMountSmallMenu(false)} style={{background:bgColor2}}>Profile <img src="images/profile.png" width="20" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div>
-      <div className='p-[0.4cm] menuitems4' onClick={(e) => setDisplayComponent("daogovernance") & changeBg3(e) & setMountSmallMenu(false)} style={{background:bgColor3}}>DAO Governance <img src="images/dao.png" width="20" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div>
       <div className='p-[0.4cm] menuitems4' onClick={(e) => setDisplayComponent("creators") & changeBg4(e) & setMountSmallMenu(false)} style={{background:bgColor4}}>Creators <img src="images/creator.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div>
       <div className='p-[0.4cm] menuitems4' onClick={(e) => setDisplayComponent("marketplace") & changeBg5(e) & setMountSmallMenu(false)} style={{background:bgColor5}}>NFT Marketplace <img src="images/nft.png" width="25" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div>
+      <div className='p-[0.4cm] menuitems4' onClick={(e) => setDisplayComponent("daogovernance") & changeBg3(e) & setMountSmallMenu(false)} style={{background:bgColor3}}>DAO Governance <img src="images/dao.png" width="20" className='ml-[0.2cm]' style={{display:"inline-block"}}/></div>
       </div>
       <div className='my-[1cm]'><img src="images/arrow.png" onClick={(e) => setMountSmallMenu(false)} className='closedashboardsmallmenu mx-[auto] cursor-pointer' width="50" /></div>
       <div className='mt-[20%] p-[0.5cm]' style={{display:"block"}}>

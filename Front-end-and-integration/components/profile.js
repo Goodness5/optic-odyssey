@@ -67,60 +67,9 @@ export default function Profile() {
     setcollectionDivDisplay("block")
   }
 
-        //update profile and cover photos
-      //update profile photo
-      const [showProfilePhotoSection, setShowProfilePhotoSection] = useState()
-      const [theProfilePhoto, settheProfilePhoto] = useState()
+        //update the cover photo
       const [showCoverPhotoSection, setShowCoverPhotoSection] = useState()
       const [theCoverPhoto, settheCoverPhoto] = useState()
-      const updateProfilePhoto = async () => {
-        if(isConnected){
-          setLoading(true) 
-        try {
-          const formData = new FormData();
-          formData.append('file', theProfilePhoto);
-          const response = await axios.post('/api/uploadprofilephoto', formData);
-          if (response.status === 200) {
-            const cid = response.data.cid;
-            console.log('File uploaded:', cid);
-            const request = await axios.post('/api/updateprofilephoto', { profilephoto: cid, walletaddress: address });
-            if (request.status === 200) {
-              console.log("Profile photo updated successfully");
-              setShowProfilePhotoSection(false);
-            }
-            else if (request.status === 201) {
-              console.log("Profile photo added successfully");
-              setShowProfilePhotoSection(false);
-            }
-          }
-        } catch (error) {
-          console.error('Error uploading:', error.message);
-          setLoading(false) 
-        }
-        finally {
-            setLoading(false)
-         }
-      }
-      };
-
-    // read profile photo from IPFS
-    const [getProfilePhotoFromIPFS, setgetProfilePhotoFromIPFS] = useState()
-    useEffect(()=> {
-      const readProfilePhoto = async () => {
-        if (isConnected){
-          try {
-          const response = await axios.post("/api/getprofilephoto", {walletaddress:address});
-          if (response.status === 200){
-            setgetProfilePhotoFromIPFS(response.data[0].profilephoto)
-          }
-          } catch (error) {
-            
-          }
-        }
-      }
-      readProfilePhoto();
-    }, [loading, getProfilePhotoFromIPFS, isConnected, address])
-
     //update cover photo
     const updateCoverPhoto = async () => {
       if(isConnected){
@@ -176,6 +125,7 @@ export default function Profile() {
   const [soldBalance, setSoldBalance] = useState()
   const [dateJoined, setDateJoined] = useState()
   const [epochDateJoined, setepochDateJoined] = useState()
+  const [creatorProfilePhoto, setcreatorProfilePhoto] = useState()
   const [allPublicCollections, setAllPublicCollections] = useState([])
   const [userCollections, setUserCollections] = useState([])
   useEffect(()=>{
@@ -202,13 +152,16 @@ export default function Profile() {
         console.log("sold:" + soldbalance)
         const parsedSoldBalance = parseFloat(formatUnits(soldbalance, 18)).toFixed(10)
         setSoldBalance(parsedSoldBalance)
-        const allpubliccollections = await nftContractReadSettings.getallPublicCollections()
+        const profilePhoto = userDetails.avatar.toString()
+        console.log(profilePhoto)
+        setcreatorProfilePhoto(profilePhoto)
+        const allpubliccollections = await nftContractReadSettings.getAllPublicCollections()
         console.log(allpubliccollections)
         setAllPublicCollections(allpubliccollections)
         const specificuserdetails = await nftContractReadSettings.getUserDetails(address)
-        const specificusercollections = specificuserdetails._collections
+        const specificusercollections = specificuserdetails[1]
         setUserCollections(specificusercollections)
-        console.log(specificusercollections)
+        console.log("specificusercollections:" + specificusercollections)
       } catch (error) {
         console.log(error)
       }
@@ -228,13 +181,13 @@ export default function Profile() {
          const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
        try {
         const specificuserdetails = await nftContractReadSettings.getUserDetails(address)
-        const specificuseritems = specificuserdetails._items
+        const specificuseritems = specificuserdetails[2]
         console.log(specificuseritems)
         console.log("contract" + initialCollectionContract)
         const chosenCollectionArray = []
         for (let i = 0; i < specificuseritems.length; i++){
           if (specificuseritems[i][1] === initialCollectionContract){
-            const specificuseritem = specificuserdetails._items[i]
+            const specificuseritem = specificuserdetails[2][i]
             chosenCollectionArray.push(specificuseritem)
           }
         }
@@ -249,6 +202,7 @@ export default function Profile() {
     
    //read for single collection item creator
    const [theItemCreatorUsername, settheItemCreatorUsername] = useState()
+   const [itemCreatorProfilePic, setitemCreatorProfilePic] = useState()
    const getItemCreator = async(itemCreator) => {
      if(isConnected){
         //read settings first
@@ -258,6 +212,8 @@ export default function Profile() {
        const getitemcreator = await nftContractReadSettings.users(itemCreator)
        const getcreatorusername = getitemcreator.username.toString()
        settheItemCreatorUsername(getcreatorusername)
+       const getcreatorprofilepic = getitemcreator.avatar.toString()
+       setitemCreatorProfilePic(getcreatorprofilepic)
      } catch (error) {
        console.log(error)
      }
@@ -274,11 +230,11 @@ export default function Profile() {
          const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
        try {
         const specificuserdetails = await nftContractReadSettings.getUserDetails(address)
-        const specificuseritems = specificuserdetails._items
+        const specificuseritems = specificuserdetails[2]
         const chosenItemArray = []
         for (let i = 0; i < specificuseritems.length; i++){
           if (specificuseritems[i][4] === initialItemID){
-            const specificuseritem = specificuserdetails._items[i]
+            const specificuseritem = specificuseritems[i]
             chosenItemArray.push(specificuseritem)
           }
         }
@@ -288,6 +244,56 @@ export default function Profile() {
       }
     }
     }
+
+       //getting collection cover upload cid
+      const [theCollectionCoverHash, settheCollectionCoverHash] = useState();
+      const [theCollectionCoverFile, settheCollectionCoverFile] = useState()
+      const uploadCollectionCover = async () => {
+        if(isConnected){
+          setLoading(true) 
+        try {
+          const formData = new FormData();
+          formData.append('file', theCollectionCoverFile);
+    
+          const response = await axios.post('/api/server2', formData);
+          if (response.status === 200) {
+            settheCollectionCoverHash(response.data.cid);
+            console.log('File uploaded to IPFS:', response.data.cid);
+          }
+        } catch (error) {
+          console.error('Error uploading to IPFS:', error.message);
+          setLoading(false)
+        }
+        finally {
+          setLoading(false)
+         }
+      }
+      };
+
+       //getting Profile photo upload cid
+      const [theProfilePhotoHash, settheProfilePhotoHash] = useState();
+      const [theProfilePhotoFile, settheProfilePhotoFile] = useState()
+      const uploadProfilePic = async () => {
+        if(isConnected){
+          setLoading(true) 
+        try {
+          const formData = new FormData();
+          formData.append('file', theProfilePhotoFile);
+    
+          const response = await axios.post('/api/server3', formData);
+          if (response.status === 200) {
+            settheProfilePhotoHash(response.data.cid);
+            console.log('File uploaded to IPFS:', response.data.cid);
+          }
+        } catch (error) {
+          console.error('Error uploading to IPFS:', error.message);
+          setLoading(false)
+        }
+        finally {
+          setLoading(false)
+         }
+      }
+      };
 
       //now we are going to create a collection
       const [username, setUsername] = useState()
@@ -302,10 +308,10 @@ export default function Profile() {
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
           if (registeredUsername.length > 0){
-            const createcollection = await nftContractWriteSettings.createCollection(registeredUsername, collectionName, publicVisibility, collectionCategory);
+            const createcollection = await nftContractWriteSettings.createCollection(registeredUsername, collectionName, publicVisibility, collectionCategory, theCollectionCoverHash, creatorProfilePhoto);
           }
           else {
-            const createcollection = await nftContractWriteSettings.createCollection(username, collectionName, publicVisibility, collectionCategory);
+            const createcollection = await nftContractWriteSettings.createCollection(username, collectionName, publicVisibility, collectionCategory, theCollectionCoverHash, theProfilePhotoHash);
           }
          } catch (error) {
           console.log(error)
@@ -350,7 +356,7 @@ export default function Profile() {
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
-          const collectionvisibility = await nftContractWriteSettings.changeCollectionVisisbility(initialCollectionContractAddress, visibility);
+          const collectionvisibility = await nftContractWriteSettings.changeCollectionVisibility(initialCollectionContractAddress, visibility);
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -407,6 +413,45 @@ export default function Profile() {
         }
       }
 
+       //function to list and unlist item for sale
+       //list item function
+      const ListItem = async (itemID) => {
+        if(isConnected){
+         setLoading(true) 
+         const ethersProvider = new BrowserProvider(walletProvider) 
+         const signer = await ethersProvider.getSigner()
+         const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
+         try {
+          const listitem = await nftContractWriteSettings.listItemForSale(itemID);
+         } catch (error) {
+          console.log(error)
+          setLoading(false)
+         }
+         finally {
+          setLoading(false)
+         }
+        }
+      }
+
+      //unlist item function
+      const UnlistItem = async (itemID) => {
+        if(isConnected){
+         setLoading(true) 
+         const ethersProvider = new BrowserProvider(walletProvider) 
+         const signer = await ethersProvider.getSigner()
+         const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
+         try {
+          const unlistitem = await nftContractWriteSettings.delistItem(itemID);
+         } catch (error) {
+          console.log(error)
+          setLoading(false)
+         }
+         finally {
+          setLoading(false)
+         }
+        }
+      }
+
 
   return (
     <div>
@@ -426,14 +471,7 @@ export default function Profile() {
           <button className='px-[0.3cm] py-[0.1cm] mt-[0.1cm] bg-[#002] rounded-md font-[500] generalbutton4' onClick={(e) => {e.preventDefault(); updateCoverPhoto(theCoverPhoto, address)}} style={{border:"2px solid #333"}}>Update <img src="images/upload.png" width="20" style={{display:"inline-block"}} /></button>
          </div>)}
           <div className='pl-[0.5%]' style={{display:"inline-block"}}>
-            <img src= {getProfilePhotoFromIPFS ? `${getProfilePhotoFromIPFS}` : "images/blank.png"} className='lg:w-[13%] w-[20%] mb-[0.2cm]' style={{boxShadow:"2px 2px 2px 2px rgba(0,0,0,0.5)", display:"inline-block"}} />
-            {!showProfilePhotoSection ? 
-            (<img src="images/edit2.png" width="25" className='lg:ml-[-7.5%] ml-[-12.5%] cursor-pointer rounded-[100%]' onClick={(e) => setShowProfilePhotoSection(true)} style={{display:"inline-block", boxShadow:"2px 2px 5px 2px #000"}} />) :
-            (<div className='my-[0.2cm]'> 
-          <input type="file" className='p-[0.1cm] bg-[#001] rounded-md outline-[#fff] w-[6cm]' id="theProfilePhoto" name="theProfilePhoto" onChange={(e) => settheProfilePhoto(e.target.files[0])} style={{border:"2px solid #00f"}} />
-          <button className='px-[0.3cm] py-[0.1cm] bg-[#002] rounded-md font-[500] generalbutton4' onClick={(e) => {e.preventDefault(); updateProfilePhoto(theProfilePhoto, address)}} style={{border:"2px solid #333"}}>Update <img src="images/upload.png" width="20" style={{display:"inline-block"}} /></button>
-          </div>)
-          } 
+            <img src= {creatorProfilePhoto ? `${creatorProfilePhoto}` : "images/blank.png"} className='lg:w-[13%] w-[20%] mb-[0.2cm]' style={{boxShadow:"2px 2px 2px 2px rgba(0,0,0,0.5)", display:"inline-block"}} />
           </div>
         </div>
 
@@ -458,19 +496,9 @@ export default function Profile() {
 
     <div className='mt-[0.8cm]'>
       <div style={{display:mainNFTsdivDisplay}}>
-      <div>
       <div className='text-center'>
         <Link href="#uploadFiles"><button onClick={(e) => controlUploadButton(e)} className={`m-[0.2cm] px-[0.3cm] py-[0.13cm] bg-[${uploadFilesBg}] rounded-md`} style={{boxShadow:`2px 2px 2px 2px ${uploadFilesShadow}`}}>Upload files</button></Link>
         <Link href="#AllYourNFTCollections"><button onClick={(e) => controlNFTsButton(e)} className={`m-[0.2cm] px-[0.3cm] py-[0.13cm] bg-[${yourNFTsBg}] rounded-md`} style={{boxShadow:`2px 2px 2px 2px ${yourNFTsShadow}`}}>Your collections</button></Link>
-      </div>
-      {profileDisplayComponent != "uploadFiles" &&
-      (<div className='text-center mt-[0.5cm] '>
-        <span className='bg-[#000] text-[#fff] px-[0.5cm] py-[0.2cm] rounded-full' style={{border:"2px solid #00f"}}>
-        <form onSubmit={(e) => {e.preventDefault(); handleSearch(searchQuery)}} style={{display:"inline-block"}}>
-        <input type="text" placeholder="Search by name or collection..." onChange={(e) => setSearchQuery(e.target.value)} className='bg-[#000] w-[5cm] placeholder-[#fff] text-[#fff] text-[90%] outline-none' /><img src="images/search.png" width="20" className='ml-[0.2cm] cursor-pointer' onClick={(e) => {e.preventDefault(); handleSearch(searchQuery)}} style={{display:"inline-block"}}/>
-        </form>
-        </span>
-      </div>)}
       </div>
 
       {profileDisplayComponent === "uploadFiles" &&
@@ -497,14 +525,29 @@ export default function Profile() {
           <div><input type="radio" name="collectionvisibility" onChange={(e) => setpublicVisibility(false)} /> Private</div>
         </div>
         </div>
-        <button onClick={(e) => {e.preventDefault(); createNFTcollection(username, collectionName, publicVisibility, collectionCategory)}} className='px-[0.3cm] py-[0.2cm] w-[100%] font-[500] mt-[0.5cm] bg-[#502] rounded-md generalbutton'>Create collection <img src="images/collection.png" width="20" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+        <div className='text-[#aaa] mt-[0.3cm]'>Choose a collection cover</div>
+        <div className='mt-[0.2cm] mb-[0.3cm]'>
+          <input type="file" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' id="theCollectionCoverFile" name="theCollectionCoverFile" onChange={(e) => settheCollectionCoverFile(e.target.files[0])} style={{border:"2px solid #00f"}} />
+          <button className='px-[0.3cm] py-[0.2cm] bg-[#002] rounded-md font-[500] generalbutton4' onClick={(e) => {e.preventDefault(); uploadCollectionCover(theCollectionCoverFile)}} style={{border:"2px solid #333"}}>Upload collection cover <img src="images/upload.png" width="20" style={{display:"inline-block"}} /></button>
+        </div>
+        <div className='text-center mb-[0.3cm] lg:mx-[20%] md:mx-[10%] mx-[5%] '><img src={theCollectionCoverHash} className='mx-[auto]' /></div>
+        {!creatorProfilePhoto && 
+        (<div>
+        <div className='text-[#aaa] mt-[0.3cm]'>Choose a profile photo</div>
+        <div className='mt-[0.2cm] mb-[0.3cm]'>
+          <input type="file" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' id="theProfilePhotoFile" name="theProfilePhotoFile" onChange={(e) => settheProfilePhotoFile(e.target.files[0])} style={{border:"2px solid #00f"}} />
+          <button className='px-[0.3cm] py-[0.2cm] bg-[#002] rounded-md font-[500] generalbutton4' onClick={(e) => {e.preventDefault(); uploadProfilePic(theProfilePhotoFile)}} style={{border:"2px solid #333"}}>Upload profile photo <img src="images/upload.png" width="20" style={{display:"inline-block"}} /></button>
+        </div>
+        </div>)}
+        <div className='text-center mb-[0.3cm] lg:mx-[20%] md:mx-[10%] mx-[5%] '><img src={theProfilePhotoHash} className='mx-[auto]' /></div>
+        <button onClick={(e) => {e.preventDefault(); createNFTcollection(username, collectionName, publicVisibility, collectionCategory, theCollectionCoverHash, theProfilePhotoHash)}} className='px-[0.3cm] py-[0.2cm] w-[100%] font-[500] mt-[0.5cm] bg-[#502] rounded-md generalbutton'>Create collection <img src="images/collection.png" width="20" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
         </div>
         <div className='grid-cols-1 bg-[rgba(0,0,0,0.7)] p-[0.5cm]' style={{border:"1px solid #333"}}>
           <div className='font-[500] mb-[0.3cm] text-[120%]'>Add an item to your collection (<span>{userCollections ? (userCollections.length) : (0)}</span>)</div>
           {userCollections.length > 0 ? 
           (<select className='bg-[#001] p-[0.2cm] text-[#fff] rounded-md outline-[#fff] mb-[0.3cm] w-[100%]' onClick={(e) => setcollectionContractAddress(e.target.value)} style={{border:"2px solid #00f"}}>
             {userCollections.map((data) => (
-               <option className='py-[0.2cm]' value={data[2]}>{data[0]}</option>
+               <option className='py-[0.2cm]' value={data[4]}>{data[0]}</option>
             ))}
           </select>) : 
           (
@@ -525,7 +568,9 @@ export default function Profile() {
           <input type="file" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' id="theFile" name="theFile" onChange={(e) => setTheFile(e.target.files[0])} style={{border:"2px solid #00f"}} />
           <button className='px-[0.3cm] py-[0.2cm] bg-[#002] rounded-md font-[500] generalbutton4' onClick={(e) => {e.preventDefault(); uploadFile(theFile)}} style={{border:"2px solid #333"}}>Upload file <img src="images/upload.png" width="20" style={{display:"inline-block"}} /></button>
         </div>
-        <div className='text-center mb-[0.3cm] lg:mx-[20%] md:mx-[10%] mx-[5%] '><img src={theHash} className='mx-[auto]' /></div>
+        <div className='text-center mb-[0.3cm] lg:mx-[20%] md:mx-[10%] mx-[5%] '>
+          {theHash && (<img src={"https://ipfs.filebase.io/ipfs/" + theHash} className='mx-[auto]' />)}
+        </div>
         <input type="number" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' value={itemPrice} onChange={(e) => setItemPrice(e.target.value)} placeholder="Set a price for your item e.g 1 RBTC" style={{border:"2px solid #00f"}} />
         <button className='px-[0.3cm] py-[0.2cm] w-[100%] font-[500] bg-[#502] rounded-md generalbutton' onClick={(e) => {e.preventDefault(); addItemToNFTcollection(collectionContractAddress, itemTitle, theHash, itemDescription, itemCategory, itemPrice)}}>Add to collection <img src="images/collection2.png" width="23" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
         </div>
@@ -539,14 +584,15 @@ export default function Profile() {
         <div>
         <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-8">
           {userCollections.map((data) => (
-          <div key={data[0]} className="grid-cols-1">
-            <div className='px-[1cm] py-[2cm] userfundingrequestsdiv bg-[#000]' style={{boxShadow:"3px 3px 2px 2px #333"}}>
+          <div key={data[4]} className="grid-cols-1">
+            <div className='px-[1cm] py-[2cm] allusernftcollection' style={{boxShadow:"3px 3px 2px 2px #333", backgroundImage:`url(${data[3]})`, backgroundSize:"100%"}}>
               <div className='text-center text-[120%]'>{data[0]}</div>
+              <div className="text-center text-[120%] mt-[0.5cm]"><span className='bg-[#502] p-[0.2cm] m-[0.2cm]' >+{data[5].length.toString()}</span></div>
             </div>
             <div className='mt-[0.3cm]'>
-            <button onClick={(e) => controlCollectionsDiv() & getItemsData(data[2]) & setCollectionTitle(data[0]) & setaCollectionCategory(data[1])} className='bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
-            {data[4] === false && (<button onClick={(e) => {e.preventDefault(); collectionVisibility(data[2], true)}} className='bg-[#002] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton2' style={{border:"2px solid #aaa"}}>Publish <img src="images/post.png" width="17" style={{display:"inline-block"}} /></button>)}
-            {data[4] === true && (<button onClick={(e) => {e.preventDefault(); collectionVisibility(data[2], false)}} className='text-[#900] bg-[#000] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton2' style={{border:"2px solid #aaa"}}>Unpublish <img src="images/post.png" width="17" style={{display:"inline-block"}} /></button>)}
+            <button onClick={(e) => controlCollectionsDiv() & getItemsData(data[4]) & setCollectionTitle(data[0]) & setaCollectionCategory(data[2])} className='bg-[#502] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+            {data[data.length.toString() - 1] === false && (<button onClick={(e) => {e.preventDefault(); collectionVisibility(data[4], true)}} className='bg-[#002] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton2' style={{border:"2px solid #aaa"}}>Publish <img src="images/post.png" width="17" style={{display:"inline-block"}} /></button>)}
+            {data[data.length.toString() - 1] === true && (<button onClick={(e) => {e.preventDefault(); collectionVisibility(data[4], false)}} className='text-[#900] bg-[#000] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton2' style={{border:"2px solid #aaa"}}>Unpublish <img src="images/post.png" width="17" style={{display:"inline-block"}} /></button>)}
             </div>
           </div>
           ))}
@@ -565,10 +611,10 @@ export default function Profile() {
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-8">
           {chosenCollectionItems.map((data) => (
             <div className="grid-cols-1">
-            <div><img src={data[9]} className="rounded-2xl w-[100%] lg:h-[8cm]" style={{border:"4px solid #aaa"}} /></div>
+            <div><img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-2xl w-[100%] lg:h-[8cm]" style={{border:"4px solid #aaa"}} /></div>
             <div className="lg:text-[130%] text-[120%] mt-[0.3cm] mx-[0.2cm]">Title: {data[7]}</div>
             <div className="lg:text-[120%] text-[110%] mx-[0.2cm]">Category: {data[8]}</div>
-            <div className='mx-[0.2cm] text-[#aaa]'><span className=''>Price: </span><span className='font-[500]'>{data[2].toString() * 10 **-18} RBTC</span></div>
+            <div className='mx-[0.2cm] text-[#aaa]'><span className=''>Price: </span><span className='font-[500]'>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</span></div>
             <button onClick={(e) => controlSingleNFTDiv(e) & getSingleItemData(data[4]) & getItemCreator(data[0])} className='text-[aaa] bg-[#002] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton3' style={{border:"2px solid #aaa"}}>View NFT <img src="images/eye-ball.png" width="25" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
             </div>
           ))}
@@ -583,10 +629,10 @@ export default function Profile() {
       {chosenItem.map((data) => (
      <div className='grid lg:grid-cols-3 grid-cols-1 gap-8'>
      <div className='grid-cols-1'>
-     <img src={data[9]} className='rounded-xl' style={{boxShadow:"2px 2px 5px 2px rgba(0,0,0,0.5)"}} />
+     <img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className='rounded-xl' style={{boxShadow:"2px 2px 5px 2px rgba(0,0,0,0.5)"}} />
      </div>
      <div className='grid-cols-1 lg:col-span-2'>
-       <div><span className='rounded-md px-[0.3cm] py-[0.15cm] bg-[#00f]' style={{boxShadow:"2px 2px 2px 2px #333"}}>Creator:</span> &nbsp; <img src="images/user.png" width="25" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> {theItemCreatorUsername}</div>
+       <div><span className='rounded-md px-[0.3cm] py-[0.15cm] bg-[#00f]' style={{boxShadow:"2px 2px 2px 2px #333"}}>Creator:</span> &nbsp; <span className='mt-[0.15cm]'><img src={itemCreatorProfilePic} width="25" className='rounded-[100%]' style={{display:"inline-block"}} /> {theItemCreatorUsername}</span></div>
       <div className='rounded-xl mt-[0.5cm] bg-[#001]' style={{border:"2px solid #333"}}>
       <div className='p-[0.5cm]' style={{borderBottom:"2px solid #333"}}><img src="images/collections.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> Collection</div>
       <div className='p-[0.5cm] bg-[#002]'>
@@ -606,10 +652,11 @@ export default function Profile() {
        </div>
        <div className='p-[0.5cm]' style={{borderBlock:"2px solid #333"}}><img src="images/rootstock.jpg" width="25" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> Price</div>
        <div className='p-[0.5cm] bg-[#002] rounded-b-xl'>
-         <div className='text-[150%] font-[500]'>{data[2].toString() * 10 **-18} RBTC</div>
-         {(data[10] === false && data[0] != address) && (<button onClick={(e) => {e.preventDefault(); buyNFT((data[2].toString() * 10 **-18), data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#502] generalbutton w-[100%] mt-[0.2cm] rounded-md font-[500]'>Buy</button>)}
-         {data[10] === true && (<button className='px-[0.3cm] py-[0.2cm] bg-[#050] cursor-default w-[100%] mt-[0.2cm] rounded-md font-[500]' style={{filter:"blur(0.045cm)"}}>Sold</button>)}
-         {data[10] === false && (<button className='px-[0.3cm] py-[0.2cm] text-[#000] bg-[#d7b644] cursor-default w-[100%] mt-[0.2cm] rounded-md font-[500]'>Make offer (coming soon!)</button>)}
+         <div className='text-[150%] font-[500]'>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</div>
+         {(data[10] === true && data[0] != address) && (<button onClick={(e) => {e.preventDefault(); buyNFT((data[2].toString() * 10 **-18), data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#502] generalbutton w-[100%] mt-[0.2cm] rounded-md font-[500]'>Buy</button>)}
+         {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); ListItem(data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#005] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>List item</button>)}
+         {(data[10] === true && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); UnlistItem(data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#f00] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>Unlist item</button>)}
+         {(data[10] === true && data[0] != address) && (<button className='px-[0.3cm] py-[0.2cm] text-[#000] bg-[#d7b644] cursor-default w-[100%] mt-[0.2cm] rounded-md font-[500]' style={{filter:"blur(1px)"}}>Make offer (coming soon!)</button>)}
        </div>
       </div>
      </div>
