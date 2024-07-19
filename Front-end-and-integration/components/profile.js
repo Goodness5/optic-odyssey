@@ -8,7 +8,7 @@ import {
   nftContractABI,
 } from "@/abiAndContractSettings";
 import { useWeb3ModalProvider, useWeb3ModalAccount } from '@web3modal/ethers/react'
-import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
+import { BrowserProvider, Contract, formatUnits, parseUnits, formatBytes32String } from 'ethers'
 
 export default function Profile() {
       // wallet connect settings
@@ -308,10 +308,10 @@ export default function Profile() {
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
           if (registeredUsername != "0x0000000000000000000000000000000000000000000000000000000000000000"){
-            const createcollection = await nftContractWriteSettings.createCollection(registeredUsername, collectionName, publicVisibility, collectionCategory, theCollectionCoverHash, creatorProfilePhoto);
+            const createcollection = await nftContractWriteSettings.createCollection(formatBytes32String(registeredUsername), formatBytes32String(collectionName), publicVisibility, formatBytes32String(collectionCategory), formatBytes32String(theCollectionCoverHash), creatorProfilePhoto);
           }
-          else if (registeredUsername === "0x0000000000000000000000000000000000000000000000000000000000000000") {
-            const createcollection = await nftContractWriteSettings.createCollection(username, collectionName, publicVisibility, collectionCategory, theCollectionCoverHash, theProfilePhotoHash);
+          else {
+            const createcollection = await nftContractWriteSettings.createCollection(formatBytes32String(username), formatBytes32String(collectionName), publicVisibility, formatBytes32String(collectionCategory), formatBytes32String(theCollectionCoverHash), theProfilePhotoHash);
           }
          } catch (error) {
           console.log(error)
@@ -482,13 +482,6 @@ export default function Profile() {
        </div>
         <div>
           <span>{address ? (<span>{address.substring(0, 4)}...{address.substring(36, 42)}</span>) : (<span>Connect wallet</span>)}</span>
-          {/* <span className='float-right mt-[-0.2cm]'>
-            {showTipAmount ? 
-            (<span><form><button className='bg-[#502] px-[0.3cm] py-[0.08cm] rounded-md' onClick={(e) => {e.preventDefault(); tipCreator(amountToTip)}} style={{border:"2px solid #aaa"}}>Donate</button>
-            <input data-aos="fade-left" type="number" className='w-[2.13cm] pl-[0.2cm] bg-[#111] ml-[0.2cm] rounded-md' value={amountToTip} onChange={(e) => setamountToTip(e.target.value)} placeholder='amount' style={{border: "2px solid #aaa"}} /></form></span>) : 
-            (<span className='bg-[#502] px-[0.3cm] py-[0.08cm] rounded-md cursor-pointer' onClick={(e) => setshowTipAmount(true)} style={{border:"2px solid #aaa"}}>Donate</span>)
-           }
-          </span> */}
         </div>
         <div className='mt-[0.2cm] text-[#eee] text-[90%]'>{epochDateJoined > 0 ? (<span><span className='px-[0.2cm] py-[0.1cm] bg-[#502] rounded-md' style={{border:"2px solid #555"}}>Joined:</span> {dateJoined}</span>) : (<span></span>)}</div>
         </div>
@@ -530,7 +523,9 @@ export default function Profile() {
           <input type="file" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' id="theCollectionCoverFile" name="theCollectionCoverFile" onChange={(e) => settheCollectionCoverFile(e.target.files[0])} style={{border:"2px solid #00f"}} />
           <button className='px-[0.3cm] py-[0.2cm] bg-[#002] rounded-md font-[500] generalbutton4' onClick={(e) => {e.preventDefault(); uploadCollectionCover(theCollectionCoverFile)}} style={{border:"2px solid #333"}}>Upload collection cover <img src="images/upload.png" width="20" style={{display:"inline-block"}} /></button>
         </div>
-        <div className='text-center mb-[0.3cm] lg:mx-[20%] md:mx-[10%] mx-[5%] '><img src={theCollectionCoverHash} className='mx-[auto]' /></div>
+        <div className='text-center mb-[0.3cm] lg:mx-[20%] md:mx-[10%] mx-[5%] '>
+          {theCollectionCoverHash && (<img src={"https://ipfs.filebase.io/ipfs/" + theCollectionCoverHash} className='mx-[auto]' />)}
+        </div>
         {!creatorProfilePhoto && 
         (<div>
         <div className='text-[#aaa] mt-[0.3cm]'>Choose a profile photo</div>
@@ -539,7 +534,9 @@ export default function Profile() {
           <button className='px-[0.3cm] py-[0.2cm] bg-[#002] rounded-md font-[500] generalbutton4' onClick={(e) => {e.preventDefault(); uploadProfilePic(theProfilePhotoFile)}} style={{border:"2px solid #333"}}>Upload profile photo <img src="images/upload.png" width="20" style={{display:"inline-block"}} /></button>
         </div>
         </div>)}
-        <div className='text-center mb-[0.3cm] lg:mx-[20%] md:mx-[10%] mx-[5%] '><img src={theProfilePhotoHash} className='mx-[auto]' /></div>
+        <div className='text-center mb-[0.3cm] lg:mx-[20%] md:mx-[10%] mx-[5%] '>
+          {theProfilePhotoHash && (<img src={theProfilePhotoHash} className='mx-[auto]' />)}
+        </div>
         <button onClick={(e) => {e.preventDefault(); createNFTcollection(username, collectionName, publicVisibility, collectionCategory, theCollectionCoverHash, theProfilePhotoHash)}} className='px-[0.3cm] py-[0.2cm] w-[100%] font-[500] mt-[0.5cm] bg-[#502] rounded-md generalbutton'>Create collection <img src="images/collection.png" width="20" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
         </div>
         <div className='grid-cols-1 bg-[rgba(0,0,0,0.7)] p-[0.5cm]' style={{border:"1px solid #333"}}>
