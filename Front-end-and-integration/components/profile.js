@@ -295,6 +295,25 @@ export default function Profile() {
       }
       };
 
+      function stringToBytes32(str) {
+        // Convert each character to its hex representation
+        let hexString = '0x';
+        for (let i = 0; i < str.length; i++) {
+            hexString += str.charCodeAt(i).toString(16).padStart(2, '0');
+        }
+    
+        // Truncate or pad the hex string to ensure length of 64 characters (32 bytes)
+        if (hexString.length > 66) {
+            hexString = hexString.slice(0, 66);
+        } else {
+            while (hexString.length < 66) {
+                hexString += '0';
+            }
+        }
+    
+        return hexString;
+    }
+
       //now we are going to create a collection
       const [username, setUsername] = useState()
       const [collectionName, setCollectionName] = useState()
@@ -308,10 +327,10 @@ export default function Profile() {
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
           if (registeredUsername != "0x0000000000000000000000000000000000000000000000000000000000000000"){
-            const createcollection = await nftContractWriteSettings.createCollection(formatBytes32String(registeredUsername), formatBytes32String(collectionName), publicVisibility, formatBytes32String(collectionCategory), formatBytes32String(theCollectionCoverHash), creatorProfilePhoto);
+            const createcollection = await nftContractWriteSettings.createCollection(stringToBytes32(registeredUsername), stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), stringToBytes32(theCollectionCoverHash), creatorProfilePhoto);
           }
           else {
-            const createcollection = await nftContractWriteSettings.createCollection(formatBytes32String(username), formatBytes32String(collectionName), publicVisibility, formatBytes32String(collectionCategory), formatBytes32String(theCollectionCoverHash), theProfilePhotoHash);
+            const createcollection = await nftContractWriteSettings.createCollection(stringToBytes32(username), stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), stringToBytes32(theCollectionCoverHash), theProfilePhotoHash);
           }
          } catch (error) {
           console.log(error)
@@ -381,7 +400,7 @@ export default function Profile() {
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          console.log(collectionContractAddress)
          try {
-          const addtocollection = await nftContractWriteSettings.addItemToCollection(collectionContractAddress, itemTitle, theHash, itemDescription, itemCategory, parseUnits(itemPrice, 18));
+          const addtocollection = await nftContractWriteSettings.addItemToCollection(collectionContractAddress, itemTitle, stringToBytes32(theHash), itemDescription, itemCategory, parseUnits(itemPrice, 18));
          } catch (error) {
           console.log(error)
           setLoading(false)
