@@ -400,7 +400,7 @@ export default function Profile() {
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          console.log(collectionContractAddress)
          try {
-          const addtocollection = await nftContractWriteSettings.addItemToCollection(collectionContractAddress, itemTitle, stringToBytes32(theHash), itemDescription, itemCategory, parseUnits(itemPrice, 18));
+          const addtocollection = await nftContractWriteSettings.addItemToCollection(collectionContractAddress, stringToBytes32(itemTitle), stringToBytes32(theHash), itemDescription, stringToBytes32(itemCategory), parseUnits(itemPrice, 18));
          } catch (error) {
           console.log(error)
           setLoading(false)
