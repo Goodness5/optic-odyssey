@@ -121,18 +121,31 @@ export default function Profile() {
 
         //bytes32 to string conversion
         function bytes32ToString(bytes32) {
-          // Remove the '0x' prefix if present
-          let hex = bytes32.startsWith('0x') ? bytes32.slice(2) : bytes32;
+          // Remove the '0x' prefix
+          let hexString = bytes32.slice(2);
           let str = '';
-          
-          for (let i = 0; i < hex.length; i += 2) {
-            const charCode = parseInt(hex.slice(i, i + 2), 16);
-            if (charCode === 0) break; // Stop at null character
-            str += String.fromCharCode(charCode);
+      
+          // Convert each pair of hex digits to a character
+          for (let i = 0; i < hexString.length; i += 2) {
+              const charCode = parseInt(hexString.slice(i, i + 2), 16);
+              if (charCode === 0) break; // Stop at null character
+              str += String.fromCharCode(charCode);
           }
-          
+      
           return str;
+      }
+
+      function hexToString(hex) {
+        hex = hex.startsWith('0x') ? hex.slice(2) : hex;
+        let str = '';
+        
+        for (let i = 0; i < hex.length; i += 2) {
+          const charCode = parseInt(hex.slice(i, i + 2), 16);
+          str += String.fromCharCode(charCode);
         }
+        
+        return str;
+      }
 
   //read from NFT contract for user details and collection details
   const [userRBTCbalance, setuserRBTCbalance] = useState()
@@ -314,17 +327,31 @@ export default function Profile() {
 
       //convert string values to bytes32
       function stringToBytes32(str) {
-        let hexStr = '0x';
+        // Convert each character to its hex representation
+        let hexString = '0x';
         for (let i = 0; i < str.length; i++) {
-          hexStr += str.charCodeAt(i).toString(16).padStart(2, '0');
+            hexString += str.charCodeAt(i).toString(16).padStart(2, '0');
         }
-        // Pad the remaining space with zeros
-        while (hexStr.length < 66) { // 2 for '0x' + 64 for 32 bytes
-          hexStr += '0';
+    
+        // Truncate or pad the hex string to ensure length of 64 characters (32 bytes)
+        if (hexString.length >= 66) {
+            hexString = hexString.slice(0, 66);
+        } else {
+            while (hexString.length < 66) {
+                hexString += '0';
+            }
         }
-        
-        return hexStr;
+    
+        return hexString;
+    }
+
+    function stringToHex(str) {
+      let hexStr = '0x';
+      for (let i = 0; i < str.length; i++) {
+        hexStr += str.charCodeAt(i).toString(16).padStart(2, '0');
       }
+      return hexStr;
+    }
 
       //now we are going to create a collection
       const [username, setUsername] = useState()
@@ -339,10 +366,10 @@ export default function Profile() {
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
           if (registeredUsername != "0x0000000000000000000000000000000000000000000000000000000000000000"){
-            const createcollection = await nftContractWriteSettings.createCollection(stringToBytes32(registeredUsername), stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), stringToBytes32(theCollectionCoverHash), creatorProfilePhoto);
+            const createcollection = await nftContractWriteSettings.createCollection(registeredUsername, stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), stringToHex(theCollectionCoverHash), creatorProfilePhoto);
           }
           else {
-            const createcollection = await nftContractWriteSettings.createCollection(stringToBytes32(username), stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), stringToBytes32(theCollectionCoverHash), theProfilePhotoHash);
+            const createcollection = await nftContractWriteSettings.createCollection(stringToBytes32(username), stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), stringToHex(theCollectionCoverHash), theProfilePhotoHash);
           }
          } catch (error) {
           console.log(error)
@@ -433,7 +460,7 @@ export default function Profile() {
          const convertedInitialAmount = initialAmount.toString()
          console.log("amount:" + convertedInitialAmount)
          try {
-          const buynft = await nftContractWriteSettings.buyItem({value:parseUnits(convertedInitialAmount, 18)}, stringToBytes32(initialID));
+          const buynft = await nftContractWriteSettings.buyItem({value:parseUnits(convertedInitialAmount, 18)}, initialID);
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -446,14 +473,15 @@ export default function Profile() {
 
        //function to list and unlist item for sale
        //list item function
-      const ListItem = async (itemID) => {
+      const ListItem = async (itemID, itemPrice) => {
         if(isConnected){
          setLoading(true) 
          const ethersProvider = new BrowserProvider(walletProvider) 
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
+         const itemprice = itemPrice.toString()
          try {
-          const listitem = await nftContractWriteSettings.listItem(stringToBytes32(itemID));
+          const listitem = await nftContractWriteSettings.listItem(itemID, parseUnits(itemprice, 18));
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -472,7 +500,7 @@ export default function Profile() {
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
-          const unlistitem = await nftContractWriteSettings.unlistItem(stringToBytes32(itemID));
+          const unlistitem = await nftContractWriteSettings.unlistItem(itemID);
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -682,7 +710,7 @@ export default function Profile() {
        <div className='p-[0.5cm] bg-[#002] rounded-b-xl'>
          <div className='text-[150%] font-[500]'>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</div>
          {(data[10] === true && data[0] != address) && (<button onClick={(e) => {e.preventDefault(); buyNFT((data[2].toString() * 10 **-18), data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#502] generalbutton w-[100%] mt-[0.2cm] rounded-md font-[500]'>Buy</button>)}
-         {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); ListItem(data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#005] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>List item</button>)}
+         {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); ListItem(data[4], data[2].toString() * 10 **-18)}} className='px-[0.3cm] py-[0.2cm] bg-[#005] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>List item</button>)}
          {(data[10] === true && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); UnlistItem(data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#f00] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>Unlist item</button>)}
          {(data[10] === true && data[0] != address) && (<button className='px-[0.3cm] py-[0.2cm] text-[#000] bg-[#d7b644] cursor-default w-[100%] mt-[0.2cm] rounded-md font-[500]' style={{filter:"blur(1px)"}}>Make offer (coming soon!)</button>)}
        </div>
