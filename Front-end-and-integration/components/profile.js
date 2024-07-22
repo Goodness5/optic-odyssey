@@ -135,18 +135,6 @@ export default function Profile() {
           return str;
       }
 
-      function hexToString(hex) {
-        hex = hex.startsWith('0x') ? hex.slice(2) : hex;
-        let str = '';
-        
-        for (let i = 0; i < hex.length; i += 2) {
-          const charCode = parseInt(hex.slice(i, i + 2), 16);
-          str += String.fromCharCode(charCode);
-        }
-        
-        return str;
-      }
-
   //read from NFT contract for user details and collection details
   const [userRBTCbalance, setuserRBTCbalance] = useState()
   const [registeredUsername, setregisteredUsername] = useState()
@@ -345,14 +333,6 @@ export default function Profile() {
         return hexString;
     }
 
-    function stringToHex(str) {
-      let hexStr = '0x';
-      for (let i = 0; i < str.length; i++) {
-        hexStr += str.charCodeAt(i).toString(16).padStart(2, '0');
-      }
-      return hexStr;
-    }
-
       //now we are going to create a collection
       const [username, setUsername] = useState()
       const [collectionName, setCollectionName] = useState()
@@ -364,13 +344,12 @@ export default function Profile() {
          const ethersProvider = new BrowserProvider(walletProvider) 
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
-         const collectionCover = "0x" + theCollectionCoverHash.toString(16) 
          try {
           if (registeredUsername != "0x0000000000000000000000000000000000000000000000000000000000000000"){
-            const createcollection = await nftContractWriteSettings.createCollection(registeredUsername, stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), collectionCover, creatorProfilePhoto);
+            const createcollection = await nftContractWriteSettings.createCollection(registeredUsername, stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), theCollectionCoverHash, creatorProfilePhoto);
           }
           else {
-            const createcollection = await nftContractWriteSettings.createCollection(stringToBytes32(username), stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), collectionCover, theProfilePhotoHash);
+            const createcollection = await nftContractWriteSettings.createCollection(stringToBytes32(username), stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), theCollectionCoverHash, theProfilePhotoHash);
           }
          } catch (error) {
           console.log(error)
@@ -440,7 +419,7 @@ export default function Profile() {
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          console.log(collectionContractAddress)
          try {
-          const addtocollection = await nftContractWriteSettings.addItemToCollection(collectionContractAddress, stringToBytes32(itemTitle), stringToBytes32(theHash), itemDescription, stringToBytes32(itemCategory), parseUnits(itemPrice, 18));
+          const addtocollection = await nftContractWriteSettings.addItemToCollection(collectionContractAddress, stringToBytes32(itemTitle), theHash, itemDescription, stringToBytes32(itemCategory), parseUnits(itemPrice, 18));
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -642,7 +621,7 @@ export default function Profile() {
         <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-8">
           {userCollections.map((data) => (
           <div key={data[4]} className="grid-cols-1">
-            <div className='px-[1cm] py-[2cm] allusernftcollection' style={{boxShadow:"3px 3px 2px 2px #333", backgroundImage:`url(https://ipfs.filebase.io/ipfs/${bytes32ToString(data[3])})`, backgroundSize:"100%"}}>
+            <div className='px-[1cm] py-[2cm] allusernftcollection' style={{boxShadow:"3px 3px 2px 2px #333", backgroundImage:`url(https://ipfs.filebase.io/ipfs/${data[3]})`, backgroundSize:"100%"}}>
               <div className='text-center text-[120%]'>{bytes32ToString(data[0])}</div>
               <div className="text-center text-[120%] mt-[0.5cm]"><span className='bg-[#502] p-[0.2cm] m-[0.2cm]' >+{data[5].length.toString()}</span></div>
             </div>
@@ -668,7 +647,7 @@ export default function Profile() {
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-8">
           {chosenCollectionItems.map((data) => (
             <div className="grid-cols-1">
-            <div><img src={"https://ipfs.filebase.io/ipfs/" + bytes32ToString(data[9])} className="rounded-2xl w-[100%] lg:h-[8cm]" style={{border:"4px solid #aaa"}} /></div>
+            <div><img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-2xl w-[100%] lg:h-[8cm]" style={{border:"4px solid #aaa"}} /></div>
             <div className="lg:text-[130%] text-[120%] mt-[0.3cm] mx-[0.2cm]">Title: {bytes32ToString(data[7])}</div>
             <div className="lg:text-[120%] text-[110%] mx-[0.2cm]">Category: {bytes32ToString(data[8])}</div>
             <div className='mx-[0.2cm] text-[#aaa]'><span className=''>Price: </span><span className='font-[500]'>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</span></div>
@@ -686,7 +665,7 @@ export default function Profile() {
       {chosenItem.map((data) => (
      <div className='grid lg:grid-cols-3 grid-cols-1 gap-8'>
      <div className='grid-cols-1'>
-     <img src={"https://ipfs.filebase.io/ipfs/" + bytes32ToString(data[9])} className='rounded-xl' style={{boxShadow:"2px 2px 5px 2px rgba(0,0,0,0.5)"}} />
+     <img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className='rounded-xl' style={{boxShadow:"2px 2px 5px 2px rgba(0,0,0,0.5)"}} />
      </div>
      <div className='grid-cols-1 lg:col-span-2'>
        <div><span className='rounded-md px-[0.3cm] py-[0.15cm] bg-[#00f]' style={{boxShadow:"2px 2px 2px 2px #333"}}>Creator:</span> &nbsp; <span className='mt-[0.15cm]'><img src={itemCreatorProfilePic} width="25" className='rounded-[100%]' style={{display:"inline-block"}} /> {bytes32ToString(theItemCreatorUsername)}</span></div>
