@@ -364,12 +364,13 @@ export default function Profile() {
          const ethersProvider = new BrowserProvider(walletProvider) 
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
+         const collectionCover = "0x" + theCollectionCoverHash.toString(16) 
          try {
           if (registeredUsername != "0x0000000000000000000000000000000000000000000000000000000000000000"){
-            const createcollection = await nftContractWriteSettings.createCollection(registeredUsername, stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), stringToHex(theCollectionCoverHash), creatorProfilePhoto);
+            const createcollection = await nftContractWriteSettings.createCollection(registeredUsername, stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), collectionCover, creatorProfilePhoto);
           }
           else {
-            const createcollection = await nftContractWriteSettings.createCollection(stringToBytes32(username), stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), stringToHex(theCollectionCoverHash), theProfilePhotoHash);
+            const createcollection = await nftContractWriteSettings.createCollection(stringToBytes32(username), stringToBytes32(collectionName), publicVisibility, stringToBytes32(collectionCategory), collectionCover, theProfilePhotoHash);
           }
          } catch (error) {
           console.log(error)
