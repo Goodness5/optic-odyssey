@@ -314,16 +314,10 @@ export default function Profile() {
 
       //convert string values to bytes32
       function stringToBytes32(str) {
-        // Ensure the string is not longer than 32 bytes
-        if (str.length > 32) {
-          throw new Error('String must be less than 32 bytes');
-        }
-        
         let hexStr = '0x';
         for (let i = 0; i < str.length; i++) {
           hexStr += str.charCodeAt(i).toString(16).padStart(2, '0');
         }
-        
         // Pad the remaining space with zeros
         while (hexStr.length < 66) { // 2 for '0x' + 64 for 32 bytes
           hexStr += '0';
