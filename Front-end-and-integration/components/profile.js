@@ -119,7 +119,7 @@ export default function Profile() {
           readCoverPhoto();
         }, [loading, getCoverPhotoFromIPFS, isConnected, address])
 
-        //string to bytes32 conversion
+        //bytes32 to string conversion
         function bytes32ToString(bytes32) {
           // Remove the '0x' prefix
           let hexString = bytes32.slice(2);
@@ -313,7 +313,7 @@ export default function Profile() {
       }
       };
 
-      //convert values to bytes32
+      //convert string values to bytes32
       function stringToBytes32(str) {
         // Convert each character to its hex representation
         let hexString = '0x';
@@ -562,7 +562,7 @@ export default function Profile() {
           <button className='px-[0.3cm] py-[0.2cm] bg-[#002] rounded-md font-[500] generalbutton4' onClick={(e) => {e.preventDefault(); uploadCollectionCover(theCollectionCoverFile)}} style={{border:"2px solid #333"}}>Upload collection cover <img src="images/upload.png" width="20" style={{display:"inline-block"}} /></button>
         </div>
         <div className='text-center mb-[0.3cm] lg:mx-[20%] md:mx-[10%] mx-[5%] '>
-          {theCollectionCoverHash && (<img src={"https://ipfs.filebase.io/ipfs/" + theCollectionCoverHash} className='mx-[auto]' />)}
+          {theCollectionCoverHash && (<img src={theCollectionCoverHash} className='mx-[auto]' />)}
         </div>
         {!creatorProfilePhoto && 
         (<div>
@@ -604,7 +604,7 @@ export default function Profile() {
           <button className='px-[0.3cm] py-[0.2cm] bg-[#002] rounded-md font-[500] generalbutton4' onClick={(e) => {e.preventDefault(); uploadFile(theFile)}} style={{border:"2px solid #333"}}>Upload file <img src="images/upload.png" width="20" style={{display:"inline-block"}} /></button>
         </div>
         <div className='text-center mb-[0.3cm] lg:mx-[20%] md:mx-[10%] mx-[5%] '>
-          {theHash && (<img src={"https://ipfs.filebase.io/ipfs/" + theHash} className='mx-[auto]' />)}
+          {theHash && (<img src={theHash} className='mx-[auto]' />)}
         </div>
         <input type="number" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' value={itemPrice} onChange={(e) => setItemPrice(e.target.value)} placeholder="Set a price for your item e.g 1 RBTC" style={{border:"2px solid #00f"}} />
         <button className='px-[0.3cm] py-[0.2cm] w-[100%] font-[500] bg-[#502] rounded-md generalbutton' onClick={(e) => {e.preventDefault(); addItemToNFTcollection(collectionContractAddress, itemTitle, theHash, itemDescription, itemCategory, itemPrice)}}>Add to collection <img src="images/collection2.png" width="23" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
@@ -641,14 +641,14 @@ export default function Profile() {
    (<div style={{display:collectionDivDisplay}}>
     <img src="images/cancel.png" width="40" onClick={(e) => controlCollectionsDivHide()} className='mx-[auto] cancelbutton rounded-[100%] cursor-pointer' />
     <div className='mt-[1cm] lg:p-[1cm] top-0 viewthediv2 p-[0.5cm]' style={{zIndex:"9999"}}>
-      <div className='text-[120%]'><span className='font-[500]'>Collection:</span> {collectionTitle} ({chosenCollectionItems.length})</div>
-      <div className='mb-[0.5cm] text-[110%] text-[#ccc]'><span className='font-[500]'>Collection category:</span> {aCollectionCategory}</div>
+      <div className='text-[120%]'><span className='font-[500]'>Collection:</span> {bytes32ToString(collectionTitle)} ({chosenCollectionItems.length})</div>
+      <div className='mb-[0.5cm] text-[110%] text-[#ccc]'><span className='font-[500]'>Collection category:</span> {bytes32ToString(aCollectionCategory)}</div>
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-8">
           {chosenCollectionItems.map((data) => (
             <div className="grid-cols-1">
-            <div><img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-2xl w-[100%] lg:h-[8cm]" style={{border:"4px solid #aaa"}} /></div>
-            <div className="lg:text-[130%] text-[120%] mt-[0.3cm] mx-[0.2cm]">Title: {data[7]}</div>
-            <div className="lg:text-[120%] text-[110%] mx-[0.2cm]">Category: {data[8]}</div>
+            <div><img src={bytes32ToString(data[9])} className="rounded-2xl w-[100%] lg:h-[8cm]" style={{border:"4px solid #aaa"}} /></div>
+            <div className="lg:text-[130%] text-[120%] mt-[0.3cm] mx-[0.2cm]">Title: {bytes32ToString(data[7])}</div>
+            <div className="lg:text-[120%] text-[110%] mx-[0.2cm]">Category: {bytes32ToString(data[8])}</div>
             <div className='mx-[0.2cm] text-[#aaa]'><span className=''>Price: </span><span className='font-[500]'>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</span></div>
             <button onClick={(e) => controlSingleNFTDiv(e) & getSingleItemData(data[4]) & getItemCreator(data[0])} className='text-[aaa] bg-[#002] rounded-md px-[0.3cm] py-[0.1cm] m-[0.2cm] generalbutton3' style={{border:"2px solid #aaa"}}>View NFT <img src="images/eye-ball.png" width="25" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
             </div>
@@ -664,22 +664,22 @@ export default function Profile() {
       {chosenItem.map((data) => (
      <div className='grid lg:grid-cols-3 grid-cols-1 gap-8'>
      <div className='grid-cols-1'>
-     <img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className='rounded-xl' style={{boxShadow:"2px 2px 5px 2px rgba(0,0,0,0.5)"}} />
+     <img src={bytes32ToString(data[9])} className='rounded-xl' style={{boxShadow:"2px 2px 5px 2px rgba(0,0,0,0.5)"}} />
      </div>
      <div className='grid-cols-1 lg:col-span-2'>
-       <div><span className='rounded-md px-[0.3cm] py-[0.15cm] bg-[#00f]' style={{boxShadow:"2px 2px 2px 2px #333"}}>Creator:</span> &nbsp; <span className='mt-[0.15cm]'><img src={itemCreatorProfilePic} width="25" className='rounded-[100%]' style={{display:"inline-block"}} /> {theItemCreatorUsername}</span></div>
+       <div><span className='rounded-md px-[0.3cm] py-[0.15cm] bg-[#00f]' style={{boxShadow:"2px 2px 2px 2px #333"}}>Creator:</span> &nbsp; <span className='mt-[0.15cm]'><img src={itemCreatorProfilePic} width="25" className='rounded-[100%]' style={{display:"inline-block"}} /> {bytes32ToString(theItemCreatorUsername)}</span></div>
       <div className='rounded-xl mt-[0.5cm] bg-[#001]' style={{border:"2px solid #333"}}>
       <div className='p-[0.5cm]' style={{borderBottom:"2px solid #333"}}><img src="images/collections.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> Collection</div>
       <div className='p-[0.5cm] bg-[#002]'>
-         {collectionTitle}
+         {bytes32ToString(collectionTitle)}
       </div>
       <div className='p-[0.5cm]' style={{borderBottom:"2px solid #333"}}><img src="images/title.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> Title</div>
       <div className='p-[0.5cm] bg-[#002]'>
-         {data[7]}
+         {bytes32ToString(data[7])}
       </div>
       <div className='p-[0.5cm]' style={{borderBottom:"2px solid #333"}}><img src="images/categories.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> Category</div>
       <div className='p-[0.5cm] bg-[#002]'>
-         {data[8]}
+         {bytes32ToString(data[8])}
       </div>
        <div className='p-[0.5cm]' style={{borderBottom:"2px solid #333"}}><img src="images/description.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> Description</div>
        <div className='p-[0.5cm] bg-[#002] max-h-[5cm] overflow-auto'>
