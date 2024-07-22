@@ -457,6 +457,26 @@ export default function Marketplace() {
           setmainMarketplaceDisplay("block")
        }
 
+       //convert values to bytes32
+       function stringToBytes32(str) {
+        // Convert each character to its hex representation
+        let hexString = '0x';
+        for (let i = 0; i < str.length; i++) {
+            hexString += str.charCodeAt(i).toString(16).padStart(2, '0');
+        }
+    
+        // Truncate or pad the hex string to ensure length of 64 characters (32 bytes)
+        if (hexString.length > 66) {
+            hexString = hexString.slice(0, 66);
+        } else {
+            while (hexString.length < 66) {
+                hexString += '0';
+            }
+        }
+    
+        return hexString;
+    }
+
       // to buy item
       const buyNFT = async (initialAmount, initialID) => {
         if(isConnected){
@@ -467,7 +487,7 @@ export default function Marketplace() {
          const convertedInitialAmount = initialAmount.toString()
          console.log("amount:" + convertedInitialAmount)
          try {
-          const buynft = await nftContractWriteSettings.buyItem({value:parseUnits(convertedInitialAmount, 18)}, initialID);
+          const buynft = await nftContractWriteSettings.buyItem({value:parseUnits(convertedInitialAmount, 18)}, stringToBytes32(initialID));
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -487,7 +507,7 @@ export default function Marketplace() {
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
-          const listitem = await nftContractWriteSettings.listItemForSale(itemID);
+          const listitem = await nftContractWriteSettings.listItem(stringToBytes32(itemID));
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -506,7 +526,7 @@ export default function Marketplace() {
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
-          const unlistitem = await nftContractWriteSettings.delistItem(itemID);
+          const unlistitem = await nftContractWriteSettings.unlistItem(stringToBytes32(itemID));
          } catch (error) {
           console.log(error)
           setLoading(false)

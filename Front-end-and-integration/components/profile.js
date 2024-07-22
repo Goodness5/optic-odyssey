@@ -119,9 +119,26 @@ export default function Profile() {
           readCoverPhoto();
         }, [loading, getCoverPhotoFromIPFS, isConnected, address])
 
+        //string to bytes32 conversion
+        function bytes32ToString(bytes32) {
+          // Remove the '0x' prefix
+          let hexString = bytes32.slice(2);
+          let str = '';
+      
+          // Convert each pair of hex digits to a character
+          for (let i = 0; i < hexString.length; i += 2) {
+              const charCode = parseInt(hexString.slice(i, i + 2), 16);
+              if (charCode === 0) break; // Stop at null character
+              str += String.fromCharCode(charCode);
+          }
+      
+          return str;
+      }
+
   //read from NFT contract for user details and collection details
   const [userRBTCbalance, setuserRBTCbalance] = useState()
   const [registeredUsername, setregisteredUsername] = useState()
+  const [showUsername, setShowUsername] = useState()
   const [soldBalance, setSoldBalance] = useState()
   const [dateJoined, setDateJoined] = useState()
   const [epochDateJoined, setepochDateJoined] = useState()
@@ -144,6 +161,7 @@ export default function Profile() {
         const registeredusername = userDetails.username.toString()
         console.log(registeredusername)
         setregisteredUsername(registeredusername)
+        setShowUsername(bytes32ToString(registeredusername))
         const datejoined = userDetails.joined_at.toString()
         setepochDateJoined(datejoined)
         const convertedDateJoined = new Date(datejoined.toString() * 1000).toLocaleString()
@@ -295,6 +313,7 @@ export default function Profile() {
       }
       };
 
+      //convert values to bytes32
       function stringToBytes32(str) {
         // Convert each character to its hex representation
         let hexString = '0x';
@@ -303,7 +322,7 @@ export default function Profile() {
         }
     
         // Truncate or pad the hex string to ensure length of 64 characters (32 bytes)
-        if (hexString.length > 66) {
+        if (hexString.length >= 66) {
             hexString = hexString.slice(0, 66);
         } else {
             while (hexString.length < 66) {
@@ -421,7 +440,7 @@ export default function Profile() {
          const convertedInitialAmount = initialAmount.toString()
          console.log("amount:" + convertedInitialAmount)
          try {
-          const buynft = await nftContractWriteSettings.buyItem({value:parseUnits(convertedInitialAmount, 18)}, initialID);
+          const buynft = await nftContractWriteSettings.buyItem({value:parseUnits(convertedInitialAmount, 18)}, stringToBytes32(initialID));
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -441,7 +460,7 @@ export default function Profile() {
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
-          const listitem = await nftContractWriteSettings.listItemForSale(itemID);
+          const listitem = await nftContractWriteSettings.listItem(stringToBytes32(itemID));
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -460,7 +479,7 @@ export default function Profile() {
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
-          const unlistitem = await nftContractWriteSettings.delistItem(itemID);
+          const unlistitem = await nftContractWriteSettings.unlistItem(stringToBytes32(itemID));
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -496,7 +515,7 @@ export default function Profile() {
 
         <div className='p-[0.5cm] bg-[#000]'>
        <div className='clear-both'>
-        <span className='lg:text-[200%] md:text-[180%] text-[150%] font-[500]'>{registeredUsername === "0x0000000000000000000000000000000000000000000000000000000000000000" ? (<span>user</span>) : (<span>{registeredUsername}</span>)}</span>
+        <span className='lg:text-[200%] md:text-[180%] text-[150%] font-[500]'>{registeredUsername === "0x0000000000000000000000000000000000000000000000000000000000000000" ? (<span>user</span>) : (<span>{showUsername}</span>)}</span>
         <span className='float-right mt-[0.1cm] font-[500]'>{soldBalance > 0 ? (<span>Total sales: {soldBalance} RBTC</span>) : (<span>Total sales: 0 RBTC</span>)}</span>
        </div>
         <div>
@@ -520,7 +539,7 @@ export default function Profile() {
         <div className='grid-cols-1 bg-[rgba(0,0,0,0.7)] p-[0.5cm]' style={{border:"1px solid #333"}}>
           <div className='font-[500] mb-[0.3cm] text-[120%]'>Create a collection</div>
         {registeredUsername != "0x0000000000000000000000000000000000000000000000000000000000000000" ? 
-        (<input type="text" className='p-[0.2cm] bg-[#000]  rounded-md outline-none w-[100%] mb-[0.3cm]' name="username" value={registeredUsername} style={{border:"2px solid #00f"}} />) :
+        (<input type="text" className='p-[0.2cm] bg-[#000]  rounded-md outline-none w-[100%] mb-[0.3cm]' name="username" value={showUsername} style={{border:"2px solid #00f"}} />) :
         (<input type="text" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' name="username" onChange={(e) => setUsername(e.target.value)} placeholder="Create a username" style={{border:"2px solid #00f"}} />)}
         <input type="text" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' name="collectionName" onChange={(e) => setCollectionName(e.target.value)} placeholder="Create a name for collection" style={{border:"2px solid #00f"}} />
         <select className='bg-[#001] p-[0.2cm] text-[#fff] rounded-md outline-[#fff] mb-[0.3cm] w-[100%]' onClick={(e) => setcollectionCategory(e.target.value)} style={{border:"2px solid #00f"}}>
@@ -563,7 +582,7 @@ export default function Profile() {
           {userCollections.length > 0 ? 
           (<select className='bg-[#001] p-[0.2cm] text-[#fff] rounded-md outline-[#fff] mb-[0.3cm] w-[100%]' onClick={(e) => setcollectionContractAddress(e.target.value)} style={{border:"2px solid #00f"}}>
             {userCollections.map((data) => (
-               <option className='py-[0.2cm]' value={data[4]}>{data[0]}</option>
+               <option className='py-[0.2cm]' value={data[4]}>{bytes32ToString(data[0])}</option>
             ))}
           </select>) : 
           (
@@ -601,8 +620,8 @@ export default function Profile() {
         <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-8">
           {userCollections.map((data) => (
           <div key={data[4]} className="grid-cols-1">
-            <div className='px-[1cm] py-[2cm] allusernftcollection' style={{boxShadow:"3px 3px 2px 2px #333", backgroundImage:`url(${data[3]})`, backgroundSize:"100%"}}>
-              <div className='text-center text-[120%]'>{data[0]}</div>
+            <div className='px-[1cm] py-[2cm] allusernftcollection' style={{boxShadow:"3px 3px 2px 2px #333", backgroundImage:`url(${bytes32ToString(data[3])})`, backgroundSize:"100%"}}>
+              <div className='text-center text-[120%]'>{bytes32ToString(data[0])}</div>
               <div className="text-center text-[120%] mt-[0.5cm]"><span className='bg-[#502] p-[0.2cm] m-[0.2cm]' >+{data[5].length.toString()}</span></div>
             </div>
             <div className='mt-[0.3cm]'>
