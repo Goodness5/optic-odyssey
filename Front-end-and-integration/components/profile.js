@@ -517,7 +517,7 @@ export default function Profile() {
         <div className='p-[0.5cm] bg-[#000]'>
        <div className='clear-both'>
         <span className='lg:text-[200%] md:text-[180%] text-[150%] font-[500]'>{registeredUsername === "0x0000000000000000000000000000000000000000000000000000000000000000" ? (<span>user</span>) : (<span>{showUsername}</span>)}</span>
-        <span className='float-right mt-[0.1cm] font-[500]'>{soldBalance > 0 ? (<span>Total sales: {parseFloat(soldBalance).toFixed(6)} RBTC</span>) : (<span>Total sales: 0 RBTC</span>)}</span>
+        <div className='lg:float-right md:float-right mt-[0.1cm] font-[500]'>{soldBalance > 0 ? (<span>Total sales: {parseFloat(soldBalance).toFixed(6)} RBTC</span>) : (<span>Total sales: 0 RBTC</span>)}</div>
        </div>
         <div>
           <span>{address ? (<span>{address.substring(0, 4)}...{address.substring(36, 42)}</span>) : (<span>Connect wallet</span>)}</span>
@@ -621,8 +621,8 @@ export default function Profile() {
         <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-8">
           {userCollections.map((data) => (
           <div key={data[4]} className="grid-cols-1">
-            <div className='px-[1cm] py-[2cm] allusernftcollection' style={{boxShadow:"3px 3px 2px 2px #333", backgroundImage:`url(https://ipfs.filebase.io/ipfs/${data[3]})`, backgroundSize:"100%"}}>
-              <div className='text-center text-[120%]'>{bytes32ToString(data[0])}</div>
+            <div className='px-[1cm] py-[20%] allusernftcollection' style={{boxShadow:"3px 3px 2px 2px #333", backgroundImage:`url(https://ipfs.filebase.io/ipfs/${data[3]})`, backgroundSize:"100%"}}>
+              <div className='text-center text-[120%]'><div className='p-[0.2cm] bg-[rgba(0,0,0,0.7)]' style={{display:"inline-block"}}>{bytes32ToString(data[0])}</div></div>
               <div className="text-center text-[120%] mt-[0.5cm]"><span className='bg-[#502] p-[0.2cm] m-[0.2cm]' >+{data[5].length.toString()}</span></div>
             </div>
             <div className='mt-[0.3cm]'>
@@ -647,7 +647,7 @@ export default function Profile() {
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-8">
           {chosenCollectionItems.map((data) => (
             <div className="grid-cols-1">
-            <div><img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-2xl w-[100%] lg:h-[8cm]" style={{border:"4px solid #aaa"}} /></div>
+            <div><img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-2xl w-[100%]" style={{border:"4px solid #aaa"}} /></div>
             <div className="lg:text-[130%] text-[120%] mt-[0.3cm] mx-[0.2cm]">Title: {bytes32ToString(data[7])}</div>
             <div className="lg:text-[120%] text-[110%] mx-[0.2cm]">Category: {bytes32ToString(data[8])}</div>
             <div className='mx-[0.2cm] text-[#aaa]'><span className=''>Price: </span><span className='font-[500]'>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</span></div>

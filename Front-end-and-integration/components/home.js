@@ -158,12 +158,13 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
         <div className="text-[#aaa]">Checkout our daily updated trending collection on the marketplace.</div>
         </div>
         <div className="mt-[1cm]">
-        <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-8">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-8">
           {getCollections.map((data) => (
             <div className="grid-cols-1 cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
-            <div><img src={"https://ipfs.filebase.io/ipfs/" + data[3]} className="rounded-2xl" style={{border:"4px solid #aaa"}} /></div> 
-            <div className="lg:text-[150%] text-[120%] homenumberofcollectionitems text-right"><span className="rounded-[100%] p-[0.3cm] bg-[#000] mr-[0.25cm]">+{data[5].length.toString()}</span></div>
-            <div className="font-[500] lg:text-[130%] text-[120%] mt-[-0.8cm]">{bytes32ToString(data[0])}</div>
+            <div className="rounded-2xl py-[43%]" style={{backgroundImage:`url(https://ipfs.filebase.io/ipfs/${data[3]})`, backgroundSize:"110%", backgroundPositionX:"50%", border:"3px solid #aaa"}}>
+              <div className="lg:text-[150%] text-[120%] text-right"><span className="rounded-[110%] p-[0.3cm] bg-[#000] mr-[0.25cm]" style={{border:"2px solid #aaa"}}>+{data[5].length.toString()}</span></div>
+            </div>
+            <div className="font-[500] lg:text-[130%] text-[120%] mt-[0.2cm]">{bytes32ToString(data[0])}</div>
            </div>
           ))}
         </div>
@@ -176,12 +177,12 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
         <div className="text-[#aaa]">Take a look at the NFT Marketplace's top creators.</div>
         </div>
         <div className="mt-[1cm]">
-            <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 gap-4">
+            <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
               {allCreators.map((data) => (
             <div className="grid-cols-1 rounded-2xl bg-[#000] cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("creators") & changeBg4(e)}}>
             <img src={data[1]} className="rounded-t-2xl w-[100%]" />
             <div className="mt-[0.2cm] p-[0.5cm]">
-            <div className="text-[150%] font-[500]">{bytes32ToString(data[0])}</div>
+            <div className="lg:text-[150%] text-[120%] font-[500] overflow-auto">{bytes32ToString(data[0])}</div>
             <div className="text-[#aaa]">Total sales: {parseFloat(data[3].toString() * 10 **-18).toFixed(6)} RBTC</div>
             </div>
             </div>
