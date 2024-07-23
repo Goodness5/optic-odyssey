@@ -25,6 +25,22 @@ export default function Creators() {
 
     const [preferredDisplay, setpreferredDisplay] = useState("main")
 
+        //bytes32 to string conversion
+        function bytes32ToString(bytes32) {
+          // Remove the '0x' prefix
+          let hexString = bytes32.slice(2);
+          let str = '';
+      
+          // Convert each pair of hex digits to a character
+          for (let i = 0; i < hexString.length; i += 2) {
+              const charCode = parseInt(hexString.slice(i, i + 2), 16);
+              if (charCode === 0) break; // Stop at null character
+              str += String.fromCharCode(charCode);
+          }
+      
+          return str;
+      }
+
     //read profiles of creators
    const [allCreators, setallCreators] = useState([])
    useEffect(()=> {
@@ -146,7 +162,7 @@ export default function Creators() {
                 <div className="grid-cols-1 rounded-xl bg-[#000]" style={{boxShadow:"2px 2px 5px 2px #502"}}>
                 <img src={data[1]} className="mx-[auto] rounded-t-xl" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
-                <div className="text-[150%] font-[500]">{data[0]}</div>
+                <div className="text-[150%] font-[500]">{bytes32ToString(data[0])}</div>
                 <div className="text-[#aaa]">Total sales: {parseFloat(data[3].toString() * 10 **-18).toFixed(6)} RBTC</div>
                 <div className="text-[#ccc]"><span>Joined at:</span> {new Date(data[4].toString() * 1000).toLocaleString()}</div>
                 <div onClick={(e) => {e.preventDefault(); getTheData(data[2]) & readCoverPhoto(data[2]) & setpreferredDisplay("profile")}} className="font-[500] mt-[0.2cm] cursor-pointer" style={{display:"inline-block"}} ><img src="images/add.png" width="17" className="mt-[-0.05cm]" style={{display:"inline-block"}} /> View profile</div>
@@ -169,8 +185,8 @@ export default function Creators() {
  
          <div className='p-[0.5cm] bg-[#000]'>
         <div className='clear-both'>
-         <span className='lg:text-[200%] md:text-[180%] text-[150%] font-[500]'>{registeredUsername ? (<span>{registeredUsername}</span>) : (<span>user</span>)}</span>
-         <span className='float-right mt-[0.1cm] font-[500]'>{soldBalance > 0 ? (<span>Total sales: parseFloat{soldBalance}.toFixed(6) RBTC</span>) : (<span>Total sales: 0 RBTC</span>)}</span>
+         <span className='lg:text-[200%] md:text-[180%] text-[150%] font-[500]'>{registeredUsername ? (<span>{bytes32ToString(registeredUsername)}</span>) : (<span>user</span>)}</span>
+         <span className='float-right mt-[0.1cm] font-[500]'>{soldBalance > 0 ? (<span>Total sales: {parseFloat(soldBalance).toFixed(6)} RBTC</span>) : (<span>Total sales: 0 RBTC</span>)}</span>
         </div>
          <div>
            <span className='float-right mt-[-0.2cm]'>

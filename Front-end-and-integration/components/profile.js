@@ -459,7 +459,7 @@ export default function Profile() {
          const ethersProvider = new BrowserProvider(walletProvider) 
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
-         const itemprice = itemPrice.toString()
+         const itemprice = (itemPrice.toString() * 10 **-18).toString()
          try {
           const listitem = await nftContractWriteSettings.listItem(itemID, parseUnits(itemprice, 18));
          } catch (error) {
@@ -690,7 +690,7 @@ export default function Profile() {
        <div className='p-[0.5cm] bg-[#002] rounded-b-xl'>
          <div className='text-[150%] font-[500]'>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</div>
          {(data[10] === true && data[0] != address) && (<button onClick={(e) => {e.preventDefault(); buyNFT((data[2].toString() * 10 **-18), data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#502] generalbutton w-[100%] mt-[0.2cm] rounded-md font-[500]'>Buy</button>)}
-         {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); ListItem(data[4], data[2].toString() * 10 **-18)}} className='px-[0.3cm] py-[0.2cm] bg-[#005] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>List item</button>)}
+         {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); ListItem(data[4], data[2])}} className='px-[0.3cm] py-[0.2cm] bg-[#005] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>List item</button>)}
          {(data[10] === true && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); UnlistItem(data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#f00] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>Unlist item</button>)}
          {(data[10] === true && data[0] != address) && (<button className='px-[0.3cm] py-[0.2cm] text-[#000] bg-[#d7b644] cursor-default w-[100%] mt-[0.2cm] rounded-md font-[500]' style={{filter:"blur(1px)"}}>Make offer (coming soon!)</button>)}
        </div>
