@@ -517,7 +517,7 @@ export default function Profile() {
         <div className='p-[0.5cm] bg-[#000]'>
        <div className='clear-both'>
         <span className='lg:text-[200%] md:text-[180%] text-[150%] font-[500]'>{registeredUsername === "0x0000000000000000000000000000000000000000000000000000000000000000" ? (<span>user</span>) : (<span>{showUsername}</span>)}</span>
-        <span className='float-right mt-[0.1cm] font-[500]'>{soldBalance > 0 ? (<span>Total sales: {soldBalance} RBTC</span>) : (<span>Total sales: 0 RBTC</span>)}</span>
+        <span className='float-right mt-[0.1cm] font-[500]'>{soldBalance > 0 ? (<span>Total sales: {parseFloat(soldBalance).toFixed(6)} RBTC</span>) : (<span>Total sales: 0 RBTC</span>)}</span>
        </div>
         <div>
           <span>{address ? (<span>{address.substring(0, 4)}...{address.substring(36, 42)}</span>) : (<span>Connect wallet</span>)}</span>

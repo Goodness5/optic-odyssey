@@ -20,6 +20,22 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
         AOS.init();
       }, []) 
 
+         //bytes32 to string conversion
+        function bytes32ToString(bytes32) {
+          // Remove the '0x' prefix
+          let hexString = bytes32.slice(2);
+          let str = '';
+      
+          // Convert each pair of hex digits to a character
+          for (let i = 0; i < hexString.length; i += 2) {
+              const charCode = parseInt(hexString.slice(i, i + 2), 16);
+              if (charCode === 0) break; // Stop at null character
+              str += String.fromCharCode(charCode);
+          }
+      
+          return str;
+      }
+
       //read number of collections, items and creators
       const [numberOfPublicCollections, setnumberOfPublicCollections] = useState()
       const [numberOfPublicItems, setnumberOfPublicItems] = useState()
@@ -43,7 +59,7 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
         }
         }
         getTheData();
-      }, []) 
+      }, [address, isConnected]) 
 
       //read the collections
       const [getCollections, setgetCollections] = useState([])
@@ -68,7 +84,7 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
         }
         }
         getCollectionData();
-      }, []) 
+      }, [address, isConnected]) 
 
     //read profiles of creators
    const [allCreators, setallCreators] = useState([])
@@ -93,7 +109,7 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
     }
     }
     getCreators();
-   }, [])
+   }, [address, isConnected])
     
     return (
         <div className="lg:p-[0.5cm]">
@@ -145,9 +161,9 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
         <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-8">
           {getCollections.map((data) => (
             <div className="grid-cols-1 cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
-            <div><img src={data[3]} className="rounded-2xl" style={{border:"4px solid #aaa"}} /></div> 
+            <div><img src={"https://ipfs.filebase.io/ipfs/" + data[3]} className="rounded-2xl" style={{border:"4px solid #aaa"}} /></div> 
             <div className="lg:text-[150%] text-[120%] homenumberofcollectionitems text-right"><span className="rounded-[100%] p-[0.3cm] bg-[#000] mr-[0.25cm]">+{data[5].length.toString()}</span></div>
-            <div className="font-[500] lg:text-[130%] text-[120%] mt-[-0.8cm]">{data[0]}</div>
+            <div className="font-[500] lg:text-[130%] text-[120%] mt-[-0.8cm]">{bytes32ToString(data[0])}</div>
            </div>
           ))}
         </div>
@@ -163,9 +179,9 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
             <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 gap-4">
               {allCreators.map((data) => (
             <div className="grid-cols-1 rounded-2xl bg-[#000] cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("creators") & changeBg4(e)}}>
-            <img src={data[1]} className="rounded-t-2xl h-[9cm] w-[100%]" />
+            <img src={data[1]} className="rounded-t-2xl w-[100%]" />
             <div className="mt-[0.2cm] p-[0.5cm]">
-            <div className="text-[150%] font-[500]">{data[0]}</div>
+            <div className="text-[150%] font-[500]">{bytes32ToString(data[0])}</div>
             <div className="text-[#aaa]">Total sales: {parseFloat(data[3].toString() * 10 **-18).toFixed(6)} RBTC</div>
             </div>
             </div>
@@ -183,25 +199,25 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
         <div className="mt-[1cm]">
             <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 gap-4">
                 <div className="grid-cols-1 cursor-pointer rounded-2xl bg-[#001]" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
-                <img src="images/art.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
+                <img src="images/art.jpg" className="rounded-t-2xl w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">Art</div>
                 </div>
                 </div>
                 <div className="grid-cols-1 cursor-pointer rounded-2xl bg-[#001]" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
-                <img src="images/portrait.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
+                <img src="images/portrait.jpg" className="rounded-t-2xl w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">Portrait</div>
                 </div>
                 </div>
                 <div className="grid-cols-1 cursor-pointer rounded-2xl bg-[#001]" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
-                <img src="images/lifestyle.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
+                <img src="images/lifestyle.jpg" className="rounded-t-2xl w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">Lifestyle</div>
                 </div>
                 </div>
                 <div className="grid-cols-1 cursor-pointer rounded-2xl bg-[#001]" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
-                <img src="images/fashion.jpg" className="rounded-t-2xl h-[9cm] w-[100%]" />
+                <img src="images/fashion.jpg" className="rounded-t-2xl w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">Fashion</div>
                 </div>
