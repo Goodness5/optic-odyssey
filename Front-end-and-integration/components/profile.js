@@ -228,7 +228,7 @@ export default function Profile() {
         const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
       try {
        const getitemcreator = await nftContractReadSettings.users(itemCreator)
-       const getcreatorusername = getitemcreator.username.toString()
+       const getcreatorusername = getitemcreator.username
        settheItemCreatorUsername(getcreatorusername)
        const getcreatorprofilepic = getitemcreator.avatar.toString()
        setitemCreatorProfilePic(getcreatorprofilepic)
