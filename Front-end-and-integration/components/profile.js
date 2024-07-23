@@ -228,8 +228,8 @@ export default function Profile() {
         const nftContractReadSettings = new Contract(nftContractAddress, nftContractABI, ethersProvider)       
       try {
        const getitemcreator = await nftContractReadSettings.users(itemCreator)
-       const getcreatorusername = getitemcreator.username
-       settheItemCreatorUsername(getcreatorusername)
+       const getcreatorusername = getitemcreator.username.toString()
+       settheItemCreatorUsername(bytes32ToString(getcreatorusername))
        const getcreatorprofilepic = getitemcreator.avatar.toString()
        setitemCreatorProfilePic(getcreatorprofilepic)
      } catch (error) {
@@ -668,7 +668,7 @@ export default function Profile() {
      <img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className='rounded-xl' style={{boxShadow:"2px 2px 5px 2px rgba(0,0,0,0.5)"}} />
      </div>
      <div className='grid-cols-1 lg:col-span-2'>
-       <div><span className='rounded-md px-[0.3cm] py-[0.15cm] bg-[#00f]' style={{boxShadow:"2px 2px 2px 2px #333"}}>Creator:</span> &nbsp; <span className='mt-[0.15cm]'><img src={itemCreatorProfilePic} width="25" className='rounded-[100%]' style={{display:"inline-block"}} /> {bytes32ToString(theItemCreatorUsername)}</span></div>
+       <div><span className='rounded-md px-[0.3cm] py-[0.15cm] bg-[#00f]' style={{boxShadow:"2px 2px 2px 2px #333"}}>Creator:</span> &nbsp; <span className='mt-[0.15cm]'><img src={itemCreatorProfilePic} width="25" className='rounded-[100%]' style={{display:"inline-block"}} /> {theItemCreatorUsername}</span></div>
       <div className='rounded-xl mt-[0.5cm] bg-[#001]' style={{border:"2px solid #333"}}>
       <div className='p-[0.5cm]' style={{borderBottom:"2px solid #333"}}><img src="images/collections.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> Collection</div>
       <div className='p-[0.5cm] bg-[#002]'>
