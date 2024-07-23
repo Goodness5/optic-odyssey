@@ -212,7 +212,7 @@ export default function Marketplace() {
         const getallpublicitems = await nftContractReadSettings.getAllPublicItems()
         const getArtItemsArray = []
         for (let i = 0; i < getallpublicitems.length; i++){
-          if (getallpublicitems[i][8] === "Art"){
+          if (bytes32ToString(getallpublicitems[i][8]) === "Art"){
             const getArtCategory = getallpublicitems[i]
             getArtItemsArray.push(getArtCategory)
           }
@@ -239,7 +239,7 @@ export default function Marketplace() {
             const getallpublicitems = await nftContractReadSettings.getAllPublicItems()
             const getFashionItemsArray = []
             for (let i = 0; i < getallpublicitems.length; i++){
-              if (getallpublicitems[i][8] === "Fashion"){
+              if (bytes32ToString(getallpublicitems[i][8]) === "Fashion"){
                 const getFashionCategory = getallpublicitems[i]
                 getFashionItemsArray.push(getFashionCategory)
               }
@@ -266,7 +266,7 @@ export default function Marketplace() {
             const getallpublicitems = await nftContractReadSettings.getAllPublicItems()
             const getPortraitItemsArray = []
             for (let i = 0; i < getallpublicitems.length; i++){
-              if (getallpublicitems[i][8] === "Portrait"){
+              if (bytes32ToString(getallpublicitems[i][8]) === "Portrait"){
                 const getPortraitCategory = getallpublicitems[i]
                 getPortraitItemsArray.push(getPortraitCategory)
               }
@@ -293,7 +293,7 @@ export default function Marketplace() {
             const getallpublicitems = await nftContractReadSettings.getAllPublicItems()
             const getLifestyleItemsArray = []
             for (let i = 0; i < getallpublicitems.length; i++){
-              if (getallpublicitems[i][8] === "Lifestyle"){
+              if (bytes32ToString(getallpublicitems[i][8]) === "Lifestyle"){
                 const getLifestyleCategory = getallpublicitems[i]
                 getLifestyleItemsArray.push(getLifestyleCategory)
               }
@@ -320,7 +320,7 @@ export default function Marketplace() {
             const getallpublicitems = await nftContractReadSettings.getAllPublicItems()
             const getPhotographyItemsArray = []
             for (let i = 0; i < getallpublicitems.length; i++){
-              if (getallpublicitems[i][8] === "Photography"){
+              if (bytes32ToString(getallpublicitems[i][8]) === "Photography"){
                 const getPhotographyCategory = getallpublicitems[i]
                 getPhotographyItemsArray.push(getPhotographyCategory)
               }
@@ -366,7 +366,7 @@ export default function Marketplace() {
           if (((getAnyItem[0].toString().substring(0, 4)) + "..." + (getAnyItem[0].toString().substring(37, 42)))  === searchQuery || 
           (getAnyItem[0].toString().substring(0, 4)) === searchQuery ||
           (getAnyItem[0].toString().substring(37, 42)) === searchQuery ||
-           getAnyItem[7].toString().includes(searchQuery) ||
+          bytes32ToString(getAnyItem[7]).includes(searchQuery) ||
           parseFloat(getAnyItem[2].toString() * 10 **-18).toFixed(6) == searchQuery.toString()){
             searchDataArray.push(getAnyItem)  
           }
@@ -630,8 +630,8 @@ export default function Marketplace() {
             <div className="text-[#aaa] text-[90%] mt-[0.2cm]"><span>Floor</span></div>
             <div className="mt-[0.1cm]"><span>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</span></div>
             <div>
-              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
-              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5]) & getItemCreator(data[0]) & setaCollectionCategory(data[8])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & setCollectionTitle(data[5]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
             </div>
           </div>
         </div>
@@ -664,8 +664,8 @@ export default function Marketplace() {
             <div className="text-[#aaa] text-[90%] mt-[0.2cm]"><span>Floor</span></div>
             <div className="mt-[0.1cm]"><span>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</span></div>
             <div>
-              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
-              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5]) & getItemCreator(data[0]) & setaCollectionCategory(data[8])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & setCollectionTitle(data[5]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
             </div>
           </div>
         </div>
@@ -698,8 +698,8 @@ export default function Marketplace() {
             <div className="text-[#aaa] text-[90%] mt-[0.2cm]"><span>Floor</span></div>
             <div className="mt-[0.1cm]"><span>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</span></div>
             <div>
-              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
-              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5]) & getItemCreator(data[0]) & setaCollectionCategory(data[8])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & setCollectionTitle(data[5]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
             </div>
           </div>
         </div>
@@ -732,8 +732,8 @@ export default function Marketplace() {
             <div className="text-[#aaa] text-[90%] mt-[0.2cm]"><span>Floor</span></div>
             <div className="mt-[0.1cm]"><span>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</span></div>
             <div>
-              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
-              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5]) & getItemCreator(data[0]) & setaCollectionCategory(data[8])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & setCollectionTitle(data[5]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
             </div>
           </div>
         </div>
@@ -766,8 +766,8 @@ export default function Marketplace() {
             <div className="text-[#aaa] text-[90%] mt-[0.2cm]"><span>Floor</span></div>
             <div className="mt-[0.1cm]"><span>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</span></div>
             <div>
-              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
-              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5]) & getItemCreator(data[0]) & setaCollectionCategory(data[8])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & setCollectionTitle(data[5]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
             </div>
           </div>
         </div>
@@ -800,8 +800,8 @@ export default function Marketplace() {
             <div className="text-[#aaa] text-[90%] mt-[0.2cm]"><span>Floor</span></div>
             <div className="mt-[0.1cm]"><span>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</span></div>
             <div>
-              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
-              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5]) & getItemCreator(data[0]) & setaCollectionCategory(data[8])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & setCollectionTitle(data[5]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
             </div>
           </div>
         </div>
@@ -834,8 +834,8 @@ export default function Marketplace() {
             <div className="text-[#aaa] text-[90%] mt-[0.2cm]"><span>Floor</span></div>
             <div className="mt-[0.1cm]"><span>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</span></div>
             <div>
-              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
-              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemsData(data[1]) & setCollectionTitle(data[5]) & getItemCreator(data[0]) & setaCollectionCategory(data[8])}} className='bg-[#502] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton' style={{border:"2px solid #aaa"}}>View collection <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
+              <button onClick={(e) => {e.preventDefault(); getItemCreator(data[0]) & setCollectionTitle(data[5]) & getSingleItemData(data[4])}} className='float-right bg-[#002] rounded-md px-[0.2cm] py-[0.05cm] mt-[0.2cm] generalbutton4' style={{border:"2px solid #aaa"}}>View NFT <img src="images/add.png" width="17" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
             </div>
           </div>
         </div>
