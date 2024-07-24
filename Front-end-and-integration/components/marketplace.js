@@ -492,7 +492,7 @@ export default function Marketplace() {
     
         return hexString;
     }
-
+    
       // to buy item
       const buyNFT = async (initialAmount, initialID) => {
         if(isConnected){
@@ -500,10 +500,10 @@ export default function Marketplace() {
          const ethersProvider = new BrowserProvider(walletProvider) 
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
-         const convertedInitialAmount = initialAmount.toString()
+         const convertedInitialAmount = (initialAmount.toString() * 10 **-18).toString()
          console.log("amount:" + convertedInitialAmount)
          try {
-          const buynft = await nftContractWriteSettings.buyItem({value:parseUnits(convertedInitialAmount, 18)}, stringToBytes32(initialID));
+          const buynft = await nftContractWriteSettings.buyItem(initialID, {value:parseUnits(convertedInitialAmount, 18)});
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -514,16 +514,39 @@ export default function Marketplace() {
         }
       }
 
-        //function to list and unlist item for sale
+       //function to list and unlist item for sale
+       //firstly, we have to approve the NFT contract from the collection factory contract to allow usage of the nft 
+       const approveNFTcontract = async (itemPositionNumber, collectionContractAddress) => {
+        if(isConnected){
+         setLoading(true) 
+         const ethersProvider = new BrowserProvider(walletProvider) 
+         const signer = await ethersProvider.getSigner()
+         const collectionFactoryContractWriteSettings = new Contract(collectionContractAddress, collectionContractsABI, signer)
+         const itemNumber = itemPositionNumber.toString()
+         try {
+          const approveContract = await collectionFactoryContractWriteSettings.approve(nftContractAddress, parseUnits(itemNumber, 18));
+         } catch (error) {
+          console.log(error)
+          setLoading(false)
+         }
+         finally {
+          setLoading(false)
+         }
+        }
+      }
+
        //list item function
-       const ListItem = async (itemID) => {
+       const [showApproveList, setShowApproveList] = useState()
+       const [listingPrice, setListingPrice] = useState()
+      const ListItem = async (itemID) => {
         if(isConnected){
          setLoading(true) 
          const ethersProvider = new BrowserProvider(walletProvider) 
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
-          const listitem = await nftContractWriteSettings.listItem(stringToBytes32(itemID));
+          const listitem = await nftContractWriteSettings.listItem(itemID, parseUnits(listingPrice, 18));
+          setShowApproveList(false)
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -542,7 +565,7 @@ export default function Marketplace() {
          const signer = await ethersProvider.getSigner()
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
-          const unlistitem = await nftContractWriteSettings.unlistItem(stringToBytes32(itemID));
+          const unlistitem = await nftContractWriteSettings.unlistItem(itemID);
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -552,7 +575,7 @@ export default function Marketplace() {
          }
         }
       }
-     
+
       //function to set collection visibility
       const collectionVisibility = async (initialCollectionContractAddress, visibility) => {
         if(isConnected){
@@ -562,6 +585,28 @@ export default function Marketplace() {
          const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
          try {
           const collectionvisibility = await nftContractWriteSettings.changeCollectionVisibility(initialCollectionContractAddress, visibility);
+         } catch (error) {
+          console.log(error)
+          setLoading(false)
+         }
+         finally {
+          setLoading(false)
+         }
+        }
+      }
+
+       //function to change item price
+      const [changeItemPrice, setChangeItemPrice] = useState()
+      const [theItemPrice, setTheItemPrice] = useState()
+      const changeTheItemPrice = async (itemID) => {
+        if(isConnected){
+         setLoading(true) 
+         const ethersProvider = new BrowserProvider(walletProvider) 
+         const signer = await ethersProvider.getSigner()
+         const nftContractWriteSettings = new Contract(nftContractAddress, nftContractABI, signer)
+         try {
+          const changeitemprice = await nftContractWriteSettings.changeItemPrice(itemID, parseUnits(theItemPrice, 18));
+          setChangeItemPrice(false)
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -941,8 +986,30 @@ export default function Marketplace() {
        <div className='p-[0.5cm]' style={{borderBlock:"2px solid #333"}}><img src="images/rootstock.jpg" width="25" className='mt-[-0.1cm]' style={{display:"inline-block"}} /> Price</div>
        <div className='p-[0.5cm] bg-[#002] rounded-b-xl'>
          <div className='text-[150%] font-[500]'>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</div>
-         {(data[10] === true && data[0] != address) && (<button onClick={(e) => {e.preventDefault(); buyNFT((data[2].toString() * 10 **-18), data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#502] generalbutton w-[100%] mt-[0.2cm] rounded-md font-[500]'>Buy</button>)}
-         {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); ListItem(data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#005] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>List item</button>)}
+         {(data[10] === true && data[0] != address) && (<button onClick={(e) => {e.preventDefault(); buyNFT(data[2], data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#502] generalbutton w-[100%] mt-[0.2cm] rounded-md font-[500]'>Buy</button>)}
+          {!showApproveList ? 
+          (<div>
+          {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); setShowApproveList(true)}} className='px-[0.3cm] py-[0.2cm] bg-[#005] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>List item</button>)}
+          </div>) :
+         (<div>
+          {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); approveNFTcontract(data[3], data[1])}} className='px-[0.3cm] py-[0.2cm] bg-[#020] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>First Approve listing</button>)}
+          {(data[10] === false && data[0] === address) && 
+          (<div>
+            <button onClick={(e) => {e.preventDefault(); ListItem(data[4], listingPrice)}} className='px-[0.3cm] py-[0.2cm] bg-[#005] generalbutton4 w-[49%] mt-[0.2cm] rounded-md font-[500]'>List item</button>
+            <input className='px-[0.3cm] py-[0.2cm] bg-[#001] rounded-md w-[49%] mt-[0.2cm] outline-[#fff] float-right' name="listingPrice" id="listingPrice" onChange={(e) => setListingPrice(e.target.value)} placeholder='Input price' />
+          </div>)}
+         </div>)}
+         {!changeItemPrice ? 
+         (<div>{data[0] === address && (<button onClick={(e) => {e.preventDefault(); setChangeItemPrice(true)}} className='px-[0.3cm] py-[0.2cm] bg-[#333] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>Change item price</button>)}</div>) : 
+         (<div>
+          {data[0] === address && (
+            <div>
+          <button onClick={(e) => {e.preventDefault(); changeTheItemPrice(data[4], theItemPrice)}} className='px-[0.3cm] py-[0.2cm] bg-[#333] generalbutton4 w-[49%] mt-[0.2cm] rounded-md font-[500]'>Change price</button>
+          <input className='px-[0.3cm] py-[0.2cm] bg-[#001] rounded-md w-[49%] mt-[0.2cm] outline-[#fff] float-right' name="theItemPrice" id="theItemPrice" onChange={(e) => setTheItemPrice(e.target.value)} placeholder='New price' />
+            </div>
+          )}
+        </div>)
+         }  
          {(data[10] === true && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); UnlistItem(data[4])}} className='px-[0.3cm] py-[0.2cm] bg-[#f00] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>Unlist item</button>)}
          {(data[10] === true && data[0] != address) && (<button className='px-[0.3cm] py-[0.2cm] text-[#000] bg-[#d7b644] cursor-default w-[100%] mt-[0.2cm] rounded-md font-[500]' style={{filter:"blur(1px)"}}>Make offer (coming soon!)</button>)}
        </div>
