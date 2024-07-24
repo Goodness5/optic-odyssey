@@ -58,7 +58,7 @@ fs.readFile(filePath, (err, data) => {
     request.on('httpHeaders', (statusCode, headers) => {
         if (statusCode === 200) {
             console.log(`File uploaded successfully. CID: "https://ipfs.filebase.io/ipfs/${headers['x-amz-meta-cid']}"`);
-            const cidUrl = `${headers['x-amz-meta-cid']}`
+            const cidUrl = `https://ipfs.filebase.io/ipfs/${headers['x-amz-meta-cid']}`
             res.status(200).json({ cid: cidUrl });
         } else {
             console.log(`File upload failed with status code ${statusCode}`);

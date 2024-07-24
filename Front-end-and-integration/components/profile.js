@@ -608,7 +608,7 @@ export default function Profile() {
           <button className='px-[0.3cm] py-[0.2cm] bg-[#002] rounded-md font-[500] generalbutton4' onClick={(e) => {e.preventDefault(); uploadCollectionCover(theCollectionCoverFile)}} style={{border:"2px solid #333"}}>Upload collection cover <img src="images/upload.png" width="20" style={{display:"inline-block"}} /></button>
         </div>
         <div className='text-center mb-[0.3cm] lg:mx-[20%] md:mx-[10%] mx-[5%] '>
-          {theCollectionCoverHash && (<img src={"https://ipfs.filebase.io/ipfs/" + theCollectionCoverHash} className='mx-[auto]' />)}
+          {theCollectionCoverHash && (<img src={theCollectionCoverHash} className='mx-[auto]' />)}
         </div>
         {!creatorProfilePhoto && 
         (<div>
@@ -650,7 +650,7 @@ export default function Profile() {
           <button className='px-[0.3cm] py-[0.2cm] bg-[#002] rounded-md font-[500] generalbutton4' onClick={(e) => {e.preventDefault(); uploadFile(theFile)}} style={{border:"2px solid #333"}}>Upload file <img src="images/upload.png" width="20" style={{display:"inline-block"}} /></button>
         </div>
         <div className='text-center mb-[0.3cm] lg:mx-[20%] md:mx-[10%] mx-[5%] '>
-          {theHash && (<img src={"https://ipfs.filebase.io/ipfs/" + theHash} className='mx-[auto]' />)}
+          {theHash && (<img src={theHash} className='mx-[auto]' />)}
         </div>
         <input type="number" className='p-[0.2cm] bg-[#001] rounded-md outline-[#fff] w-[100%] mb-[0.3cm]' value={itemPrice} onChange={(e) => setItemPrice(e.target.value)} placeholder="Set a price for your item e.g 1 RBTC" style={{border:"2px solid #00f"}} />
         <button className='px-[0.3cm] py-[0.2cm] w-[100%] font-[500] bg-[#502] rounded-md generalbutton' onClick={(e) => {e.preventDefault(); addItemToNFTcollection(collectionContractAddress, itemTitle, theHash, itemDescription, itemCategory, itemPrice)}}>Add to collection <img src="images/collection2.png" width="23" className='mt-[-0.1cm]' style={{display:"inline-block"}} /></button>
@@ -666,7 +666,7 @@ export default function Profile() {
         <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-8">
           {userCollections.map((data) => (
           <div key={data[4]} className="grid-cols-1">
-            <div className='px-[1cm] py-[20%] allusernftcollection' style={{boxShadow:"3px 3px 2px 2px #333", backgroundImage:`url(https://ipfs.filebase.io/ipfs/${data[3]})`, backgroundSize:"100%"}}>
+            <div className='px-[1cm] py-[20%] allusernftcollection' style={{boxShadow:"3px 3px 2px 2px #333", backgroundImage:`url(${data[3]})`, backgroundSize:"100%"}}>
               <div className='text-center text-[120%]'><div className='p-[0.2cm] bg-[rgba(0,0,0,0.7)]' style={{display:"inline-block"}}>{bytes32ToString(data[0])}</div></div>
               <div className="text-center text-[120%] mt-[0.5cm]"><span className='bg-[#502] p-[0.2cm] m-[0.2cm]' >+{data[5].length.toString()}</span></div>
             </div>
@@ -692,7 +692,7 @@ export default function Profile() {
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-8">
           {chosenCollectionItems.map((data) => (
             <div className="grid-cols-1">
-            <div><img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className="rounded-2xl w-[100%]" style={{border:"4px solid #aaa"}} /></div>
+            <div><img src={data[9]} className="rounded-2xl w-[100%]" style={{border:"4px solid #aaa"}} /></div>
             <div className="lg:text-[130%] text-[120%] mt-[0.3cm] mx-[0.2cm]">Title: {bytes32ToString(data[7])}</div>
             <div className="lg:text-[120%] text-[110%] mx-[0.2cm]">Category: {bytes32ToString(data[8])}</div>
             <div className='mx-[0.2cm] text-[#aaa]'><span className=''>Price: </span><span className='font-[500]'>{parseFloat(data[2].toString() * 10 **-18).toFixed(6)} RBTC</span></div>
@@ -710,7 +710,7 @@ export default function Profile() {
       {chosenItem.map((data) => (
      <div className='grid lg:grid-cols-3 grid-cols-1 gap-8'>
      <div className='grid-cols-1'>
-     <img src={"https://ipfs.filebase.io/ipfs/" + data[9]} className='rounded-xl' style={{boxShadow:"2px 2px 5px 2px rgba(0,0,0,0.5)"}} />
+     <img src={data[9]} className='rounded-xl' style={{boxShadow:"2px 2px 5px 2px rgba(0,0,0,0.5)"}} />
      </div>
      <div className='grid-cols-1 lg:col-span-2'>
        <div><span className='rounded-md px-[0.3cm] py-[0.15cm] bg-[#00f]' style={{boxShadow:"2px 2px 2px 2px #333"}}>Creator:</span> &nbsp; <span className='mt-[0.15cm]'><img src={itemCreatorProfilePic} width="25" className='rounded-[100%]' style={{display:"inline-block"}} /> {theItemCreatorUsername}</span></div>
