@@ -19,7 +19,7 @@ contract OpticOdyssey {
         bytes32 name;
         address owner;
         bytes32 category;
-        bytes32 coverPhotoUrl;
+        string coverPhotoUrl;
         address nftContract;
         bytes32[] itemIds;
         bool isPublic;
@@ -35,9 +35,9 @@ contract OpticOdyssey {
         string description;
         bytes32 itemName;
         bytes32 category;
-        bytes32 uri;
+        string uri;
         bool listedForSale;
-        address[] offers;
+        // address[] offers;
     }
 
     struct Offer {
@@ -54,7 +54,7 @@ contract OpticOdyssey {
     mapping(bytes32 => mapping(address => Offer)) public itemOffers;
     event UserRegistered(address user, bytes32 username);
     event CollectionCreated(bytes32 name, address nftContract, bool isPublic);
-    event OfferMade(address offerer, bytes32 itemaccessid, uint offerprice);
+    // event OfferMade(address offerer, bytes32 itemaccessid, uint offerprice);
     event ItemAddedToCollection(address collectionaddress, uint256 itemId);
     event ItemBought(address buyer, bytes32 itemId, address seller, uint price);
     modifier userExists(address _caller) {
@@ -171,10 +171,9 @@ contract OpticOdyssey {
         bytes32 _collectionName,
         bool _isPublic,
         bytes32 _category,
-        bytes32 _coverPhotoUrl,
+        string memory _coverPhotoUrl,
         string memory _avatar
     ) public {
-        address[] memory t = new address[](0);
         bytes32[] memory tb = new bytes32[](0);
         if (!userExistsInternal(msg.sender)) {
             users[msg.sender] = User({
@@ -183,7 +182,7 @@ contract OpticOdyssey {
                 useraddress: msg.sender,
                 balance: 0,
                 joined_at: block.timestamp,
-                collections: t ,
+                collections: new address[](0) ,
                 itemIds: tb
             });
             allUsers.push(msg.sender);
@@ -215,7 +214,7 @@ contract OpticOdyssey {
     function addItemToCollection(
         address collectionAddress,
         bytes32 itemName,
-        bytes32 uri,
+        string memory uri,
         string memory description,
         bytes32 category,
         uint price
@@ -226,7 +225,7 @@ contract OpticOdyssey {
         OpticOdysseyNft nftContract = OpticOdysseyNft(collections[collectionAddress].nftContract);
         uint256 newItemId = nftContract.mint(msg.sender, string(abi.encodePacked(uri)));
         bytes32 accessId = keccak256(abi.encodePacked(msg.sender, collectionAddress, newItemId));
-        address[] memory t = new address[](0);
+        // address[] memory t = new address[](0);
         items[accessId] = Item({
             owner: msg.sender,
             itemAddress: collectionAddress,
@@ -238,8 +237,8 @@ contract OpticOdyssey {
             itemName: itemName,
             category: category,
             uri: uri,
-            listedForSale: false,
-            offers: t
+            listedForSale: false
+            // offers: new address[](0)
         });
 
         collections[collectionAddress].itemIds.push(accessId);
@@ -328,7 +327,7 @@ contract OpticOdyssey {
         users[user].itemIds.pop();
     }
 
-    function findItemIndex(bytes32[] storage itemsArray, bytes32 itemId) internal view returns (uint) {
+    function findItemIndex(bytes32[] memory itemsArray, bytes32 itemId) internal view returns (uint) {
         for (uint i = 0; i < itemsArray.length; i++) {
             if (itemsArray[i] == itemId) {
                 return i;
