@@ -13,11 +13,11 @@ const mainnet = {
 }
 
 const RootstockTestnet = {
-  chainId: 84532,
+  chainId: 31,
   name: 'Rootstock Testnet',
   currency: 'tRBTC',
-  explorerUrl: 'https://sepolia.basescan.org',
-  rpcUrl: 'https://sepolia.base.org'
+  explorerUrl: 'https://explorer.testnet.rootstock.io/',
+  rpcUrl: 'https://public-node.testnet.rsk.co'
 }
 
 // 3. Create a metadata object
@@ -55,7 +55,7 @@ createWeb3Modal({
   },
   defaultChain: mainnet,
   chainImages: {
-    84532: 'https://ipfs.filebase.io/ipfs/QmNbgL4gj6yLu74sGisNcf9tK4YC9Wab5AdGoLRCVhofTg'
+    31: 'https://ipfs.filebase.io/ipfs/QmNbgL4gj6yLu74sGisNcf9tK4YC9Wab5AdGoLRCVhofTg'
   }
 })
 
