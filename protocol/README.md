@@ -210,39 +210,8 @@ contract OpticOdysseyNft is ERC721URIStorage, Ownable {
 }
 ```
 
-## Factory Contract
+## rootstock testnet address: 0xbb7358f68f32ecc25a1afc91869314e2a3443846295797aabfce0c58c2fcf0dc
 
-### Constructor
-
-```solidity
-constructor() {}
-```
-
-Initializes the factory contract.
-
-### Events
-
-- `event OpticOdysseyDeployed(address opticOdysseyAddress)`
-
-### Functions
-
-#### Deployment
-
-- `function deployOpticOdyssey() public returns (address)`
-  - Deploys a new instance of the `OpticOdyssey` contract and returns the address of the newly deployed contract.
-  - Emits an `OpticOdysseyDeployed` event.
-
-```solidity
-contract Factory {
-    event OpticOdysseyDeployed(address opticOdysseyAddress);
-
-    function deployOpticOdyssey() public returns (address) {
-        OpticOdyssey opticOdyssey = new OpticOdyssey();
-        emit OpticOdysseyDeployed(address(opticOdyssey));
-        return address(opticOdyssey);
-    }
-}
-```
 
 
 
