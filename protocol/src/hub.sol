@@ -46,6 +46,10 @@ contract OpticOdyssey {
         bool accepted;
     }
 
+    constructor(){
+
+    }
+
     address[] private allUsers;
     uint public publicCollectionCount;
     mapping(address => User) public users;
@@ -160,7 +164,7 @@ contract OpticOdyssey {
     {
         require(isCollectionOwner(msg.sender, _collectionAddr), "Not authorized");
         Collection storage collection = collections[_collectionAddr];
-        require(collection.isPublic != _isPublic, "Same visibility");
+        // require(collection.isPublic != _isPublic, "Same visibility");
         
         collection.isPublic = _isPublic;
         publicCollectionCount = _isPublic ? publicCollectionCount + 1 : publicCollectionCount - 1;
@@ -258,10 +262,16 @@ contract OpticOdyssey {
     }
 
     function tipUser(address _user) public payable {
-        require(userExistsInternal(_user), "User not registered");
+        // require(userExistsInternal(_user), "User not registered");
         (bool success, ) = _user.call{value: msg.value}("");
-        require(success, "Ether transfer failed");
+        // require(success, "Ether transfer failed");
+        if(success){
+
         users[_user].balance += msg.value;
+        }
+        else{
+            revert();
+        }
     }
 
     function buyItem(bytes32 itemId) public payable {
@@ -327,7 +337,7 @@ contract OpticOdyssey {
         users[user].itemIds.pop();
     }
 
-    function findItemIndex(bytes32[] memory itemsArray, bytes32 itemId) internal view returns (uint) {
+    function findItemIndex(bytes32[] memory itemsArray, bytes32 itemId) internal pure returns (uint) {
         for (uint i = 0; i < itemsArray.length; i++) {
             if (itemsArray[i] == itemId) {
                 return i;
