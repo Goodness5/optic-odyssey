@@ -116,7 +116,7 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
 
       <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-8">
         <div className="grid-cols-1">
-        <div className="lg:text-[280%] md:text-[250%] text-[200%] font-[500]"><img src="images/camera.png" width="80" className="mt-[-0.3cm]" style={{display:"inline-block"}} /> Explore, tokenize and make your photos work for you</div>
+        <div className="lg:text-[280%] md:text-[250%] text-[200%] font-[500]"><img src="images/camera.png" width="80" className="mt-[-0.3cm]" style={{display:"inline-block"}} /> Explore, tokenize and make your art/photos work for you</div>
         <div className="mt-[0.5cm]">
             Turn your art and creativity into NFTs, request for funding, connect with fellow photographers and creators from all over the world.
         </div>
@@ -148,7 +148,7 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
        </div>
         </div>
         <div className="grid-cols-1">
-            <img src="images/hubcover2.jpg" className="rounded-2xl lg:w-[80%] lg:float-right" style={{boxShadow:"5px 5px 10px 2px #000"}} />
+            <img src="images/handface.jpg" className="rounded-2xl lg:w-[80%] lg:float-right" style={{boxShadow:"5px 5px 10px 2px #000"}} />
         </div>
       </div>
 
