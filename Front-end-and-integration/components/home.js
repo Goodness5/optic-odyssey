@@ -77,7 +77,7 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
               theCollectionsArray.push(item)
             }
             theCollectionsArray.sort((a, b) => b[4].toString() - a[4].toString())
-            setgetCollections(theCollectionsArray.slice(0, 4))
+            setgetCollections(theCollectionsArray.slice(0, 3))
           } catch (error) {
             console.log(error)
           }
@@ -158,10 +158,10 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
         <div className="text-[#aaa]">Checkout our daily updated trending collection on the marketplace.</div>
         </div>
         <div className="mt-[1cm]">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-8">
+        <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-8">
           {getCollections.map((data) => (
             <div className="grid-cols-1 cursor-pointer" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
-            <div className="rounded-2xl py-[43%]" style={{backgroundImage:`url(https://ipfs.filebase.io/ipfs/${data[3]})`, backgroundSize:"110%", backgroundPositionX:"50%", border:"3px solid #aaa"}}>
+            <div className="rounded-2xl py-[40%]" style={{backgroundImage:`url(https://ipfs.filebase.io/ipfs/${data[3]})`, backgroundSize:"160%", backgroundPositionX:"50%", border:"3px solid #aaa"}}>
               <div className="lg:text-[150%] text-[120%] text-right"><span className="rounded-[110%] p-[0.3cm] bg-[#000] mr-[0.25cm]" style={{border:"2px solid #aaa"}}>+{data[5].length.toString()}</span></div>
             </div>
             <div className="font-[500] lg:text-[130%] text-[120%] mt-[0.2cm]">{bytes32ToString(data[0])}</div>

@@ -522,7 +522,7 @@ export default function Marketplace() {
          const ethersProvider = new BrowserProvider(walletProvider) 
          const signer = await ethersProvider.getSigner()
          const collectionFactoryContractWriteSettings = new Contract(collectionContractAddress, collectionContractsABI, signer)
-         const itemNumber = itemPositionNumber.toString()
+         const itemNumber = (itemPositionNumber.toString() * 10 **-18).toString()
          try {
           const approveContract = await collectionFactoryContractWriteSettings.approve(nftContractAddress, parseUnits(itemNumber, 18));
          } catch (error) {
@@ -999,7 +999,7 @@ export default function Marketplace() {
           {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); setShowApproveList(true)}} className='px-[0.3cm] py-[0.2cm] bg-[#005] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>List item</button>)}
           </div>) :
          (<div>
-          {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); approveNFTcontract(data[3], data[1])}} className='px-[0.3cm] py-[0.2cm] bg-[#020] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>First Approve listing</button>)}
+          {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); approveNFTcontract(data[3], data[5])}} className='px-[0.3cm] py-[0.2cm] bg-[#020] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>First Approve listing</button>)}
           {(data[10] === false && data[0] === address) && 
           (<div>
             <button onClick={(e) => {e.preventDefault(); ListItem(data[4], listingPrice)}} className='px-[0.3cm] py-[0.2cm] bg-[#005] generalbutton4 w-[49%] mt-[0.2cm] rounded-md font-[500]'>List item</button>

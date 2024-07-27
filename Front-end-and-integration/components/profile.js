@@ -460,7 +460,7 @@ export default function Profile() {
          const ethersProvider = new BrowserProvider(walletProvider) 
          const signer = await ethersProvider.getSigner()
          const collectionFactoryContractWriteSettings = new Contract(collectionContractAddress, collectionContractsABI, signer)
-         const itemNumber = itemPositionNumber.toString()
+         const itemNumber = (itemPositionNumber.toString() * 10 **-18).toString()
          try {
           const approveContract = await collectionFactoryContractWriteSettings.approve(nftContractAddress, parseUnits(itemNumber, 18));
          } catch (error) {
