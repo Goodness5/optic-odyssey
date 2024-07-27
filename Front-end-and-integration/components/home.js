@@ -118,7 +118,7 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
         <div className="grid-cols-1">
         <div className="lg:text-[280%] md:text-[250%] text-[200%] font-[500]"><img src="images/camera.png" width="80" className="mt-[-0.3cm]" style={{display:"inline-block"}} /> Explore, tokenize and make your art/photos work for you</div>
         <div className="mt-[0.5cm]">
-            Turn your art and creativity into NFTs, request for funding, connect with fellow photographers and creators from all over the world.
+            Turn your art and creativity into NFTs, request for funding, connect with fellow creators and photographers from all over the world.
         </div>
         <div className="mt-[1cm]">
         <button onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}} className="font-[500] text-[#fff] bg-[#00f] px-[0.7cm] py-[0.3cm] rounded-full">Explore</button>
@@ -173,7 +173,7 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
 
       <div className="mt-[2cm]">
         <div>
-        <div className="lg:text-[200%] md:text-[180%] text-[150%] font-[500]">Top Creators <img src="images/photographer.png" width="30" className="mt-[-0.3cm]" style={{display:"inline-block"}} /></div>
+        <div className="lg:text-[200%] md:text-[180%] text-[150%] font-[500]">Top Creators <img src="images/photographer.png" width="30" className="mt-[-0.3cm]" style={{display:"inline-block"}} /> <img src="images/art-and-design.png" width="26" className="mt-[-0.3cm] ml-[0.2cm]" style={{display:"inline-block"}} /></div>
         <div className="text-[#aaa]">Take a look at the NFT Marketplace's top creators.</div>
         </div>
         <div className="mt-[1cm]">
@@ -206,19 +206,19 @@ import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
                 </div>
                 </div>
                 <div className="grid-cols-1 cursor-pointer rounded-2xl bg-[#001]" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
+                <img src="images/lifestylebg.jpg" className="rounded-t-2xl w-[100%]" />
+                <div className="mt-[0.2cm] p-[0.5cm]">
+                <div className="text-[150%] font-[500]">Lifestyle</div>
+                </div>
+                </div>
+                <div className="grid-cols-1 cursor-pointer rounded-2xl bg-[#001]" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
                 <img src="images/portrait.jpg" className="rounded-t-2xl w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">Portrait</div>
                 </div>
                 </div>
                 <div className="grid-cols-1 cursor-pointer rounded-2xl bg-[#001]" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
-                <img src="images/lifestyle.jpg" className="rounded-t-2xl w-[100%]" />
-                <div className="mt-[0.2cm] p-[0.5cm]">
-                <div className="text-[150%] font-[500]">Lifestyle</div>
-                </div>
-                </div>
-                <div className="grid-cols-1 cursor-pointer rounded-2xl bg-[#001]" onClick={(e) => {e.preventDefault(); setDisplayComponent("marketplace") & changeBg5(e)}}>
-                <img src="images/fashion.jpg" className="rounded-t-2xl w-[100%]" />
+                <img src="images/fashionbg.jpg" className="rounded-t-2xl w-[100%]" />
                 <div className="mt-[0.2cm] p-[0.5cm]">
                 <div className="text-[150%] font-[500]">Fashion</div>
                 </div>

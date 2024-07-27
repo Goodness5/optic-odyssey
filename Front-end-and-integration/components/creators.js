@@ -149,6 +149,14 @@ export default function Creators() {
            }
          }
 
+         const [showChatError, setShowChatError] = useState()
+         const operateChatError = () => {
+          setShowChatError(true)
+          setTimeout(()=> {
+            setShowChatError(false)
+          }, 3000)
+         }
+
   return (
     <div>
     <div className="font-[500] bg-[#502] px-[0.4cm] py-[0.15cm] rounded-md mb-[0.2cm]" style={{display:"inline-block", boxShadow:"2px 2px 2px 2px #333"}}>Creators</div>
@@ -199,6 +207,8 @@ export default function Creators() {
          </div>
          <div className="mt-[0.2cm] font-[500]">{userNumberOfCollections > 0 ? (<span>Total collections: {userNumberOfCollections}</span>) : (<span>Total collections: 0</span>)}</div>
          <div className='mt-[0.2cm] text-[#eee] text-[90%]'>{epochDateJoined > 0 ? (<span><span className='px-[0.2cm] py-[0.1cm] bg-[#502] rounded-md' style={{border:"2px solid #555"}}>Joined:</span> {dateJoined}</span>) : (<span></span>)}</div>
+         <div className="mt-[0.3cm] cursor-pointer" onClick={(e) => operateChatError()} style={{display:"inline-block"}}><img src="images/chatcreator.png" width="30" style={{display:"inline-block"}} /> <span>Chat</span></div>
+         {showChatError && (<div className="mt-[0.2cm] italic text-[#aaa]" data-aos="fade-down">Coming soon!</div>)}
          </div>
        </div>
         )}
