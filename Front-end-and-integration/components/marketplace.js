@@ -6,6 +6,7 @@ import 'aos/dist/aos.css';
 import { 
   nftContractAddress,
   nftContractABI,
+  collectionContractsABI
 } from "@/abiAndContractSettings";
 import { useWeb3ModalProvider, useWeb3ModalAccount } from '@web3modal/ethers/react'
 import { BrowserProvider, Contract, formatUnits, parseUnits } from 'ethers'
@@ -522,9 +523,9 @@ export default function Marketplace() {
          const ethersProvider = new BrowserProvider(walletProvider) 
          const signer = await ethersProvider.getSigner()
          const collectionFactoryContractWriteSettings = new Contract(collectionContractAddress, collectionContractsABI, signer)
-         const itemNumber = (itemPositionNumber.toString() * 10 **-18).toString()
+         const itemNumber = itemPositionNumber.toString()
          try {
-          const approveContract = await collectionFactoryContractWriteSettings.approve(nftContractAddress, parseUnits(itemNumber, 18));
+          const approveContract = await collectionFactoryContractWriteSettings.approve(nftContractAddress, itemNumber);
          } catch (error) {
           console.log(error)
           setLoading(false)
@@ -637,7 +638,7 @@ export default function Marketplace() {
     return (
         <div>
         <div className="font-[500] bg-[#502] px-[0.4cm] py-[0.15cm] rounded-md mb-[0.2cm]" style={{display:"inline-block", boxShadow:"2px 2px 2px 2px #333"}}>NFT marketplace</div>
-        <div className="text-[#ccc] text-[90%]">View collections from photographers around the world</div>
+        <div className="text-[#ccc] text-[90%]">View collections from creators/photographers around the world</div>
         
 
      {displayOption === "mainmarketplace" && 
@@ -999,7 +1000,7 @@ export default function Marketplace() {
           {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); setShowApproveList(true)}} className='px-[0.3cm] py-[0.2cm] bg-[#005] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>List item</button>)}
           </div>) :
          (<div>
-          {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); approveNFTcontract(data[3], data[5])}} className='px-[0.3cm] py-[0.2cm] bg-[#020] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>First Approve listing</button>)}
+          {(data[10] === false && data[0] === address) && (<button onClick={(e) => {e.preventDefault(); approveNFTcontract(data[3], data[1])}} className='px-[0.3cm] py-[0.2cm] bg-[#020] generalbutton4 w-[100%] mt-[0.2cm] rounded-md font-[500]'>First Approve listing</button>)}
           {(data[10] === false && data[0] === address) && 
           (<div>
             <button onClick={(e) => {e.preventDefault(); ListItem(data[4], listingPrice)}} className='px-[0.3cm] py-[0.2cm] bg-[#005] generalbutton4 w-[49%] mt-[0.2cm] rounded-md font-[500]'>List item</button>

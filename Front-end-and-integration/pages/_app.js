@@ -11,8 +11,8 @@ export default function App({ Component, pageProps }) {
   return  (
          <>
            <Web3Modal>
-           <DisableRightClick />
-           <DisableDrag /> 
+           {/* <DisableRightClick />
+           <DisableDrag />  */}
            <Component {...pageProps} />
            </Web3Modal>
           </>
